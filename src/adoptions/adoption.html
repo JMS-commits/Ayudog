@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Parcel Sandbox</title>
+	<title>Adopción</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../../img/favicon.png" >
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
@@ -93,6 +93,10 @@
                         sessionStorage.removeItem("access");
                     });
 
+                    $("deleteElement").click(function(){
+                        
+                    });
+
                     $("#adoption").on("click","#borrar", function(){
                         var key = $(this).data("id");
                         var image = $(this).data("src");
@@ -124,6 +128,9 @@
             }).then((res) => {
                 alert("Informacion guardada con exito");
                 setFile();
+                readUserData();
+                $("#basicExampleModal").modal("hide")
+
             });
         }
         function readUserData() {
@@ -348,5 +355,21 @@
 	<script src="./app.js">
     </script>
 </body>
-
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        Esta seguro de eliminar el elemento.
+      </div>a
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="deleteElement">Aceptar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
 </html>

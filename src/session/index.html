@@ -27,6 +27,18 @@
             //createrAccount();
             getData();
         });
+        $("#em").on('keyup', function (e) {
+            var keycode = e.keyCode || e.which;
+            if (keycode == 13) {
+                getData();
+            }
+        });
+        $("#psw").on('keyup', function (e) {
+            var keycode = e.keyCode || e.which;
+            if (keycode == 13) {
+                getData();
+            }
+        });
         
       });
       function getData(){
@@ -39,16 +51,21 @@
   <body>
     <div class="container">
         <div class="row" style="padding-top: 10%;">
+            <div class="offset-1 col-9">
+                <img src="../../img/favicon.png" style="height: auto;width: 30%; position: relative; margin: auto;margin-left: 40% ;" alt="" srcset="">
+            </div> 
             <div class="col-6 offset-3">
                 <div class="card">
                     <div class="row p-3">
                         <div class="offset-1 col-10">
                             <label>Correo</label>
-                            <input type="text" class="form-control" placeholder="Correo" id="em">
+                            <input type="email" class="form-control" placeholder="Correo" id="em" required>
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" placeholder="Contraseña" id="psw">
+                            <input type="password" class="form-control" placeholder="Contraseña" id="psw" required>
                         </div>
-                        <div class="col-6 offset-2 p-3">
+                    </div>
+                    <div class="row">
+                        <div class="col-10 p-3" style="margin: auto;">
                             <a class="btn btn-info btn-block" id="sign">Iniciar Sesion</a>
                         </div>
                     </div>
@@ -56,6 +73,24 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="modalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        Usuario o contraseña incorrecto
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 
   <!-- Add Firebase products that you want to use -->
@@ -76,19 +111,15 @@
 
         function createrAccount(){
             firebase.auth().createUserWithEmailAndPassword("juanbucio303@mail.com", "123456").catch(function(error) {
-        // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(error);
-            
-        // ...
-        });
+            // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(error);
+            });
         }
         function signIn(email, pass){
             firebase.auth().signInWithEmailAndPassword(email, pass)
             .then(function(res){
-                console.log("Success");
-                console.log(res);
                 location.href = "http://localhost/Ayudog/src/adoptions/adoption.html"
                 sessionStorage.access = "Hola desde el sessionStorange"
             })
@@ -97,10 +128,11 @@
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log("Error: "+error);
-            
+            $("#modalError").modal("show")
         // ...
         });
         }
+        
     </script>
   </body>
 
