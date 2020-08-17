@@ -22,8 +22,6 @@
         <script src="../../js/scrollreveal.js"></script>
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-
-        <script src="https://smtpjs.com/v3/smtp.js"></script>
         <script>
             
             $(document).ready(function(){
@@ -48,6 +46,10 @@
                   $(".btn-see-less").hide()
                   $(".btn-see").show()
                   $(".seeMore").hide()
+                })
+
+                $(".toAdopt").click(function(){
+                  window.location.href = "#adoption"
                 })
 
                 $(".mailpetadop").click(function(){
@@ -204,49 +206,73 @@
           <!--<div class="container" style="margin-top: 130px;">
             <img src="../../img/inicioCaminata.jpg" style="width: inherit;" alt="" srcset="">
           </div>-->
+
+          <div class="container" >
+            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+              Caminatas Caninas
+            </div>
+          <div class="row">
+            
+
+              <div class=" col-xs-12 col-md-4 toAdopt">
+                  <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
+              </div>
+              <div class=" col-xs-12 col-md-4 toAdopt">
+                  <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
+              </div>
+              <div class=" col-xs-12 col-md-4 toAdopt">
+                  <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
+              </div>
+              <div class=" col-xs-12 col-md-4 toAdopt">
+                  <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
+              </div>
+
+              
+          </div>
+          </div>
           
           <div class="container">
             <div class="">
-            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
-                  Noticias y Avisos
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-4">
-                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
-                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                    </div>
+              <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+                    Noticias y Avisos
+              </div>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>
+                          <div class="p-4">
+                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>
                         <div class="p-4">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
                         </div>
                       </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-4">
-                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
-                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                    </div>
-                      <div class="p-4">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>                      
+                        <div class="p-4">
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                        </div>
                       </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-4">
-                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c;" >
-                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                    </div>                      
-                      <div class="p-4">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                      </div>
-                    </div>
-                </div>
+                  </div>
+              </div>
             </div>
           </div>
-        </div>
   
         <style>
 
@@ -397,10 +423,11 @@
             }
 
         </style>
-          <div class="container" >
-                <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
-                  Adopción
-                </div>
+
+        <div class="container" id="adoption" >
+          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+            Adopción
+          </div>
               <div class="row">
                 <div class="cardBox">
                   <div class="card">
@@ -529,43 +556,28 @@
 
                   </div>
                 </div>                
-
-
-                  <!--div class=" col-xs-12 col-md-4">
-                      <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
-                  </div>
-                  <div class=" col-xs-12 col-md-4">
-                      <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
-                  </div>
-                  <div class=" col-xs-12 col-md-4">
-                      <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
-                  </div>
-                  <div class=" col-xs-12 col-md-4">
-                      <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%;" class="mt-4" alt="narrower">
-                  </div-->
-
                   
               </div>
-          </div>
+        </div>
   
-          <div class="container">
-            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center d-block d-lg-none" style="border-bottom: solid 3px #c8213c;">
-              Acerca de nosotros
-            </div>
-            <div class="row mt-lg-5 mt-4">
-              <div class="col-4 color-txt display-4 font-weight-light text-right d-none d-lg-block" style="border-right: solid 3px #c8213c;">
-                <div class="esp col-12">
-                  Acerca de nosotros
-                </div>
-              </div>
-              <div class="col-lg-8 col-md-12 text-white" >
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              </div>
-            </div>            
+        <div class="container">
+          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center d-block d-lg-none" style="border-bottom: solid 3px #c8213c;">
+            Acerca de nosotros
           </div>
+          <div class="row mt-lg-5 mt-4">
+            <div class="col-4 color-txt display-4 font-weight-light text-right d-none d-lg-block" style="border-right: solid 3px #c8213c;">
+              <div class="esp col-12">
+                Acerca de nosotros
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-12 text-white" >
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+            </div>
+          </div>            
+        </div>
   
         <div class="container" >
           <div class="">
@@ -575,33 +587,69 @@
                 </div>
                 Experiencias vividas
             </div>
-          <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-4 cardTestimonial text-white" >
-              <div class="row" style="margin: auto;">
-                <img src="../../img/perro-ilove.jpg" class="card-img-top col-12" alt="narrower">
+
+            <div id="multi-item-example" style="margin-top: 3%;" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+              <div class="row">
+
+                  <div class="carousel-inner" role="listbox">
+              
+                    <div class="carousel-item active">
+                
+                      <div class="col-12" style="float:left">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">
+                            <img src="../../img/perro-ilove.jpg" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">
+                          </div>
+                          <div class="col-md-8 col-sm-12 col-xs-12 text-white">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                
+                      <div class="col-12" style="float:left">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">
+                            <img src="../../img/caminata2.jpg" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">
+                          </div>
+                          <div class="col-md-8 col-sm-12 col-xs-12  text-white">
+                            2do Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          </div>
+                        </div>
+                      </div>
+                
+                    </div>
+    
+                  </div>
+                  
+                  <a class="carousel-control-prev" style="left: -7%;" href="#multi-item-example" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" style="left: 95%;" href="#multi-item-example" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                  
               </div>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 cardTestimonial text-white" >
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              <div class="row" style="margin: auto;">
-                <img src="../../img/perro-ilove.jpg" style="margin:auto;max-height: 270px; border-radius: 50%; width: 200px;" class="card-img-top col-12" alt="narrower">
+              <div class="row">
+                <ol class="carousel-indicators">
+                  <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                  <li data-target="#multi-item-example" data-slide-to="1"></li>
+                </ol>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 cardTestimonial text-white" >
-              <div class="row" style="margin: auto;">
-                <img src="../../img/perro-ilove.jpg" style="margin:auto;max-height: 270px; border-radius: 10%; width: 200px;" class="card-img-top col-12" alt="narrower">
-              </div>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-            </div>
+
+            
           </div>
         </div>
       </div>
 
-        </div>
+      
     </body>
     <footer class="page-footer font-small blue bg-hue" style="margin-top: 20px;" id="sec-4">
 
@@ -612,13 +660,10 @@
                 <div class="col-12">
                   <div class="esp">
                     <h5 class="font text-white">Proyecto desarrollado por:
-    
                     </h5>
                   </div>
                   <div class="ing">
                     <h5 class="font text-white">Project developed by:
-    
-    
                     </h5>
                   </div>
                   <div class=" d-lg-none d-print-block">
