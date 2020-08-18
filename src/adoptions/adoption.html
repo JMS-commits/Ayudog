@@ -149,7 +149,7 @@
             }).then((res) => {
                 alert("Informacion guardada con exito");
                 setFileWalk(image);
-                //readUserData();
+                readWalkData();
                 $("#modalWalk").modal("hide");
 
             });
@@ -191,15 +191,50 @@
                 $("#adoption").html(cad);
             });
         }
+
+        function readWalkData() {
+            var cad = "";
+            firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                    var image;
+                    var ref = firebase.storage().ref("walk/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL()
+                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>'
+                    
+                }
+                $("#walkRender").html(cad);
+            });
+        }
+
+        function readAdoptionData() {
+            var cad = "";
+            firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                    var image;
+                    var ref = firebase.storage().ref("adoption/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL()
+                    console.log(image);
+
+                    cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
+                    
+                }
+                $("#adoptionRender").html(cad);
+            });
+        }
     </script>
 
 
     <script>
                 
         $(document).ready(function(){
-
-        $(".seeMore").hide()
-        $(".btn-see-less").hide()
+            readWalkData();
+            readAdoptionData();
+            $(".seeMore").hide();
+            $(".btn-see-less").hide();
 
             $(".ing").hide();
 
@@ -243,6 +278,7 @@
                 var file = $("#file-input-walk")[0];
                 console.log("click> "+file);
                 writeWalkData(file);
+                readWalkData();
             })
 
             $("#addAdoption").click(function(){
@@ -258,6 +294,7 @@
                 var file = $("#file-input-adoption")[0];
                 console.log(name, descripcion, genero, edad, tamanio, file);
                 writeAdoption(name, descripcion, genero, edad, tamanio, file);
+                readAdoptionData();
             })
 
             
@@ -426,9 +463,9 @@
                     </div>
                 </div>
             </div>
-          <div class="row">
+          <div class="row" id="walkRender">
 
-              <div class=" col-xs-12 col-md-4 container2">
+              <!--div class=" col-xs-12 col-md-4 container2">
                   <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
                   <div class="overlay">
                     <div class="text2">
@@ -467,7 +504,7 @@
                         </a>
                     </div>
                   </div>
-                </div>
+                </div-->
 
               
           </div>
@@ -476,7 +513,7 @@
           <div class="container" id="news">
             <div class="">
               <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
-                    Noticias y Avisos <a class="" id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+                    Noticias y Avisos <a class="d-none" id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
               </div>
               <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="1">
@@ -668,7 +705,7 @@
           <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
             Adopción <a class="" id="addAdoption"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
           </div>
-              <div class="row">
+              <div class="row" id="adoptionRender">
                 <div class="cardBox">
                   <div class="card">
                     
@@ -825,7 +862,7 @@
               <div class="row" style="margin: auto;">
                 <img src="../../img/perro3.1.png" style="margin:auto;max-height: 100px; width: 100px;" class="card-img-top" alt="narrower">
               </div>
-                Experiencias vividas <a class="" id="addExperience"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+                Experiencias vividas <a class="d-none" id="addExperience"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
             </div>
 
             <div id="multi-item-example" style="margin-top: 3%;" class="carousel slide carousel-multi-item" data-ride="carousel">
