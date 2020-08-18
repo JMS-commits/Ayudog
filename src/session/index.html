@@ -120,7 +120,7 @@
         function signIn(email, pass){
             firebase.auth().signInWithEmailAndPassword(email, pass)
             .then(function(res){
-                location.href = "https://juanbucio303.github.io/aydog/src/adoptions/adoption.html"
+                location.href = "http://localhost/ayudogNuevo/Ayudog/src/adoptions/adoption.html"
                 sessionStorage.access = "Hola desde el sessionStorange"
             })
             .catch(function(error) {

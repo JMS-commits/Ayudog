@@ -5,15 +5,23 @@
 	<title>Adopción</title>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../../img/favicon.png" >
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/normalize.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="../../js/jquery-3.3.1.min.js" charset="utf-8"></script>
-    <script src="../../js/popper.min.js" charset="utf-8"></script>
-    <script src="../../js/bootstrap.min.js" charset="utf-8"></script>
-    <script src="../../js/fontawesome-all.js" charset="utf-8"></script>
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/mdb.min.css">
+        <link rel="stylesheet" href="../../css/normalize.css">
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="stylesheet" href="../../css/lightbox.css">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="../../js/jquery-3.3.1.min.js" charset="utf-8"></script>
+        <script src="../../js/popper.min.js" charset="utf-8"></script>
+        <script src="../../js/mdb.min.js" charset="utf-8"></script>
+        <script src="../../js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="../../js/lightbox.js" charset="utf-8"></script>
+        <script src="../../js/smooth-scroll.min.js"></script>
+        <script src="../../js/fontawesome-all.js" charset="utf-8"></script>
+        <script src="../../js/parallax.js" charset="utf-8"></script>
+        <script src="../../js/scrollreveal.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <script src="./app.js"></script>
 </head>
 
 <body >
@@ -24,7 +32,9 @@
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+    
+    
 	<!-- Inicializa o firebase -->
 	<script>
 		var firebaseConfig = {
@@ -133,6 +143,35 @@
 
             });
         }
+        function writeWalkData(image) {
+            firebase.database().ref('walk/').push({
+                fileName : image.files[0].name
+            }).then((res) => {
+                alert("Informacion guardada con exito");
+                setFileWalk(image);
+                //readUserData();
+                $("#modalWalk").modal("hide");
+
+            });
+           
+        }
+        function writeAdoption(nombre, descripcion, genero, edad, tamanio, image) {
+            firebase.database().ref('adoption/').push({
+                nombre: nombre,
+                descripcion: descripcion,
+                genero: genero,
+                edad: edad,
+                tamanio: tamanio,
+                fileName : image.files[0].name
+            }).then((res) => {
+                alert("Informacion guardada con exito");
+                setFileAdoption(image);
+                //readUserData();
+                $("#modalAdoption").modal("hide");
+
+            });
+           
+        }
         function readUserData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -143,7 +182,6 @@
                     var tangRef = ref.child(item.image);
                     image = await tangRef.getDownloadURL()
 
-                    
                     console.log(image);
                     cad+= '<div class="card col-3"><a id="borrar" data-id="'+key+'" data-src="'+item.image+'"><i class="fas fa-times-circle text-dang"></i></a><div class="view view-cascade overlay"><img class="card-img-top" src="'+image+'" alt="Card image cap"><a href="#!"><div class="mask rgba-white-slight"></div></a></div><div class="card-body card-body-cascade text-center"><h4 class="card-title text-dang"><strong>'+item.title+'</strong></h4><p class="card-text">'+item.description+'</p><h5 class="blue-text pb-2"><strong>Contactanos por Mina</strong></h5><a class="px-2 fa-lg text-whatsapp"><i class="fab fa-whatsapp text-whatsapp" style="color: #00E676;"></i></a><a class="px-2 fa-lg fb-ic"><i class="fab fa-facebook-f text-facebook" style="color: #4267B2;"></i></a></div></div>'
                     //console.log("snapshot.val.title = " + snapshot.val()[key].title);
@@ -154,6 +192,159 @@
             });
         }
     </script>
+
+
+    <script>
+                
+        $(document).ready(function(){
+
+        $(".seeMore").hide()
+        $(".btn-see-less").hide()
+
+            $(".ing").hide();
+
+            $('.botonF1').click(function(){
+            $('.btn').addClass('animacionVer');
+            })
+            $('.contenedor').mouseleave(function(){
+            $('.btn').removeClass('animacionVer');
+            })
+            var id = 0
+            $(".btn-see").click(function(){
+            id = $(".text-news").data("id");
+            $(".btn-see").hide();
+            $(".btn-see-less").show();
+            $(".seeMore").show();
+            })
+            $(".btn-see-less").click(function(){
+            $(".btn-see-less").hide();
+            $(".btn-see").show();
+            $(".seeMore").hide();
+            })
+
+            $(".toAdopt").click(function(){
+            window.location.href = "#adoption"
+            })
+
+            $(".mailpetadop").click(function(){
+            //sendEmail();
+            window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
+            })
+
+            $(".mailtoInfo").click(function(){
+            //sendEmail();
+            window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
+            })
+
+            $("#addWalk").click(function(){
+                $("#modalWalk").modal("show");
+            });
+            $("#acceptImageWalk").click(function(){
+                var file = $("#file-input-walk")[0];
+                console.log("click> "+file);
+                writeWalkData(file);
+            })
+
+            $("#addAdoption").click(function(){
+                console.log("modalAdoption");
+                $("#modalAdoption").modal("show");
+            });
+            $("#acceptAdoption").click(function(){
+                var name = $("#nombre").val();
+                var genero = $("#genero").val();
+                var edad = $("#edad").val();
+                var descripcion= $("#descripcion").val();
+                var tamanio= $("#tamanio").val();
+                var file = $("#file-input-adoption")[0];
+                console.log(name, descripcion, genero, edad, tamanio, file);
+                writeAdoption(name, descripcion, genero, edad, tamanio, file);
+            })
+
+            
+
+        })
+
+        
+
+    </script>
+
+    <style>
+    .contenedor{
+        width:90px;
+        height:240px;
+        position:fixed;
+        right:0px;
+        bottom:0px;
+        z-index: 999;
+        cursor: pointer;
+    }
+    .botonF1{
+        width:60px;
+        height:60px;
+        border-radius:100%;
+        right:0;
+        bottom:0;
+        position:absolute;
+        margin:16px;
+        border:none;
+        outline:none;
+        color:#FFF;
+        background: #00bb2d;
+        font-size:36px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        transition:.3s;
+        cursor: pointer;
+    }
+
+
+    .imgCard{
+        margin-top: 0;
+        margin-right: 0;
+    }
+    
+
+
+    .container2 {
+    position: relative;
+    width: 50%;
+    }
+
+    .image2 {
+    display: block;
+    width: 100%;
+    height: auto;
+    }
+
+    .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0%;
+    right: 100%;
+    background-color: #008CBA;
+    overflow: hidden;
+    width: 0;
+    height: 92%;
+    transition: .5s ease;
+    }
+
+    .container2:hover .overlay {
+    width: 50%;
+    left: 0;
+    }
+
+    .text2 {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    }
+
+    </style>
     <nav class="navbar navbar-expand-lg navbar-dark bg-hue fixed-top">
         <div class="container">
             <a class="navbar-brand px-lg-4 mr-0 d-lg-none" href="#">
@@ -191,115 +382,520 @@
         </div>
     </nav>
 
-	<div id="app"></div>
+	<div id="app" class="hide"></div>
 
     <div id="render" class="container" style="padding-top: 8%;">
         <div class="row" id="adoption">
             
         </div>
         
-            <!-- Nosso app -->
-        <div class="container-fluid d-none">
-              
-            <section class="" style="padding-top:10px">
-                <div class="container-fluid">
-                <div class="d-none d-lg-block">
-                    <div class="parallax-window" data-parallax="scroll" data-image-src="img/n14.jpg" style="background:rgba(21,21,21,0.2)">
-                    <div class="col-md-6 col-sm-12 col-12">
-                        <img src="../../img/crecimiento perros.png" class="img-fluid container" width="" alt="Responsive image">
-                        <!--img src="img/esteri.png" class="img-fluid container" width="" alt="Responsive image"-->
-                    </div>
-                    </div>
-                </div>
-                <div class="d-none d-block d-lg-none container">
-                    <img src="../../img/crecimiento perros.png" class="img-fluid" width="" alt="Responsive image">
-                    <!--img src="img/esteri.png" class="img-fluid" width="" alt="Responsive image"-->
-                </div>
-            </section>
             
-            <section class="testimonial color-txt" id="sec-2" style="background:#414141">
-                <div class="">
-                    <div class="esp">
-                    <h1 class="font3" >Adoptame</h1>
-                    </div>
-                    <div class="ing d-none">
-                        <h1 class="font3" >Myths, true or false</h1>
-                    </div>
-                </div>
-            </section>
 
-            <section class="d-none d-lg-block">
-                <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="mdb-lightbox-ui"></div>
-                        <div class=" row mdb-lightbox no-margin">
-                            
-                            <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox">
-                                <div class="card">
-                                    <img class="card-img-top" src="../../img/perros22.jpg" alt="Card image cap">
-                                </div>
-                                </figure>
-                                
-                                <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card2" >
-                                    <div class="card-body front text-justify">
-                                    <div class="d-none d-md-block d-print-block">
-                                        <p class="card-text ">
-                                        <div class="esp" id="">
-                                            <h5 class="font3 color-txt" style="font-size:2.85vh">LA ESTERILIZACIÓN, SÓLO DEBE SER EN PERROS Y GATOS CALLEJEROS.</h5>
-                                            <h5 class="font7 text-dang" style="font-size:2.85vh">FALSO: <span class="font2 color-txt" style="font-size:2.85vh">La fábrica de perros y gatos, están en las casas de dueños que no
-                                            esterilizan a sus animales.<br> Muchos dueños permiten que sus animales
-                                            salgan de casa solos y es ahí cuando frecuentemente se cruzan. <br> Otro problema muy real y cruel, es que muchos compran un cachorro adorable,
-                                            no se le educa y se convierte en un adulto problemático y en el 90% de los casos son abandonados. <br>Esto es lo más inhumano que existe y en su
-                                            mayoria, NO están esterilizados.</span></h5>
-                                        </div>
-                                        <div class="ing d-none" id="">
-                                            <h5 class="font3 color-txt" style="font-size:2.85vh">NEUTERING SHOULD ONLY BE DONE ON STREET DOGS AND CATS</h5>
-                                            <h5 class="font7 text-dang" style="font-size:2.85vh">FALSE: <span class="font2 color-txt" style="font-size:2.85vh">The main dog and cat factories are in the houses of the owners who don't
-                                            neuter their pets. <br>Many owners allow their dogs to go out on their own, and that is when they frequently mate.<br> Another cruel but common problem is that
-                                            many buy a lovely puppy, which later becomes a problematic adult and in many cases they are abandoned.<br>This is the most inhumane thing and worst of all,
-                                            they are most likely not neutered.</span></h5>
-                                        </div>
-                                        </p>
-                                    </div>
-                                    </div>
-                                    <div class="card-body back text-justify">
-                                    <div class="d-none d-md-block d-print-block">
-                                        <div class="esp" id="">
-                                        <p class="card-text " style="padding-top:20%">
-                                            <h4 class="font color-txt text-justify">
-                                            Los perros son los únicos mamíferos que realmente mirarán fijamente a los a un ser humano.
-                                            </h4>
-                                        </p>
-                                        <p class="card-text ">
-                                            <h5 class="font color-txt text-center">Jerry O'Conell</h5>
-                                        </p>
-                                        </div>
-                                        <div class="ing d-none" id="">
-                                        <p class="card-text  " style="padding-top:20%"> <h4 class="text-white font">Dogs are the only mammals that will actually
-                                            stare and look into human's eyes.</h4>
-                                        </p>
-                                        <p class="card-text ">
-                                            <h5 class="text-white font text-center">Jerry O'Conell</h5>
-                                        </p>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </figure>
-                    
-                                <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox2">
-                                <div class="card">
-                                    <img class="card-img-top" src="../../img/gatos1.jpeg" alt="Card image cap">
-                                </div>
-                                </figure>
+        <!--Inicio-->
 
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </section>
-                
+        <div id="home" class="parallax-window full-height" data-position-y="center" data-parallax="scroll" data-image-src="../../img/perro_walk_2.jpg" style="background:rgba(21,21,21,0.2)"></div>
+        
+        <div class="text-center w-100 position-absolute d-block d-xl-none" style="bottom: 5%" >
+          <a href="#inicioRefsm" id="inicioRefsm">
+            <img src="../../img/down_arrow.png" style="width: 75px;filter: invert(1);">
+          </a>
         </div>
+        <div class="text-center w-100 position-absolute d-none d-xl-block">
+          <a href="#inicioReflg" id="inicioReflg">
+            <img src="../../img/down_arrow.png" style="width: 90px;filter: invert(1);">
+          </a>
+        </div>
+
+        <div class="container">
+
+          <div class="contenedor">
+            <a class="botonF1 mailtoInfo">
+              <i class="fas fa-envelope" style="color: white;"></i>
+            </a>
+          </div>
+  
+          <!--<div class="container" style="margin-top: 130px;">
+            <img src="../../img/inicioCaminata.jpg" style="width: inherit;" alt="" srcset="">
+          </div>-->
+
+          <div class="container" id="walk">
+            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+                <div class="row text-center">
+                    <div class="col-12">
+                        Caminatas Caninas <a class="" id="addWalk"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+                    </div>
+                </div>
+            </div>
+          <div class="row">
+
+              <div class=" col-xs-12 col-md-4 container2">
+                  <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                  <div class="overlay">
+                    <div class="text2">
+                        <a class="btn btn-danger" >
+                            Eliminar
+                        </a>
+                    </div>
+                  </div>
+              </div>
+              <div class=" col-xs-12 col-md-4 container2">
+                  <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                    <div class="overlay">
+                    <div class="text2">
+                        <a class="btn btn-danger" >
+                            Eliminar
+                        </a>
+                    </div>
+                  </div>
+                </div>
+              <div class=" col-xs-12 col-md-4 container2">
+                  <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                    <div class="overlay">
+                    <div class="text2">
+                        <a class="btn btn-danger" >
+                            Eliminar
+                        </a>
+                    </div>
+                  </div>
+                </div>
+              <div class=" col-xs-12 col-md-4 container2">
+                  <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                    <div class="overlay">
+                    <div class="text2">
+                        <a class="btn btn-danger" >
+                            Eliminar
+                        </a>
+                    </div>
+                  </div>
+                </div>
+
+              
+          </div>
+          </div>
+          
+          <div class="container" id="news">
+            <div class="">
+              <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+                    Noticias y Avisos <a class="" id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+              </div>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="1">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>
+                          <div class="p-4">
+                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>
+                        <div class="p-4">
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="3">
+                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                      </div>                      
+                        <div class="p-4">
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+  
+        <style>
+
+            .cardBox {
+              float: left;
+              font-size: 1.2em;
+              margin: 1% 0 0 1%;
+              perspective: 800px;
+              transition: all 0.3s ease 0s;
+              width: 23.7%;
+            }
+
+            .cardBox:hover .card {
+              transform: rotateY( 180deg);
+            }
+
+            .card {
+              background: #222;
+              cursor: default;
+              height: 250px;
+              transform-style: preserve-3d;
+              transition: transform 0.4s ease 0s;
+              width: 100%;
+              -webkit-animation: giro 1s 1;
+              animation: giro 1s 1;
+            }
+
+            .card p {
+              margin-bottom: 1.8em;
+            }
+
+            .card .front,
+            .card .back {
+              backface-visibility: hidden;
+              box-sizing: border-box;
+              color: white;
+              display: block;
+              font-size: 1.2em;
+              height: 100%;
+              padding: 0.8em;
+              position: absolute;
+              text-align: center;
+              width: 100%;
+              border-radius: 5px;
+            }
+
+            .card .front strong {
+              background: #fff;
+              border-radius: 100%;
+              color: #222;
+              font-size: 1.5em;
+              line-height: 30px;
+              padding: 0 7px 4px 6px;
+            }
+
+            .card .back {
+              transform: rotateY( 180deg);
+            }
+
+            .card .back a {
+              padding: 0.3em 0.5em;
+              background: #333;
+              color: #fff;
+              text-decoration: none;
+              border-radius: 1px;
+              font-size: 0.9em;
+              transition: all 0.2s ease 0s;
+            }
+
+            .card .back a:hover {
+              background: #fff;
+              color: #333;
+              text-shadow: 0 0 1px #333;
+            }
+
+            .cardBox:nth-child(1) .card .back {
+              background: cornflowerblue;
+            }
+
+            .cardBox:nth-child(2) .card .back {
+              background: orange;
+            }
+
+            .cardBox:nth-child(3) .card .back {
+              background: yellowgreen;
+            }
+
+            .cardBox:nth-child(4) .card .back {
+              background: tomato;
+            }
+
+            .cardBox:nth-child(2) .card {
+              -webkit-animation: giro 1.5s 1;
+              animation: giro 1.5s 1;
+            }
+
+            .cardBox:nth-child(3) .card {
+              -webkit-animation: giro 2s 1;
+              animation: giro 2s 1;
+            }
+
+            .cardBox:nth-child(4) .card {
+              -webkit-animation: giro 2.5s 1;
+              animation: giro 2.5s 1;
+            }
+
+            @-webkit-keyframes giro {
+              from {
+                transform: rotateY( 180deg);
+              }
+              to {
+                transform: rotateY( 0deg);
+              }
+            }
+
+            @keyframes giro {
+              from {
+                transform: rotateY( 180deg);
+              }
+              to {
+                transform: rotateY( 0deg);
+              }
+            }
+
+            @media screen and (max-width: 767px) {
+              .cardBox {
+                margin-left: 2.8%;
+                margin-top: 3%;
+                width: 46%;
+              }
+              .card {
+                height: 285px;
+              }
+              .cardBox:last-child {
+                margin-bottom: 3%;
+              }
+            }
+
+            @media screen and (max-width: 480px) {
+              .cardBox {
+                width: 94.5%;
+              }
+              .card {
+                height: 260px;
+              }
+            }
+
+        </style>
+
+        <div class="container" id="adoption" >
+          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+            Adopción <a class="" id="addAdoption"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+          </div>
+              <div class="row">
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
+                    </div>
+
+                    <div class="back">
+                      <h3>Mushu</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                    </div>
+
+                    <div class="back">
+                      <h3>Muñeca</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                    </div>
+
+                    <div class="back">
+                      <h3>Onix</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                    </div>
+
+                    <div class="back">
+                      <h3>Trigrilla</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                    </div>
+
+                  </div>
+                </div>                
+                  
+              </div>
+        </div>
+  
+        <div class="container" id="about">
+          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center d-block d-lg-none" style="border-bottom: solid 3px #c8213c;">
+            Acerca de nosotros
+          </div>
+          <div class="row mt-lg-5 mt-4">
+            <div class="col-4 color-txt display-4 font-weight-light text-right d-none d-lg-block" style="border-right: solid 3px #c8213c;">
+              <div class="esp col-12">
+                Acerca de nosotros
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-12 text-white" >
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+            </div>
+          </div>            
+        </div>
+  
+        <div class="container" id="experience">
+          <div class="">
+            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+              <div class="row" style="margin: auto;">
+                <img src="../../img/perro3.1.png" style="margin:auto;max-height: 100px; width: 100px;" class="card-img-top" alt="narrower">
+              </div>
+                Experiencias vividas <a class="" id="addExperience"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+            </div>
+
+            <div id="multi-item-example" style="margin-top: 3%;" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+              <div class="row">
+
+                  <div class="carousel-inner" role="listbox">
+              
+                    <div class="carousel-item active">
+                
+                      <div class="col-12" style="float:left">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">
+                            <img src="../../img/perro-ilove.jpg" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">
+                          </div>
+                          <div class="col-md-8 col-sm-12 col-xs-12 text-white">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="carousel-item">
+                
+                      <div class="col-12" style="float:left">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">
+                            <img src="../../img/caminata2.jpg" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">
+                          </div>
+                          <div class="col-md-8 col-sm-12 col-xs-12  text-white">
+                            2do Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                          </div>
+                        </div>
+                      </div>
+                
+                    </div>
+    
+                  </div>
+                  
+                  <a class="carousel-control-prev" style="left: -7%;" href="#multi-item-example" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" style="left: 95%;" href="#multi-item-example" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                  
+              </div>
+              <div class="row">
+                <ol class="carousel-indicators">
+                  <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                  <li data-target="#multi-item-example" data-slide-to="1"></li>
+                </ol>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+        <!--Fin-->
+
+
     </div>
     <!-- Modal -->
     <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -352,8 +948,7 @@
     </div>
     </div>
 <!-- Modal -->
-	<script src="./app.js">
-    </script>
+	
 </body>
 <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -372,4 +967,100 @@
     </div>
   </div>
 </div>
+
+
+<!--Modal Walk-->
+<div class="modal fade" id="modalWalk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <div class="row p-3">
+                        <div class="offset-1 col-10">
+                            <label for="basic-url">Imagen</label>
+                            <div class="input-group mb-3">
+                                <input type="file" id="file-input-walk" class="form-control" aria-describedby="basic-addon3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-12">
+                    <button id="acceptImageWalk" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Adoption-->
+<div class="modal fade" id="modalAdoption" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <div class="modal-body">
+            <div class="col-12">
+                <div class="row p-3">
+                    <div class="col-6">
+                        <label for="basic-url">Nombre</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="nombre" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="basic-url">Tamaño</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="tamanio" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="basic-url">Genero</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="genero" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="basic-url">Edad</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="edad" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="basic-url">Imagen</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="file-input-adoption" class="form-control" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group green-border-focus">
+                            <label for="basic-url">Descripción</label>
+                            <textarea id="descripcion" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button id="acceptAdoption" type="button" class="btn btn-primary btn-block">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 </html>
