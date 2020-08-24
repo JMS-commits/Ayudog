@@ -68,7 +68,7 @@
                         // Sign-out successful.
                         console.log("Sign-out successful");
                         sessionStorage.clear();
-                        location.href = "http://localhost/Ayudog/src/session";
+                        location.href = "https://jms-commits.github.io/Ayudog/src/session/";
                         
                         }).catch(function(error) {
                         // An error happened.
@@ -117,10 +117,10 @@
                         
                     })
                 }else{
-                    location.href = "http://localhost/Ayudog/";
+                    location.href = "https://jms-commits.github.io/Ayudog/src/session/";
                 }
             }else{
-                location.href = "http://localhost/Ayudog/";
+                location.href = "https://jms-commits.github.io/Ayudog/src/session/";
             }
             
         });
@@ -147,6 +147,7 @@
                 setFileWalk(image);
                 readWalkData();
                 $("#modalWalk").modal("hide");
+                location.reload()
 
             });
            
@@ -164,6 +165,7 @@
                 setFileAdoption(image);
                 readAdoptionData();
                 $("#modalAdoption").modal("hide");
+                location.reload()
 
             });
            
@@ -177,6 +179,7 @@
                 setFileNews(image);
                 readNewsData();
                 $("#modalNews").modal("hide");
+                location.reload()
 
             });
         }

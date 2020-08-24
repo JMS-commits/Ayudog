@@ -13,7 +13,9 @@ function setFile(){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        location.reload()
     }).error(function(e){
+        location.reload()
         console.log(e);
     });
 }
@@ -25,7 +27,9 @@ function setFileWalk(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        location.reload()
     }).error(function(e){
+        location.reload()
         console.log(e);
     });
 }
@@ -37,7 +41,9 @@ function setFileNews(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        location.reload()
     }).error(function(e){
+        location.reload()
         console.log(e);
     });
 }
@@ -49,7 +55,9 @@ function setFileAdoption(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        location.reload()
     }).error(function(e){
+        location.reload()
         console.log(e);
     });
 }
@@ -61,7 +69,9 @@ function setFileExperience(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        location.reload()
     }).error(function(e){
+        location.reload()
         console.log(e);
     });
 }
