@@ -12,10 +12,7 @@ function setFile(){
     var storageUrl = 'prueba/';
     var ref = firebase.storage().ref(storageUrl + file.name);
 
-    console.log('Reference: '+ref);
-    console.log('File: '+file);
     ref.put(file).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
     }).error(function(e){
         console.log(e);
     });
@@ -28,7 +25,6 @@ function setFileWalk(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
     });
 }
 
@@ -39,7 +35,6 @@ function setFileNews(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
     });
 }
 
@@ -50,6 +45,15 @@ function setFileAdoption(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
+    });
+}
+
+function setFileExperience(fileItem){
+    var file = fileItem.files[0];// use the Blob or File API.
+    //var blob = new Blob(file, {type: 'image/jpge'});
+    var storageUrl = 'experience/';
+    var ref = firebase.storage().ref(storageUrl + file.name);
+
+    ref.put(file).then(function(snapshot) {
     });
 }

@@ -50,10 +50,8 @@
           firebase.initializeApp(firebaseConfig);
 
         $(document).ready(function(){
-            console.log(sessionStorage);
             if(sessionStorage.length>0){
                 if(sessionStorage.access != null || sessionStorage.access != "" || sessionStorage.access != " "){
-                    console.log("Entra al if");
                     readUserData();
                     $("#database").click(function(){
                         var fileInput = $("#file-input")[0].files[0].name;
@@ -80,7 +78,6 @@
                     });
                     $("#title").change(function(){
                         var title = $("#title").val();
-                        console.log(title);
                         $("#txtTitle").html(`<h5 class="font3 color-txt" style="font-size:2.85vh" >`+title+`</h5>`);
                     });
                     $("#subtitle").change(function(){
@@ -96,7 +93,6 @@
                     
                     $("#access").click(function(){
                         alert(sessionStorage.access);
-                        console.log(sessionStorage.access);
                     });
 
                     $("#delete").click(function(){
@@ -166,12 +162,38 @@
             }).then((res) => {
                 alert("Informacion guardada con exito");
                 setFileAdoption(image);
-                //readUserData();
+                readAdoptionData();
                 $("#modalAdoption").modal("hide");
 
             });
            
         }
+        function writeNews(descripcionNews, image) {
+            firebase.database().ref('news/').push({
+                descripcionNews: descripcionNews,
+                fileName : image.files[0].name
+            }).then((res) => {
+                alert("Informacion guardada con exito");
+                setFileNews(image);
+                readNewsData();
+                $("#modalNews").modal("hide");
+
+            });
+        }
+
+        function writeExperiences(descripcionExperiences, image) {
+            firebase.database().ref('experiences/').push({
+              descripcionExperiences: descripcionExperiences,
+                fileName : image.files[0].name
+            }).then((res) => {
+                alert("Informacion guardada con exito");
+                setFileExperience(image);
+                readExperiencesData();
+                $("#modalExperencies").modal("hide");
+
+            });
+        }
+
         function readUserData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -181,12 +203,7 @@
                     var ref = firebase.storage().ref("prueba/");
                     var tangRef = ref.child(item.image);
                     image = await tangRef.getDownloadURL()
-
-                    console.log(image);
-                    cad+= '<div class="card col-3"><a id="borrar" data-id="'+key+'" data-src="'+item.image+'"><i class="fas fa-times-circle text-dang"></i></a><div class="view view-cascade overlay"><img class="card-img-top" src="'+image+'" alt="Card image cap"><a href="#!"><div class="mask rgba-white-slight"></div></a></div><div class="card-body card-body-cascade text-center"><h4 class="card-title text-dang"><strong>'+item.title+'</strong></h4><p class="card-text">'+item.description+'</p><h5 class="blue-text pb-2"><strong>Contactanos por Mina</strong></h5><a class="px-2 fa-lg text-whatsapp"><i class="fab fa-whatsapp text-whatsapp" style="color: #00E676;"></i></a><a class="px-2 fa-lg fb-ic"><i class="fab fa-facebook-f text-facebook" style="color: #4267B2;"></i></a></div></div>'
-                    //console.log("snapshot.val.title = " + snapshot.val()[key].title);
-                    //console.log("snapshot.val" + snapshot.val()[key]);
-                    //nextUrl = snapshot.val()[key].url;
+                    cad+= '<div class="card col-3"><a id="borrar" data-id="'+key+'" data-src="'+item.image+'"><i class="fas fa-times-circle text-dang"></i></a><div class="view view-cascade overlay"><img class="card-img-top" src="'+image+'" alt="Card image cap"><a href="#!"><div class="mask rgba-white-slight"></div></a></div><div class="card-body card-body-cascade text-center"><h4 class="card-title text-dang"><strong>'+item.title+'</strong></h4><p class="card-text">'+item.description+'</p><h5 class="blue-text pb-2"><strong>Contactanos por Mina</strong></h5><a class="px-2 fa-lg text-whatsapp"><i class="fab fa-whatsapp text-whatsapp" style="color: #00E676;"></i></a><a class="px-2 fa-lg fb-ic"><i class="fab fa-facebook-f text-facebook" style="color: #4267B2;"></i></a></div></div>';
                 }
                 $("#adoption").html(cad);
             });
@@ -200,9 +217,8 @@
                     var image;
                     var ref = firebase.storage().ref("walk/");
                     var tangRef = ref.child(item.fileName);
-                    image = await tangRef.getDownloadURL()
-                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>'
-                    
+                    image = await tangRef.getDownloadURL();
+                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
                 }
                 $("#walkRender").html(cad);
             });
@@ -217,12 +233,49 @@
                     var ref = firebase.storage().ref("adoption/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL()
-                    console.log(image);
-
                     cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
                     
                 }
                 $("#adoptionRender").html(cad);
+            });
+        }
+
+        function readNewsData() {
+            var cad = "";
+            firebase.database().ref('/news/').once('value').then(async function(snapshot) {
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                    var image;
+                    var ref = firebase.storage().ref("news/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL();
+                    var text1 = item.descripcionNews.substring(0, 87);
+                    var text2 = item.descripcionNews.substring(87, text1.lenght);
+                    
+                    cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2"><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" ><div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" class="card-img-top" alt="narrower"></div><div class="p-4">'+text1+'<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong><div class="seeMore">'+text2+'<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div></div></div></div>'
+
+                    //cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
+                    
+                }
+                $("#newsRender").html(cad);
+            });
+        }
+
+        function readExperiencesData() {
+            var cad = "";
+            firebase.database().ref('/experiences/').once('value').then(async function(snapshot) {
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                    var image;
+                    var ref = firebase.storage().ref("experience/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL();
+                    console.log(image);
+                    
+                    cad+='<div class="carousel-item active"><div class="col-12" style="float:left"><div class="row"><div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;"><img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower"></div><div class="col-md-8 col-sm-12 col-xs-12 text-white">'+item.descripcionExperiences+'</div></div></div></div>'
+                    
+                }
+                $("#experienceRender").html(cad);
             });
         }
     </script>
@@ -233,42 +286,42 @@
         $(document).ready(function(){
             readWalkData();
             readAdoptionData();
+            readNewsData();
+            readExperiencesData()
             $(".seeMore").hide();
             $(".btn-see-less").hide();
 
             $(".ing").hide();
 
             $('.botonF1').click(function(){
-            $('.btn').addClass('animacionVer');
+              $('.btn').addClass('animacionVer');
             })
             $('.contenedor').mouseleave(function(){
-            $('.btn').removeClass('animacionVer');
+              $('.btn').removeClass('animacionVer');
             })
             var id = 0
             $(".btn-see").click(function(){
-            id = $(".text-news").data("id");
-            $(".btn-see").hide();
-            $(".btn-see-less").show();
-            $(".seeMore").show();
+              id = $(".text-news").data("id");
+              $(".btn-see").hide();
+              $(".btn-see-less").show();
+              $(".seeMore").show();
             })
             $(".btn-see-less").click(function(){
-            $(".btn-see-less").hide();
-            $(".btn-see").show();
-            $(".seeMore").hide();
+              $(".btn-see-less").hide();
+              $(".btn-see").show();
+              $(".seeMore").hide();
             })
 
             $(".toAdopt").click(function(){
-            window.location.href = "#adoption"
+              window.location.href = "#adoption"
             })
 
             $(".mailpetadop").click(function(){
-            //sendEmail();
-            window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
+              window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
             })
 
             $(".mailtoInfo").click(function(){
-            //sendEmail();
-            window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
+              window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
             })
 
             $("#addWalk").click(function(){
@@ -276,13 +329,11 @@
             });
             $("#acceptImageWalk").click(function(){
                 var file = $("#file-input-walk")[0];
-                console.log("click> "+file);
                 writeWalkData(file);
                 readWalkData();
             })
 
             $("#addAdoption").click(function(){
-                console.log("modalAdoption");
                 $("#modalAdoption").modal("show");
             });
             $("#acceptAdoption").click(function(){
@@ -292,11 +343,29 @@
                 var descripcion= $("#descripcion").val();
                 var tamanio= $("#tamanio").val();
                 var file = $("#file-input-adoption")[0];
-                console.log(name, descripcion, genero, edad, tamanio, file);
                 writeAdoption(name, descripcion, genero, edad, tamanio, file);
                 readAdoptionData();
             })
 
+            $("#addNews").click(function(){
+                $("#modalNews").modal("show");
+            });
+            $("#acceptNews").click(function(){
+                var descripcionNews= $("#descripcionNews").val();
+                var file = $("#file-input-news")[0];
+                writeNews(descripcionNews, file);
+                readNewsData();
+            })
+            
+            $("#addExperience").click(function(){
+                $("#modalExperience").modal("show");
+            });
+            $("#acceptExperiences").click(function(){
+                var descripcionExperiences= $("#descripcionExperiences").val();
+                var file = $("#file-input-experiences")[0];
+                writeExperiences(descripcionExperiences, file);
+                readExperiencesData();
+            })
             
 
         })
@@ -463,92 +532,60 @@
                     </div>
                 </div>
             </div>
-          <div class="row" id="walkRender">
+            <div class="row" id="walkRender">
 
-              <!--div class=" col-xs-12 col-md-4 container2">
-                  <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                  <div class="overlay">
-                    <div class="text2">
-                        <a class="btn btn-danger" >
-                            Eliminar
-                        </a>
-                    </div>
-                  </div>
-              </div>
-              <div class=" col-xs-12 col-md-4 container2">
-                  <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                <!--div class=" col-xs-12 col-md-4 container2">
+                    <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
                     <div class="overlay">
-                    <div class="text2">
-                        <a class="btn btn-danger" >
-                            Eliminar
-                        </a>
+                      <div class="text2">
+                          <a class="btn btn-danger" >
+                              Eliminar
+                          </a>
+                      </div>
                     </div>
-                  </div>
                 </div>
-              <div class=" col-xs-12 col-md-4 container2">
-                  <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                    <div class="overlay">
-                    <div class="text2">
-                        <a class="btn btn-danger" >
-                            Eliminar
-                        </a>
+                <div class=" col-xs-12 col-md-4 container2">
+                    <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                      <div class="overlay">
+                      <div class="text2">
+                          <a class="btn btn-danger" >
+                              Eliminar
+                          </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              <div class=" col-xs-12 col-md-4 container2">
-                  <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                    <div class="overlay">
-                    <div class="text2">
-                        <a class="btn btn-danger" >
-                            Eliminar
-                        </a>
+                <div class=" col-xs-12 col-md-4 container2">
+                    <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                      <div class="overlay">
+                      <div class="text2">
+                          <a class="btn btn-danger" >
+                              Eliminar
+                          </a>
+                      </div>
                     </div>
                   </div>
-                </div-->
+                <div class=" col-xs-12 col-md-4 container2">
+                    <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
+                      <div class="overlay">
+                      <div class="text2">
+                          <a class="btn btn-danger" >
+                              Eliminar
+                          </a>
+                      </div>
+                    </div>
+                  </div-->
 
-              
-          </div>
+                
+            </div>
           </div>
           
           <div class="container" id="news">
             <div class="">
               <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
-                    Noticias y Avisos <a class="d-none" id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+                    Noticias y Avisos <a id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
               </div>
-              <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="1">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>
-                          <div class="p-4">
-                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                          </div>
-                        </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>
-                        <div class="p-4">
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="3">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>                      
-                        <div class="p-4">
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                        </div>
-                      </div>
-                  </div>
+              <div class="row" id="newsRender">
+                  
               </div>
             </div>
           </div>
@@ -705,155 +742,136 @@
           <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
             Adopción <a class="" id="addAdoption"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
           </div>
-              <div class="row" id="adoptionRender">
-                <div class="cardBox">
-                  <div class="card">
-                    
-                    <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
-                    </div>
-
-                    <div class="back">
-                      <h3>Mushu</h3>
-                      <small>Perro en adopción</small>
-                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
-                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
-                        <thead>
-                          <tr>
-                            <td>Género</td>
-                            <td>Edad</td>
-                            <td>Tamaño</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Macho</td>
-                            <td>Cachorro</td>
-                            <td>Mediano</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
-                    </div>
-
-                  </div>
+          <div class="row" id="adoptionRender">
+            <div class="cardBox">
+              <div class="card">
+                
+                <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
                 </div>
 
-                <div class="cardBox">
-                  <div class="card">
-                    
-                    <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
-                    </div>
-
-                    <div class="back">
-                      <h3>Muñeca</h3>
-                      <small>Perro en adopción</small>
-                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
-                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
-                        <thead>
-                          <tr>
-                            <td>Género</td>
-                            <td>Edad</td>
-                            <td>Tamaño</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Hembra</td>
-                            <td>Cachorro</td>
-                            <td>Mediano</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
-                    </div>
-
-                  </div>
+                <div class="back">
+                  <h3>Mushu</h3>
+                  <small>Perro en adopción</small>
+                  <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                  <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                    <thead>
+                      <tr>
+                        <td>Género</td>
+                        <td>Edad</td>
+                        <td>Tamaño</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Macho</td>
+                        <td>Cachorro</td>
+                        <td>Mediano</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
                 </div>
 
-                <div class="cardBox">
-                  <div class="card">
-                    
-                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
-                    </div>
-
-                    <div class="back">
-                      <h3>Onix</h3>
-                      <small>Perro en adopción</small>
-                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
-                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
-                        <thead>
-                          <tr>
-                            <td>Género</td>
-                            <td>Edad</td>
-                            <td>Tamaño</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Macho</td>
-                            <td>Cachorro</td>
-                            <td>Mediano</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="cardBox">
-                  <div class="card">
-                    
-                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
-                    </div>
-
-                    <div class="back">
-                      <h3>Trigrilla</h3>
-                      <small>Perro en adopción</small>
-                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
-                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
-                        <thead>
-                          <tr>
-                            <td>Género</td>
-                            <td>Edad</td>
-                            <td>Tamaño</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Hembra</td>
-                            <td>Cachorro</td>
-                            <td>Mediano</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
-                    </div>
-
-                  </div>
-                </div>                
-                  
               </div>
-        </div>
-  
-        <div class="container" id="about">
-          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center d-block d-lg-none" style="border-bottom: solid 3px #c8213c;">
-            Acerca de nosotros
+            </div>
+
+            <div class="cardBox">
+              <div class="card">
+                
+                <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                </div>
+
+                <div class="back">
+                  <h3>Muñeca</h3>
+                  <small>Perro en adopción</small>
+                  <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                  <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                    <thead>
+                      <tr>
+                        <td>Género</td>
+                        <td>Edad</td>
+                        <td>Tamaño</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Hembra</td>
+                        <td>Cachorro</td>
+                        <td>Mediano</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="cardBox">
+              <div class="card">
+                
+                <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                </div>
+
+                <div class="back">
+                  <h3>Onix</h3>
+                  <small>Perro en adopción</small>
+                  <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                  <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                    <thead>
+                      <tr>
+                        <td>Género</td>
+                        <td>Edad</td>
+                        <td>Tamaño</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Macho</td>
+                        <td>Cachorro</td>
+                        <td>Mediano</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="cardBox">
+              <div class="card">
+                
+                <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                </div>
+
+                <div class="back">
+                  <h3>Trigrilla</h3>
+                  <small>Perro en adopción</small>
+                  <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                  <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                    <thead>
+                      <tr>
+                        <td>Género</td>
+                        <td>Edad</td>
+                        <td>Tamaño</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Hembra</td>
+                        <td>Cachorro</td>
+                        <td>Mediano</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a>
+                </div>
+
+              </div>
+            </div>                
+              
           </div>
-          <div class="row mt-lg-5 mt-4">
-            <div class="col-4 color-txt display-4 font-weight-light text-right d-none d-lg-block" style="border-right: solid 3px #c8213c;">
-              <div class="esp col-12">
-                Acerca de nosotros
-              </div>
-            </div>
-            <div class="col-lg-8 col-md-12 text-white" >
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-            </div>
-          </div>            
         </div>
   
         <div class="container" id="experience">
@@ -862,16 +880,14 @@
               <div class="row" style="margin: auto;">
                 <img src="../../img/perro3.1.png" style="margin:auto;max-height: 100px; width: 100px;" class="card-img-top" alt="narrower">
               </div>
-                Experiencias vividas <a class="d-none" id="addExperience"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
+                Experiencias vividas <a id="addExperience"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
             </div>
 
             <div id="multi-item-example" style="margin-top: 3%;" class="carousel slide carousel-multi-item" data-ride="carousel">
-
               <div class="row">
-
-                  <div class="carousel-inner" role="listbox">
-              
-                    <div class="carousel-item active">
+                  <div class="carousel-inner" id="experienceRender" role="listbox">
+               
+                    <!--div class="carousel-item active">
                 
                       <div class="col-12" style="float:left">
                         <div class="row">
@@ -885,6 +901,7 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="carousel-item">
                 
                       <div class="col-12" style="float:left">
@@ -899,7 +916,7 @@
                         </div>
                       </div>
                 
-                    </div>
+                    </div-->
     
                   </div>
                   
@@ -1097,6 +1114,82 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalNews" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+          <div class="col-12">
+              <div class="row p-3">
+                  <div class="col-12">
+                      <label for="basic-url">Imagen</label>
+                      <div class="input-group mb-3">
+                          <input type="file" id="file-input-news" class="form-control" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <div class="form-group green-border-focus">
+                          <label for="basic-url">Descripción</label>
+                          <textarea id="descripcionNews" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                      </div>
+                  </div>
+
+                  
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-12">
+              <button id="acceptNews" type="button" class="btn btn-primary btn-block">Aceptar</button>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalExperience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+          <div class="col-12">
+              <div class="row p-3">
+                  <div class="col-12">
+                      <label for="basic-url">Imagen</label>
+                      <div class="input-group mb-3">
+                          <input type="file" id="file-input-experiences" class="form-control" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <div class="form-group green-border-focus">
+                          <label for="basic-url">Descripción</label>
+                          <textarea id="descripcionExperiences" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                      </div>
+                  </div>
+
+                  
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-12">
+              <button id="acceptExperiences" type="button" class="btn btn-primary btn-block">Aceptar</button>
+          </div>
+      </div>
+  </div>
 </div>
 </div>
 
