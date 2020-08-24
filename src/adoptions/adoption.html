@@ -58,8 +58,7 @@
                         var title = $("#title").val();
                         var subtitle = $("#subtitle").val();
                         var description = $("#description").val();
-                        writeUserData(title, subtitle, description, fileInput);
-                        
+                        writeUserData(title, subtitle, description, fileInput); 
                     });
 
                     
@@ -73,6 +72,8 @@
                         }).catch(function(error) {
                         // An error happened.
                         console.log("error> "+error);
+                        sessionStorage.clear();
+                        location.href = "https://jms-commits.github.io/Ayudog/src/session/";
 
                         });
                     });
