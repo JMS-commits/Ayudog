@@ -25,6 +25,8 @@ function setFileWalk(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+    }).error(function(e){
+        console.log(e);
     });
 }
 
@@ -35,6 +37,8 @@ function setFileNews(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+    }).error(function(e){
+        console.log(e);
     });
 }
 
@@ -45,6 +49,8 @@ function setFileAdoption(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+    }).error(function(e){
+        console.log(e);
     });
 }
 
@@ -55,5 +61,7 @@ function setFileExperience(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+    }).error(function(e){
+        console.log(e);
     });
 }
