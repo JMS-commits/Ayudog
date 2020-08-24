@@ -64,6 +64,17 @@
                   window.open("https://mail.google.com/mail/?compose=1&view=cm&fs=1&to=info@ayudog.com&su=subject&body=hola buen dia",'_blank');
                 })
 
+                $("#btn-show-adoption").click(function(){
+                  $(".adopt-hiden").removeClass("d-none");
+                  $("#btn-show-adoption").addClass("d-none");
+                  $("#btn-hide-adoption").removeClass("d-none");
+                })
+
+                $("#btn-hide-adoption").click(function(){
+                  $(".adopt-hiden").addClass("d-none");
+                  $("#btn-hide-adoption").addClass("d-none");
+                  $("#btn-show-adoption").removeClass("d-none");
+                })
             })
 
             
@@ -71,6 +82,7 @@
         </script>
 
         <style>
+          
           .contenedor{
             width:90px;
             height:240px;
@@ -122,20 +134,20 @@
                   <div class="d-none d-lg-block">
                     <a class="nav-link" class="btn"  href="#walk">
                     <div class="esp">
-                      Caminata Canina
+                      Caminatas Caninas
                     </div>
                     <div class="ing">
-                      Complaints
+                      Dog Walks
                     </div>
                   </a>
                   </div>
                   <div class="d-block d-md-block d-lg-none">
                     <a class="nav-link" class="btn" data-toggle="modal" href="#walk">
                     <div class="esp">
-                      Caminata Canina
+                      Caminatas Caninas
                     </div>
                     <div class="ing">
-                      Complaints
+                      Dog Walks
                     </div>
                     </a>
                   </div>
@@ -143,10 +155,10 @@
               <li class="nav-item font3">
                 <a class="nav-link" data-scroll href="#adoption">
                   <div class="esp">
-                    Adopción
+                    Adopciones
                   </div>
                   <div class="ing">
-                    Myths, true or false
+                    Adoptions
                   </div>
                 </a>
               </li>
@@ -172,6 +184,16 @@
                   </div>
                   <div class="ing">
                     <i class="fa fa-envelope" aria-hidden="true"></i> Contact
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item font3">
+                <a class="nav-link" data-scroll href="about.html">
+                  <div class="esp">
+                    Acerca de nosotros
+                  </div>
+                  <div class="ing">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> About
                   </div>
                 </a>
               </li>
@@ -222,50 +244,7 @@
           </div>
           </div>
           
-          <div class="container" id="news">
-            <div class="">
-              <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
-                    Noticias y Avisos
-              </div>
-              <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="1">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>
-                          <div class="p-4">
-                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                          </div>
-                        </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>
-                        <div class="p-4">
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="3">
-                    <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
-                      <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
-                        <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
-                      </div>                      
-                        <div class="p-4">
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
-                          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
-                        </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-          </div>
-  
-        <style>
+          <style>
 
             .cardBox {
               float: left;
@@ -278,6 +257,9 @@
 
             .cardBox:hover .card {
               transform: rotateY( 180deg);
+            }
+            .cardBox:hover .flip-corner {
+              display: none;
             }
 
             .card {
@@ -321,6 +303,7 @@
 
             .card .back {
               transform: rotateY( 180deg);
+              
             }
 
             .card .back a {
@@ -411,6 +394,14 @@
               }
             }
 
+            .flip-corner{
+              height: 50px;
+              position: relative;
+              top: 86%;
+              left: 46%;
+              border-radius: 10%;
+            }
+
         </style>
 
         <div class="container" id="adoption" >
@@ -418,10 +409,12 @@
             Adopción
           </div>
               <div class="row">
+
                 <div class="cardBox">
                   <div class="card">
                     
                     <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
                     </div>
 
                     <div class="back">
@@ -454,6 +447,7 @@
                   <div class="card">
                     
                     <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
                     </div>
 
                     <div class="back">
@@ -486,6 +480,7 @@
                   <div class="card">
                     
                     <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
                     </div>
 
                     <div class="back">
@@ -518,6 +513,7 @@
                   <div class="card">
                     
                     <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
                     </div>
 
                     <div class="back">
@@ -544,28 +540,412 @@
                     </div>
 
                   </div>
-                </div>                
-                  
+                </div>
+                
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Mushu</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Muñeca</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Onix</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Trigrilla</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Gnero</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+                
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Mushu</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Muñeca</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Onix</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Trigrilla</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Gnero</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+                
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('../../img/perro-ilove.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Mushu</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://mxcity.mx/wp-content/uploads/2017/08/doggy-1-768x492.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Muñeca</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/08/dogsenzoom6.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Onix</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Género</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Macho</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="cardBox adopt-hiden d-none">
+                  <div class="card">
+                    
+                    <div class="front" style="background-image: url('https://www.aquien.mx/wp-content/uploads/2020/07/perritocallejero2.jpg');background-size: cover;">
+                      <img src="../../img/flip-corner.png" class="flip-corner" alt="">
+                    </div>
+
+                    <div class="back">
+                      <h3>Trigrilla</h3>
+                      <small>Perro en adopción</small>
+                      <p style="font-size: 2vh;margin-bottom: 0;">crucita de Sharpei pero en chiquito , 9 meses...</p>
+                      <table class="table table-sm" style="margin-top: 0; margin-bottom: 0;">
+                        <thead>
+                          <tr>
+                            <td>Gnero</td>
+                            <td>Edad</td>
+                            <td>Tamaño</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Hembra</td>
+                            <td>Cachorro</td>
+                            <td>Mediano</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a class="btn btn-block mailpetadop" style="padding: 0; background: #DE5555;"><i class="fas fa-hand-holding-heart" style="margin-right: 5px;"></i>Adóptame</a>
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
-        </div>
-  
-        <div class="container" id="about">
-          <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center d-block d-lg-none" style="border-bottom: solid 3px #c8213c;">
-            Acerca de nosotros
-          </div>
-          <div class="row mt-lg-5 mt-4">
-            <div class="col-4 color-txt display-4 font-weight-light text-right d-none d-lg-block" style="border-right: solid 3px #c8213c;">
-              <div class="esp col-12">
-                Acerca de nosotros
+
+              <div class="row">
+                  <div class="col-12 text-center p-3">
+                    <a class="btn btn-danger text-white" id="btn-show-adoption">Mostrar más</a>
+                    <a class="btn btn-danger text-white d-none" id="btn-hide-adoption">Mostrar menos</a>
+                  </div>
               </div>
-            </div>
-            <div class="col-lg-8 col-md-12 text-white" >
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.
-            </div>
-          </div>            
         </div>
   
         <div class="container" id="experience">
@@ -636,6 +1016,50 @@
             
           </div>
         </div>
+
+        <div class="container" id="news">
+          <div class="">
+            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
+                  Noticias y Avisos
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="1">
+                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                    </div>
+                        <div class="p-4">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2">
+                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                    </div>
+                      <div class="p-4">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit.<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="3">
+                  <div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >
+                    <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">
+                      <img src="../../img/perro-ilove.jpg" class="card-img-top" alt="narrower">
+                    </div>                      
+                      <div class="p-4">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong> <div class="seeMore"> ,dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores.Pariatur autem cupiditate accusamus consequuntur tempora sit.
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime exercitationem placeat, dolor iusto inventore quo veritatis ipsum eligendi repudiandae in, enim possimus dolores. Pariatur autem cupiditate accusamus consequuntur tempora sit. <a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>  
+        
       </div>
 
       
