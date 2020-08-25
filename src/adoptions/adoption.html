@@ -126,6 +126,51 @@
             
         });
 
+        function deleteWalk(key, image){
+          var key = key;
+          var image = image;
+          var ref = firebase.storage().ref("walk/");
+          var tangRef = ref.child(image);
+          console.log(ref);
+          console.log(ref.child(image));
+          console.log(tangRef);
+          tangRef.delete().then(function() {
+              firebase.database().ref('/walk/'+key).remove()
+              readWalkData()
+          }).catch(function(error) {
+            console.log(error);
+              alert("Ha ocurrido un error intente más tarde")
+          });
+        }
+        
+        function deleteAdoption(key, image){
+          var key = key;
+          var image = image;
+          var ref = firebase.storage().ref("adoption/");
+          var tangRef = ref.child(image);
+          tangRef.delete().then(function() {
+              firebase.database().ref('/adoption/'+key).remove()
+              readAdoptionData()
+          }).catch(function(error) {
+            console.log(error);
+              alert("Ha ocurrido un error intente más tarde")
+          });
+        }
+
+        function deleteNews(key, image){
+          var key = key;
+          var image = image;
+          var ref = firebase.storage().ref("news/");
+          var tangRef = ref.child(image);
+          tangRef.delete().then(function() {
+              firebase.database().ref('/news/'+key).remove()
+              readNewsData()
+          }).catch(function(error) {
+            console.log(error);
+              alert("Ha ocurrido un error intente más tarde")
+          });
+        }
+
         function writeUserData(title, subtitle, description, image) {
             firebase.database().ref('adoption/').push({
                 title: title,
@@ -222,7 +267,7 @@
                     var ref = firebase.storage().ref("walk/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
-                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
+                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'">Eliminar</a></div></div></div>';
                 }
                 cad+= '<div class=" col-xs-12 col-md-4 container2" style="margin-top:25px"><embed autoplay style="height: 270px; width:100%;" src="https://instagram.fpbc1-1.fna.fbcdn.net/v/t50.2886-16/118068929_181478060103506_4411081217395012193_n.mp4?_nc_ht=instagram.fpbc1-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=nRpD4YuBbX4AX9oxDqp&oe=5F45F126&oh=b5cde6b211345f406c29ca4eb694ce0a" type="video/mp4"><div class=""><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
 
@@ -242,7 +287,7 @@
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL()
                       
-                    cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"><img src="../../img/flip-corner.png" class="flip-corner" alt=""></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
+                    cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"><img src="../../img/flip-corner.png" class="flip-corner" alt=""></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
                     
                 }
                 $("#adoptionRender").html(cad);
@@ -261,7 +306,7 @@
                     var text1 = item.descripcionNews.substring(0, 87);
                     var text2 = item.descripcionNews.substring(87, text1.lenght);
                     
-                    cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news" data-id="2"><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" ><div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" class="card-img-top" alt="narrower"></div><div class="p-4">'+text1+'<strong> <a class="text-white btn-see" style="text-decoration: underline white;"> Ver más...</a></strong><div class="seeMore">'+text2+'<a class="text-white btn-see-less" style="text-decoration: underline white;"> Ver menos</a></div></div></div></div>'
+                    cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news"><a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" ><div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" class="card-img-top" alt="narrower"></div><div class="p-4">'+text1+'<strong> <a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;"> Ver más...</a></strong><div class="seeMore" id="'+key+'">'+text2+'<a class="text-white btn-see-less" id="'+key+'" style="text-decoration: underline white;display:none"> Ver menos</a></div></div></div></div>'
 
                     //cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
                     
@@ -306,8 +351,7 @@
             readNewsData();
             //readExperiencesData()
 
-            $(".seeMore").hide();
-            $(".btn-see-less").hide();
+            
 
             $(".ing").hide();
 
@@ -318,16 +362,17 @@
               $('.btn').removeClass('animacionVer');
             })
             var id = 0
-            $(".btn-see").click(function(){
-              id = $(".text-news").data("id");
-              $(".btn-see").hide();
-              $(".btn-see-less").show();
-              $(".seeMore").show();
+            $("#newsRender").on("click",".btn-see",function(){
+              id = $(this).data("id");
+              $(".btn-see #"+id).hide();
+              $(".btn-see-less #"+id).show();
+              $(".seeMore #"+id).show();
             })
-            $(".btn-see-less").click(function(){
-              $(".btn-see-less").hide();
-              $(".btn-see").show();
-              $(".seeMore").hide();
+            $("#newsRender").on("click",".btn-see-less",function(){
+              id = $(this).attr("id");
+              $(".btn-see-less #"+id).hide();
+              $(".btn-see #"+id).show();
+              $(".seeMore #"+id).hide();
             })
 
             $(".toAdopt").click(function(){
@@ -384,7 +429,24 @@
                 writeExperiences(descripcionExperiences, file);
                 readExperiencesData();
             })
+
+            $("#walk").on("click", ".delete-btn",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              deleteWalk(key, imageName);
+            })
             
+            $("#adoptionRender").on("click", ".delete-btn",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              deleteAdoption(key, imageName);
+            })
+
+            $("#newsRender").on("click", ".delete-btn",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              deleteNews(key, imageName);
+            })
 
         })
 
