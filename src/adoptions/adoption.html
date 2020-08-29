@@ -2,7 +2,8 @@
 <html>
 
 <head>
-	<title>Adopción</title>
+  <title>Adopción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="../../img/favicon.png" >
         <link rel="stylesheet" href="../../css/bootstrap.min.css">
@@ -141,8 +142,7 @@
             console.log(error);
               alert("Ha ocurrido un error intente más tarde")
           });
-        }
-        
+        }      
         function deleteAdoption(key, image){
           var key = key;
           var image = image;
@@ -156,7 +156,6 @@
               alert("Ha ocurrido un error intente más tarde")
           });
         }
-
         function deleteNews(key, image){
           var key = key;
           var image = image;
@@ -186,14 +185,17 @@
             });
         }
         function writeWalkData(image) {
-            firebase.database().ref('walk/').push({
-                fileName : image.files[0].name
+          var name = image.files[0].name
+          var type = name.split('.').pop()
+          firebase.database().ref('walk/').push({
+                fileName : name,
+                type : type.toLowerCase()
             }).then((res) => {
-                alert("Informacion guardada con exito");
+              $("#modalUpload").modal("show")
                 setFileWalk(image);
                 readWalkData();
                 $("#modalWalk").modal("hide");
-                location.reload()
+                //location.reload()
 
             });
            
@@ -229,7 +231,6 @@
 
             });
         }
-
         function writeExperiences(descripcionExperiences, image) {
             firebase.database().ref('experiences/').push({
               descripcionExperiences: descripcionExperiences,
@@ -242,7 +243,7 @@
 
             });
         }
-
+        
         function readUserData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -257,7 +258,6 @@
                 $("#adoption").html(cad);
             });
         }
-
         function readWalkData() {
             var cad = "";
             firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
@@ -267,33 +267,45 @@
                     var ref = firebase.storage().ref("walk/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
-                    cad+= '<div class=" col-xs-12 col-md-4 container2"><img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower"><div class="overlay"><div class="text2"><a class="btn btn-danger delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'">Eliminar</a></div></div></div>';
+                    console.log(image)
+                    cad+= '<div class=" col-xs-12 col-md-4 container2">'
+                    if (item.type == "mp4") {
+                      cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
+                    }else{
+                      cad+= '<img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">'
+                    }
+                    cad+= '<div class="overlay">'+
+                        '<div class="text2 row">'+
+                          '<div class="col-12"><a class="btn btn-danger delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'">Eliminar</a></div>'+
+                          '</div></div></div>';
                 }
-                cad+= '<div class=" col-xs-12 col-md-4 container2" style="margin-top:25px"><embed autoplay style="height: 270px; width:100%;" src="https://instagram.fpbc1-1.fna.fbcdn.net/v/t50.2886-16/118068929_181478060103506_4411081217395012193_n.mp4?_nc_ht=instagram.fpbc1-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=nRpD4YuBbX4AX9oxDqp&oe=5F45F126&oh=b5cde6b211345f406c29ca4eb694ce0a" type="video/mp4"><div class=""><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
+                //cad+= '<div class=" col-xs-12 col-md-4 container2" style="margin-top:25px"><embed autoplay style="height: 270px; width:100%;" src="https://instagram.fpbc1-1.fna.fbcdn.net/v/t50.2886-16/118068929_181478060103506_4411081217395012193_n.mp4?_nc_ht=instagram.fpbc1-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=nRpD4YuBbX4AX9oxDqp&oe=5F45F126&oh=b5cde6b211345f406c29ca4eb694ce0a" type="video/mp4"><div class=""><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
 
                 //<embed style="height: 300px;" src="https://instagram.fpbc1-1.fna.fbcdn.net/v/t50.2886-16/118068929_181478060103506_4411081217395012193_n.mp4?_nc_ht=instagram.fpbc1-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=nRpD4YuBbX4AX9oxDqp&oe=5F45F126&oh=b5cde6b211345f406c29ca4eb694ce0a" type="video/mp4">
 
                 $("#walkRender").html(cad);
             });
         }
-
         function readAdoptionData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
                 for(var key in snapshot.val()){
                     var item = snapshot.val()[key];
                     var image;
+                    var descripcion = item.descripcion.substring(0, 140)
                     var ref = firebase.storage().ref("adoption/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL()
                       
-                    cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"><img src="../../img/flip-corner.png" class="flip-corner" alt=""></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
+                    cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;">'+
+                      '<img src="../../img/flip-corner.png" class="flip-corner" alt=""></div><div class="back">'
+                        +'<h3 style="margin: 0px;"><a class="btn btn-danger delete-btn" style="font-size: 15px;" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+item.nombre+'<a class="btn btn-warning update-btn" style="font-size: 15px" data-id="'+key+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'"><i class="fas fa-edit"></i></a></h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
+                        '</div></div></div>';
                     
                 }
                 $("#adoptionRender").html(cad);
             });
         }
-
         function readNewsData() {
             var cad = "";
             firebase.database().ref('/news/').once('value').then(async function(snapshot) {
@@ -315,7 +327,6 @@
                 $("#newsRender").html(cad);
             });
         }
-
         function readExperiencesData() {
             var cad = '<div class="carousel-inner" role="listbox">';
             firebase.database().ref('/experiences/').once('value').then(async function(snapshot) {
@@ -340,6 +351,26 @@
                 $("#experienceRender").html(cad);
             });
         }
+    
+        function updateAdoption(nombre, descripcion, genero, edad, tamanio, image) {
+          firebase.database().ref('adoption/').update({
+                nombre: nombre,
+                descripcion: descripcion,
+                genero: genero,
+                edad: edad,
+                tamanio: tamanio,
+                fileName : image.files[0].name
+            }).then((res) => {
+                alert("Informacion guardada con exito");
+                setFileAdoption(image);
+                readAdoptionData();
+                $("#modalAdoption").modal("hide");
+                location.reload()
+
+            });
+
+        }
+    
     </script>
 
 
@@ -351,7 +382,10 @@
             readNewsData();
             //readExperiencesData()
 
-            
+            $("#prueba").click(function(){
+              console.log("click");
+              $("#modalUpload").modal("show")
+            })
 
             $(".ing").hide();
 
@@ -448,6 +482,19 @@
               deleteNews(key, imageName);
             })
 
+            $("#adoptionRender").on("click", ".update-btn",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              var tamanio = $(this).data("tamanio");
+              var description = $(this).data("description");
+              var edad = $(this).data("edad");
+              var genero = $(this).data("genero");
+              var nombre = $(this).data("nombre");
+
+
+              //deleteNews(key, imageName);
+            })
+
         })
 
         
@@ -522,7 +569,7 @@
       color: white;
       font-size: 20px;
       position: absolute;
-      top: 10%;
+      top: 20%;
       left: 68%;
       -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
@@ -552,7 +599,7 @@
             <div class="collapse navbar-collapse justify-content-center font-weight-bold" id="basicExampleNav">
                 <ul class="navbar-nav">
                     <li class="nav-item font3">
-                        <a class="nav-link" data-toggle="modal" data-target="#basicExampleModal">
+                        <a class="nav-link" id="prueba">
                             <div class="esp">
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Nuevo
                             </div>
@@ -1169,6 +1216,68 @@
 </div>
 </div>
 
+<div class="modal fade" id="modalAdoptionUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+          <div class="col-12">
+              <div class="row p-3">
+                  <div class="col-6">
+                      <label for="basic-url">Nombre</label>
+                      <div class="input-group mb-3">
+                          <input type="text" class="form-control" id="nombre" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <label for="basic-url">Tamaño</label>
+                      <div class="input-group mb-3">
+                          <input type="text" class="form-control" id="tamanio" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <label for="basic-url">Genero</label>
+                      <div class="input-group mb-3">
+                          <input type="text" class="form-control" id="genero" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <label for="basic-url">Edad</label>
+                      <div class="input-group mb-3">
+                          <input type="text" class="form-control" id="edad" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <label for="basic-url">Imagen</label>
+                      <div class="input-group mb-3">
+                          <input type="file" id="file-input-adoption" class="form-control" aria-describedby="basic-addon3">
+                      </div>
+                  </div>
+                  <div class="col-12">
+                      <div class="form-group green-border-focus">
+                          <label for="basic-url">Descripción</label>
+                          <textarea id="descripcion" maxlength="140" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                      </div>
+                  </div>
+
+                  
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-12">
+              <button id="acceptAdoption" type="button" class="btn btn-primary btn-block">Aceptar</button>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
 <div class="modal fade" id="modalNews" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -1239,6 +1348,53 @@
       <div class="modal-footer">
           <div class="col-12">
               <button id="acceptExperiences" type="button" class="btn btn-primary btn-block">Aceptar</button>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+<style>
+
+  .preloader {
+    width: 70px;
+    height: 70px;
+    border: 10px solid #eee;
+    border-top: 10px solid #666;
+    border-radius: 50%;
+    animation-name: girar;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    margin: auto;
+  }
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+</style>
+
+<div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Subiendo información</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      <div class="modal-body">
+          <div class="col-12 text-center">
+              <label>Subiendo información por favor espere</label>
+              <div class="row">
+                <div class="offset-1 col-10">
+                  <div class="preloader"></div>
+                </div>
+              </div>
           </div>
       </div>
   </div>

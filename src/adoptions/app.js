@@ -27,6 +27,7 @@ function setFileWalk(fileItem){
     var ref = firebase.storage().ref(storageUrl + file.name);
 
     ref.put(file).then(function(snapshot) {
+        $("#modalUpload").modal("show")
         location.reload()
     }).error(function(e){
         location.reload()
