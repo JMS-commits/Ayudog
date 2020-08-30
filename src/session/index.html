@@ -24,7 +24,6 @@
 
       $(document).ready(function(){
         $("#sign").click(function(){
-            //createrAccount();
             getData();
         });
         $("#em").on('keyup', function (e) {
@@ -109,14 +108,6 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-        function createrAccount(){
-            firebase.auth().createUserWithEmailAndPassword("juanbucio303@mail.com", "123456").catch(function(error) {
-            // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(error);
-            });
-        }
         function signIn(email, pass){
             firebase.auth().signInWithEmailAndPassword(email, pass)
             .then(function(res){

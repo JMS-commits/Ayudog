@@ -127,6 +127,26 @@
             
         });
 
+        function createrAccount(email, password, rol){
+          $("#modalLoading").modal("show");
+          firebase.auth().createUserWithEmailAndPassword(email, password).then(function(res){
+              firebase.database().ref("users/").push({
+                    email: email,
+                    rol: rol,
+              }).then((res) => {
+                  $("#modalLoading").modal("hide");
+                  $("#modalAddUser").modal("hide")
+              });
+          }).catch(function(error) {
+          // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              console.log(error);
+              $("#modalAddUser").modal("hide")
+              alert("Ha ocurrido un error inesperado intente más tarde");
+          });
+        }
+
         function deleteWalk(key, image){
           var key = key;
           var image = image;
@@ -184,52 +204,18 @@
 
             });
         }
-        function writeWalkData(image) {
-          var name = image.files[0].name
-          var type = name.split('.').pop()
-          firebase.database().ref('walk/').push({
-                fileName : name,
-                type : type.toLowerCase()
-            }).then((res) => {
-              $("#modalUpload").modal("show")
-                setFileWalk(image);
-                readWalkData();
-                $("#modalWalk").modal("hide");
-                //location.reload()
-
-            });
+        function writeWalkData(image, descripcion) {//Ok
+          $("#modalUpload").modal("show")
+          setFileWalk(image, descripcion);
+        }
+        function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado) {
+          $("#modalUpload").modal("show")
+          setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado);
            
         }
-        function writeAdoption(nombre, descripcion, genero, edad, tamanio, image) {
-            firebase.database().ref('adoption/').push({
-                nombre: nombre,
-                descripcion: descripcion,
-                genero: genero,
-                edad: edad,
-                tamanio: tamanio,
-                fileName : image.files[0].name
-            }).then((res) => {
-                alert("Informacion guardada con exito");
-                setFileAdoption(image);
-                readAdoptionData();
-                $("#modalAdoption").modal("hide");
-                location.reload()
-
-            });
-           
-        }
-        function writeNews(descripcionNews, image) {
-            firebase.database().ref('news/').push({
-                descripcionNews: descripcionNews,
-                fileName : image.files[0].name
-            }).then((res) => {
-                alert("Informacion guardada con exito");
-                setFileNews(image);
-                readNewsData();
-                $("#modalNews").modal("hide");
-                location.reload()
-
-            });
+        function writeNews(descripcion, image, isPrincipal) {//Ok
+          $("#modalUpload").modal("show")
+          setFileNews(image, descripcion, isPrincipal);
         }
         function writeExperiences(descripcionExperiences, image) {
             firebase.database().ref('experiences/').push({
@@ -243,7 +229,18 @@
 
             });
         }
-        
+        function writeAbout(descripcion, image) {
+            $("#modalUpload").modal("show")
+            firebase.database().ref('about/').push({
+                descripcionAbout: descripcion,
+                fileName : image.files[0].name
+            }).then((res) => {
+                setFileAbout(image);
+                //location.reload()
+            });
+        }
+
+
         function readUserData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -292,14 +289,14 @@
                 for(var key in snapshot.val()){
                     var item = snapshot.val()[key];
                     var image;
-                    var descripcion = item.descripcion.substring(0, 140)
+                    var descripcion = item.descripcion.substring(0, 133)
                     var ref = firebase.storage().ref("adoption/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL()
                       
                     cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;">'+
                       '<img src="../../img/flip-corner.png" class="flip-corner" alt=""></div><div class="back">'
-                        +'<h3 style="margin: 0px;"><a class="btn btn-danger delete-btn" style="font-size: 15px;" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+item.nombre+'<a class="btn btn-warning update-btn" style="font-size: 15px" data-id="'+key+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'"><i class="fas fa-edit"></i></a></h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
+                        +'<h3 style="margin: 0px;"><a class="btn btn-danger delete-btn" style="font-size: 15px;" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+item.nombre+'<a class="btn btn-warning update-btn" style="font-size: 15px" data-id="'+key+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-desparasitado="'+item.desparasitado+'" data-video="'+item.video+'"><i class="fas fa-edit"></i></a></h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+descripcion+' <a class="seeDetail" data-id="'+key+'" style="text-decoration: underline white; background: none;">Ver más</a></p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
                         '</div></div></div>';
                     
                 }
@@ -317,13 +314,28 @@
                     image = await tangRef.getDownloadURL();
                     var text1 = item.descripcionNews.substring(0, 87);
                     var text2 = item.descripcionNews.substring(87, text1.lenght);
+                    if(item.isPrincipal == 1){
+                      cad+= '<div class="col-12" style="margin-top:20px;">'+
+                        '<div class="row">'+
+                          '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'+
+                            '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a>'+
+                            '<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'+
+                          '</div>'+
+                          '<div class="col-md-8 col-sm-12 col-xs-12  text-white">'+item.descripcionNews+'</div>'+
+                          '</div>'+
+                        '</div>';
+                    }else{
+                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news">'+
+                              '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a>'+
+                              '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >'+
+                          '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
+                            '<img src="'+image+'" class="card-img-top" alt="narrower">'+
+                          '</div><div class="p-4">'+text1+'<strong><a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;"> Ver más...</a></strong><div class="seeMore" id="'+key+'">'+text2+'<a class="text-white btn-see-less" id="'+key+'" style="text-decoration: underline white;display:none"> Ver menos</a></div></div></div></div>'
+                    }
                     
-                    cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news"><a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" ><div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" class="card-img-top" alt="narrower"></div><div class="p-4">'+text1+'<strong> <a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;"> Ver más...</a></strong><div class="seeMore" id="'+key+'">'+text2+'<a class="text-white btn-see-less" id="'+key+'" style="text-decoration: underline white;display:none"> Ver menos</a></div></div></div></div>'
-
                     //cad+= '<div class="cardBox"><div class="card"><div class="front" style="background-image: url('+image+');background-size: cover;"></div><div class="back"><h3>'+item.nombre+'</h3><small>Perro en adopción</small><p style="font-size: 2vh;margin-bottom: 0;">'+item.descripcion+'...</p><table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table><a class="btn btn-block " style="padding: 0; background: #DE5555;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Eliminar</a></div></div></div>';
-                    
                 }
-                cad+=""
+                
                 $("#newsRender").html(cad);
             });
         }
@@ -351,24 +363,23 @@
                 $("#experienceRender").html(cad);
             });
         }
-    
-        function updateAdoption(nombre, descripcion, genero, edad, tamanio, image) {
-          firebase.database().ref('adoption/').update({
-                nombre: nombre,
-                descripcion: descripcion,
-                genero: genero,
-                edad: edad,
-                tamanio: tamanio,
-                fileName : image.files[0].name
-            }).then((res) => {
-                alert("Informacion guardada con exito");
-                setFileAdoption(image);
-                readAdoptionData();
-                $("#modalAdoption").modal("hide");
-                location.reload()
-
+        function readAboutData() {
+          var cad = '';
+            firebase.database().ref('/about/').once('value').then(async function(snapshot) {
+              var count = 0;
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                    var image;
+                    var ref = firebase.storage().ref("about/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL();
+                    cad+='<tr>'+
+                        '<td><img src="'+image+'" style="height: 100px;width: auto; margin: auto;"></td>'+
+                        '<td>'+item.descripcionAbout+'</td>'+
+                      '</tr>'
+                }
+                $("#aboutRender").html(cad);
             });
-
         }
     
     </script>
@@ -382,10 +393,15 @@
             readNewsData();
             //readExperiencesData()
 
-            $("#prueba").click(function(){
-              console.log("click");
-              $("#modalUpload").modal("show")
-            })
+            $("#addUser").click(function(){
+              $("#modalAddUser").modal("show")
+            });
+            $("#acceptAddUser").click(function(){
+              var email = $("#email").val()
+              var pass = $("#password").val()
+              var rol = $("#rol").val()
+              createrAccount(email, pass, rol);
+            });
 
             $(".ing").hide();
 
@@ -426,7 +442,8 @@
             });
             $("#acceptImageWalk").click(function(){
                 var file = $("#file-input-walk")[0];
-                writeWalkData(file);
+                var descripcion = $("#descripcionWalk").val();
+                writeWalkData(file, descripcion);
                 readWalkData();
             })
 
@@ -437,22 +454,25 @@
                 var name = $("#nombre").val();
                 var genero = $("#genero").val();
                 var edad = $("#edad").val();
-                var descripcion= $("#descripcion").val();
+                var descripcion= $("#descripcionAdoption").val();
                 var tamanio= $("#tamanio").val();
                 var file = $("#file-input-adoption")[0];
-                writeAdoption(name, descripcion, genero, edad, tamanio, file);
+                var vacunado = $("#vacunado").val();
+                var desparasitado = $("#desparasitado").val();
+                
+                writeAdoption(name, descripcion, genero, edad, tamanio, file, vacunado, desparasitado);
                 readAdoptionData();
-            })
+            });
 
             $("#addNews").click(function(){
                 $("#modalNews").modal("show");
             });
             $("#acceptNews").click(function(){
-                var descripcionNews= $("#descripcionNews").val();
+                var descripcion= $("#descripcionNews").val();
                 var file = $("#file-input-news")[0];
-                writeNews(descripcionNews, file);
-                readNewsData();
-            })
+                var isPrincipal = $("#isPrincipal").is(':checked') ? 1 : 0;
+                writeNews(descripcion, file, isPrincipal);
+            });
             
             $("#addExperience").click(function(){
                 $("#modalExperience").modal("show");
@@ -475,29 +495,127 @@
               var imageName = $(this).data("image");
               deleteAdoption(key, imageName);
             })
+            $("#adoptionRender").on("click", ".seeDetail",function(){
+              var key = $(this).data("id");
+              var item;
+              console.log(key);
+              firebase.database().ref('/adoption/'+key).once('value').then(async function(snapshot) {
+                var count = 0;
+                item = await snapshot.val();
+                var image;
+                var ref = firebase.storage().ref("adoption/");
+                var tangRef = ref.child(item.fileName);
+                image = await tangRef.getDownloadURL();
+                $("#dataImage").attr("src", image);
+                var cad = ""
+                cad+= '<tr><td class="text-white" style="background-color: #515151;">Nombre</td><td>'+item.nombre+'</td></tr>'
+                cad+= '<tr><td class="text-white" style="background-color: #515151;">Tamaño</td><td>'+item.tamanio+'</td></tr>'
+                cad+= '<tr><td class="text-white" style="background-color: #515151;">Genero</td><td>'+item.genero+'</td></tr>'
+                cad+= '<tr><td class="text-white" style="background-color: #515151;">Edad</td><td>'+item.edad+'</td></tr>'
+                cad+= item.vacunado!=null?'<tr><td class="text-white" style="background-color: #515151;">Vacunado</td><td>'+item.vacunado+'</td></tr>':""
+                cad+= item.desparasitado!=null?'<tr><td class="text-white" style="background-color: #515151;">Desparasitado</td><td>'+item.desparasitado+'</td></tr>':""
+                //var desc= '<tr><td>'+item.descripcion+'</td></tr>'
+                var desc= '<tr><td>'+item.descripcion+'</td></tr>'
+                $("#btn-save").html('');
 
+                $("#editFile").html("");
+                $("#renderTabDetailVideo").html("");
+                $("#renderTabDetail").html(cad);
+                $("#renderTabDetailDesc").html(desc);
+                $("#modalAdoptionDetail").modal("show");
+
+              });
+              //var imageName = $(this).data("image");
+            })
+
+            $("#adoptionRender").on("click", ".update-btn", async function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              var videoName = $(this).data("video");
+              var tamanio = $(this).data("tamanio");
+              var descripcion = $(this).data("description");
+              var edad = $(this).data("edad");
+              var genero = $(this).data("genero");
+              var nombre = $(this).data("name");
+              var vacunado = $(this).data("vacunado");
+              var desparasitado = $(this).data("desparasitado");
+              var imageName  = $(this).data("image");
+              var image;
+              var video;
+              var ref = firebase.storage().ref("adoption/");
+              var tangRef = ref.child(imageName);
+              var tangRefV;
+              if(video!=null){
+                tangRefV = ref.child(videoName);
+                video = await tangRefV.getDownloadURL()
+              }
+              image = await tangRef.getDownloadURL()
+              $("#dataImage").attr("src", image);
+              var cad = ""
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Nombre</td><td><input type="hidden" name="key" value="'+key+'"/><input type="hidden" name="imageName" value="'+imageName+'"/><input type="text" class="form-control" name="nombre" value="'+nombre+'"/></td></tr>'
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Tamaño</td><td><input type="text" class="form-control" name="tamanio" value="'+tamanio+'"/></td></tr>'
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Genero</td><td><input type="text" class="form-control" name="genero" value="'+genero+'"/></td></tr>'
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Edad</td><td><input type="text" class="form-control"   name="edad" value="'+edad+'"/></td></tr>'
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Vacunado</td><td><select class="form-control"  name="vacunado" id="vacunadoE"><option value="Si">Si</option><option value="No">No</option></select></td></tr>'
+              cad+= '<tr><td class="text-white" style="background-color: #515151;">Desparasitado</td><td><select class="form-control"  name="desparasitado" id="desparasitadoE"><option value="Si">Si</option><option value="No">No</option></select></td></tr>'
+              
+              var cadV= video!=null?'<tr><td><iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+video+'" frameborder="0" allowfullscreen></iframe></iframe>':""
+              cadV+='<input type="file" id="file-video-adoption" name="video" class="form-control"/></td></tr>'
+              var inputImage='<input type="file" id="file-image-adoption" name="imagen" class="form-control"/></td></tr>'
+              var btnSave='<a id="saveAdoption" class="btn btn-primary btn-block">Guardar</a></td></tr>'
+              var desc= '<tr><td><textarea name="descripcion" class="form-control" rows="3">'+descripcion+'</textarea></td></tr>'
+              
+              $("#renderTabDetail").html(cad);
+              $("#editFile").html(inputImage);
+              $("#renderTabDetailVideo").html(cadV);
+              $("#renderTabDetailDesc").html(desc);
+              $("#btn-save").html(btnSave);
+
+              $("#vacunadoE").val(vacunado)
+              $("#desparasitadoE").val(desparasitado)
+              $("#modalAdoptionDetail").modal("show");
+
+
+              //deleteNews(key, imageName);
+            })
+            $("#btn-save").on("click", "#saveAdoption", async function(){
+              var form = getFormData($("#formEditAdoption"));
+              var image = $("#file-image-adoption")[0]; 
+              var video = $("#file-video-adoption")[0];
+              console.log(video);
+              setFileAdoption(form.key, form.imageName, form.nombre, form.descripcion, form.genero, form.edad, form.tamanio, image, form.vacunado, form.desparasitado);
+            })
+
+            
             $("#newsRender").on("click", ".delete-btn",function(){
               var key = $(this).data("id");
               var imageName = $(this).data("image");
               deleteNews(key, imageName);
             })
 
-            $("#adoptionRender").on("click", ".update-btn",function(){
-              var key = $(this).data("id");
-              var imageName = $(this).data("image");
-              var tamanio = $(this).data("tamanio");
-              var description = $(this).data("description");
-              var edad = $(this).data("edad");
-              var genero = $(this).data("genero");
-              var nombre = $(this).data("nombre");
+            $("#about").click(function(){
+              $("#modalAbout").modal("show")
+              readAboutData()
+            })
 
-
-              //deleteNews(key, imageName);
+            $("#acceptAbout").click(function(){
+              var file = $("#file-input-about")[0];
+              var descripcion = $("#descripcionAbout").val();
+              writeAbout(descripcion, file);
             })
 
         })
 
-        
+      function getFormData($form){
+          var unindexed_array = $form.serializeArray();
+          var indexed_array = {};
+
+          $.map(unindexed_array, function(n, i){
+              indexed_array[n['name']] = n['value'];
+          });
+
+          return indexed_array;
+      }
 
     </script>
 
@@ -599,26 +717,30 @@
             <div class="collapse navbar-collapse justify-content-center font-weight-bold" id="basicExampleNav">
                 <ul class="navbar-nav">
                     <li class="nav-item font3">
-                        <a class="nav-link" id="prueba">
+                        <a class="nav-link" id="addUser">
                             <div class="esp">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Nuevo
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Usuario
                             </div>
                         </a>
                 </ul>
-                
                 <a class="navbar-brand px-lg-4 mr-0 d-none d-lg-block">
                     <img src="../../img/favicon.png" height="70" alt="">
                 </a>
                 <ul class="navbar-nav">
-                    
-                    </li>
                     <li class="nav-item font3">
-                        <a class="nav-link" id="logout">
+                        <a class="nav-link" id="about">
                             <div class="esp">
-                                <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Cerrar Sesión
+                                Acerca de nosotros
                             </div>
                         </a>
-                    </li>                
+                    </li> 
+                    <li class="nav-item font3">
+                      <a class="nav-link" id="logout">
+                          <div class="esp">
+                              <i class="fa fa-sign-out-alt" aria-hidden="true"></i> Cerrar Sesión
+                          </div>
+                      </a>
+                  </li>                
                 </ul>
             </div>
         </div>
@@ -630,8 +752,6 @@
         <div class="row" id="adoption">
             
         </div>
-        
-            
 
         <!--Inicio-->
 
@@ -716,6 +836,7 @@
               <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #c8213c;">
                     Noticias y Avisos <a id="addNews"><i style="font-size: 30px;" class="fas fa-plus-circle"></i></a>
               </div>
+
               <div class="row" id="newsRender">
                   
               </div>
@@ -1103,62 +1224,238 @@
 <!-- Modal -->
 	
 </body>
-<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        Esta seguro de eliminar el elemento.
-      </div>a
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="deleteElement">Aceptar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          Esta seguro de eliminar el elemento.
+        </div>a
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="deleteElement">Aceptar</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-
-<!--Modal Walk-->
-<div class="modal fade" id="modalWalk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--Inician Modals -->
+<!--Caminatas-->
+  <div class="modal fade" id="modalWalk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="col-12">
+                      <div class="row p-3">
+                          <div class="col-12">
+                              <label for="basic-url">Imagen</label>
+                              <div class="input-group mb-3">
+                                  <input type="file" id="file-input-walk" class="form-control" aria-describedby="basic-addon3">
+                              </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group green-border-focus">
+                                <label for="basic-url">Descripción</label>
+                                <textarea id="descripcionWalk" class="form-control" rows="3"></textarea>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <div class="col-12">
+                      <button id="acceptImageWalk" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+<!--AddUser-->
+  <div class="modal fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="col-12">
-                    <div class="row p-3">
-                        <div class="offset-1 col-10">
-                            <label for="basic-url">Imagen</label>
-                            <div class="input-group mb-3">
-                                <input type="file" id="file-input-walk" class="form-control" aria-describedby="basic-addon3">
-                            </div>
+        <div class="modal-body">
+            <div class="col-12">
+                <div class="row p-3">
+                    <div class="col-12">
+                        <label for="basic-url">Correo</label>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" id="email">
                         </div>
                     </div>
+                    <div class="col-12">
+                        <label for="basic-url">Contraseña</label>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="basic-url">Roles</label>
+                      <div class="input-group mb-3">
+                        <select class="form-control" name="rol" id="rol">
+                          <option value="0" selected>Selecciona un rol</option>
+                          <option value="1">Caminatas Caninas</option>
+                          <option value="2">Adopción</option>
+                          <option value="3">Experiencias vividas</option>
+                          <option value="4">Noticias y Avisos</option>
+                          <option value="5">Admin</option>
+                        </select>
+                      </div>
+                  </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="col-12">
-                    <button id="acceptImageWalk" type="button" class="btn btn-primary btn-block">Aceptar</button>
-                </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button id="acceptAddUser" type="button" class="btn btn-primary btn-block">Registrar</button>
             </div>
         </div>
     </div>
 </div>
-
-<!--Modal Adoption-->
-<div class="modal fade" id="modalAdoption" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div>
+<!--Adopciones-->
+  <div class="modal fade" id="modalAdoption" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          <div class="modal-body">
+              <div class="col-12">
+                  <div class="row p-3">
+                      <div class="col-6">
+                          <label for="basic-url">Nombre</label>
+                          <div class="input-group mb-3">
+                              <input type="text" class="form-control" id="nombre" aria-describedby="basic-addon3">
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <label for="basic-url">Tamaño</label>
+                          <div class="input-group mb-3">
+                              <input type="text" class="form-control" id="tamanio" aria-describedby="basic-addon3">
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <label for="basic-url">Genero</label>
+                          <div class="input-group mb-3">
+                              <input type="text" class="form-control" id="genero" aria-describedby="basic-addon3">
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <label for="basic-url">Edad</label>
+                          <div class="input-group mb-3">
+                              <input type="text" class="form-control" id="edad" aria-describedby="basic-addon3">
+                          </div>
+                      </div>
+                      <div class="col-6">
+                        <label for="basic-url">Vacunado</label>
+                        <div class="input-group mb-3">
+                          <select class="form-control" name="vacunado" id="vacunado">
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="basic-url">Desparasitado</label>
+                        <div class="input-group mb-3" >
+                            <select class="form-control" name="desparasitado" id="desparasitado">
+                              <option value="Si">Si</option>
+                              <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                      <div class="col-12">
+                          <label for="basic-url">Imagen</label>
+                          <div class="input-group mb-3">
+                              <input type="file" id="file-input-adoption" class="form-control" aria-describedby="basic-addon3">
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <div class="form-group green-border-focus">
+                              <label for="basic-url">Descripción</label>
+                              <textarea id="descripcionAdoption" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <div class="col-12">
+                  <button id="acceptAdoption" type="button" class="btn btn-primary btn-block">Aceptar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+<!--Adopciones Detalles-->
+  <div class="modal fade" id="modalAdoptionDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <div class="modal-body">
+            <div class="col-12">
+              <form id="formEditAdoption">
+                <div class="row p-3">
+                  <div class="col-sm-12 col-xs-12 col-md-12 col-lg-4">
+                    <div class="row">
+                      <img src="" class="img-fluid" id="dataImage" alt="">
+                      <div class="col-12" id="editFile"></div>
+                        <table class="table table-bordered">
+                          <tbody id="renderTabDetail">
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="col-md-12 col-lg-8 col-sm-12 col-xs-12">
+                    <div class="row">
+                      <div class="col-12" id="renderTabDetailVideo"></div>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr><th class="text-white" style="background-color: #515151;">Descripción</th></tr>
+                        </thead>
+                        <tbody id="renderTabDetailDesc">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+              </div>
+              </form>
+                <div id="btn-save"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--Adopciones Editar-->
+  <div class="modal fade" id="modalAdoptionUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1193,13 +1490,13 @@
                     <div class="col-12">
                         <label for="basic-url">Imagen</label>
                         <div class="input-group mb-3">
-                            <input type="file" id="file-input-adoption" class="form-control" aria-describedby="basic-addon3">
+                            <input type="file" id="file-input-adoption-edit" class="form-control" aria-describedby="basic-addon3">
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group green-border-focus">
                             <label for="basic-url">Descripción</label>
-                            <textarea id="descripcion" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                            <textarea id="descripcionOptionEdit" maxlength="140" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
                         </div>
                     </div>
 
@@ -1209,150 +1506,92 @@
         </div>
         <div class="modal-footer">
             <div class="col-12">
-                <button id="acceptAdoption" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                <button id="acceptAdoptionEdit" type="button" class="btn btn-primary btn-block">Aceptar</button>
             </div>
         </div>
     </div>
-</div>
-</div>
-
-<div class="modal fade" id="modalAdoptionUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Editar Post</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+  </div>
+  </div>
+<!--Noticias-->
+  <div class="modal fade" id="modalNews" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+              <div class="col-12">
+                  <div class="row p-3">
+                      <div class="col-12">
+                          <label for="basic-url">Imagen</label>
+                          <div class="input-group mb-3">
+                              <input type="file" id="file-input-news" class="form-control">
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <div class="form-group green-border-focus">
+                              <label for="basic-url">Descripción</label>
+                              <textarea id="descripcionNews" class="form-control" rows="3"></textarea>
+                          </div>
+                      </div>
+                      <div class="offset-3 col-6">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="isPrincipal">
+                            <label class="custom-control-label" for="isPrincipal">¿Es noticia principal?</label>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-      <div class="modal-body">
-          <div class="col-12">
-              <div class="row p-3">
-                  <div class="col-6">
-                      <label for="basic-url">Nombre</label>
-                      <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="nombre" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <label for="basic-url">Tamaño</label>
-                      <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="tamanio" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <label for="basic-url">Genero</label>
-                      <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="genero" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <label for="basic-url">Edad</label>
-                      <div class="input-group mb-3">
-                          <input type="text" class="form-control" id="edad" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <label for="basic-url">Imagen</label>
-                      <div class="input-group mb-3">
-                          <input type="file" id="file-input-adoption" class="form-control" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-group green-border-focus">
-                          <label for="basic-url">Descripción</label>
-                          <textarea id="descripcion" maxlength="140" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
-                      </div>
-                  </div>
-
-                  
+          <div class="modal-footer">
+              <div class="col-12">
+                  <button id="acceptNews" type="button" class="btn btn-primary btn-block">Aceptar</button>
               </div>
           </div>
       </div>
-      <div class="modal-footer">
-          <div class="col-12">
-              <button id="acceptAdoption" type="button" class="btn btn-primary btn-block">Aceptar</button>
-          </div>
-      </div>
+    </div>
   </div>
-</div>
-</div>
+<!--Eperiencias vividas-->
+  <div class="modal fade" id="modalExperience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <div class="modal-body">
+            <div class="col-12">
+                <div class="row p-3">
+                    <div class="col-12">
+                        <label for="basic-url">Imagen</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="file-input-experiences" class="form-control" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group green-border-focus">
+                            <label for="basic-url">Descripción</label>
+                            <textarea id="descripcionExperiences" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                        </div>
+                    </div>
 
-<div class="modal fade" id="modalNews" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-      <div class="modal-body">
-          <div class="col-12">
-              <div class="row p-3">
-                  <div class="col-12">
-                      <label for="basic-url">Imagen</label>
-                      <div class="input-group mb-3">
-                          <input type="file" id="file-input-news" class="form-control" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-group green-border-focus">
-                          <label for="basic-url">Descripción</label>
-                          <textarea id="descripcionNews" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
-                      </div>
-                  </div>
-
-                  
-              </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-          <div class="col-12">
-              <button id="acceptNews" type="button" class="btn btn-primary btn-block">Aceptar</button>
-          </div>
-      </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button id="acceptExperiences" type="button" class="btn btn-primary btn-block">Aceptar</button>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
-</div>
-
-<div class="modal fade" id="modalExperience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Agregar Post</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-      <div class="modal-body">
-          <div class="col-12">
-              <div class="row p-3">
-                  <div class="col-12">
-                      <label for="basic-url">Imagen</label>
-                      <div class="input-group mb-3">
-                          <input type="file" id="file-input-experiences" class="form-control" aria-describedby="basic-addon3">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <div class="form-group green-border-focus">
-                          <label for="basic-url">Descripción</label>
-                          <textarea id="descripcionExperiences" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
-                      </div>
-                  </div>
-
-                  
-              </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-          <div class="col-12">
-              <button id="acceptExperiences" type="button" class="btn btn-primary btn-block">Aceptar</button>
-          </div>
-      </div>
   </div>
-</div>
-</div>
 
 <style>
 
@@ -1377,28 +1616,99 @@
   }
 
 </style>
-
-<div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
+<!--Loading Upload-->
+  <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Subiendo información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+              <div class="col-12 text-center">
+                  <label>Subiendo información por favor espere</label>
+                  <div class="row">
+                    <div class="offset-1 col-10">
+                      <div class="preloader"></div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!--Loading-->
+  <div class="modal fade" id="modalLoading" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+              <div class="col-12 text-center">
+                  <label>Cargando por favor espere</label>
+                  <div class="row">
+                    <div class="offset-1 col-10">
+                      <div class="preloader"></div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<!--About-->
+  <div class="modal fade bottom" id="modalAbout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Subiendo información</h5>
+              <h5 class="modal-title text-center" id="exampleModalLabel">Acerca de nosotros</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
-      <div class="modal-body">
-          <div class="col-12 text-center">
-              <label>Subiendo información por favor espere</label>
-              <div class="row">
-                <div class="offset-1 col-10">
-                  <div class="preloader"></div>
+        <div class="modal-body">
+          <div class="col-12">
+            <div class="row p-3">
+                <div class="col-4">
+                  <div class="col-12">
+                    <label for="basic-url">Imagen</label>
+                    <div class="input-group mb-3">
+                        <input type="file" id="file-input-about" class="form-control" aria-describedby="basic-addon3">
+                    </div>
                 </div>
-              </div>
+                <div class="col-12">
+                    <div class="form-group green-border-focus">
+                        <label for="basic-url">Descripción</label>
+                        <textarea id="descripcionAbout" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                  <button id="acceptAbout" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                </div>
+                </div>
+                <div class="col-8">
+                  <table class="table table-bordered table-response">
+                    <thead>
+                      <tr>
+                        <th>Imagen</th>
+                        <th>Descripción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="aboutRender">
+                      
+                    </tbody>
+                  </table>
+                </div>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
   </div>
-</div>
-</div>
 
 </html>
