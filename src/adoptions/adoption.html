@@ -23,6 +23,7 @@
         <script src="../../js/scrollreveal.js"></script>
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <script src="./app.js"></script>
+        <script src="./init.js"></script>
 </head>
 
 <body >
@@ -38,17 +39,8 @@
     
 	<!-- Inicializa o firebase -->
 	<script>
-		var firebaseConfig = {
-            apiKey: "AIzaSyA5VKKM9a6EBaXLGvLRyjCLS5-KA3c4r4w",
-            authDomain: "notificationtest-6d60f.firebaseapp.com",
-            databaseURL: "https://notificationtest-6d60f.firebaseio.com",
-            projectId: "notificationtest-6d60f",
-            storageBucket: "notificationtest-6d60f.appspot.com",
-            messagingSenderId: "577427666180",
-            appId: "1:577427666180:web:e0a7a52517085658eccc51",
-            measurementId: "G-8E25M7K4V5"
-        };
-          firebase.initializeApp(firebaseConfig);
+
+        firebase.initializeApp(getInit());
 
         $(document).ready(function(){
             if(sessionStorage.length>0){
@@ -189,6 +181,19 @@
               alert("Ha ocurrido un error intente más tarde")
           });
         }
+        function deleteAbout(key, image){
+          var key = key;
+          var image = image;
+          var ref = firebase.storage().ref("about/");
+          var tangRef = ref.child(image);
+          tangRef.delete().then(function() {
+              firebase.database().ref('/about/'+key).remove()
+              readAboutData()
+          }).catch(function(error) {
+            console.log(error);
+              alert("Ha ocurrido un error intente más tarde")
+          });
+        }
 
         function writeUserData(title, subtitle, description, image) {
             firebase.database().ref('adoption/').push({
@@ -206,16 +211,15 @@
         }
         function writeWalkData(image, descripcion) {//Ok
           $("#modalUpload").modal("show")
-          setFileWalk(image, descripcion);
+          setFileWalk(null, null, image, descripcion);
         }
         function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado) {
           $("#modalUpload").modal("show")
           setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado);
-           
         }
         function writeNews(descripcion, image, isPrincipal) {//Ok
           $("#modalUpload").modal("show")
-          setFileNews(image, descripcion, isPrincipal);
+          setFileNews(null, null, image, descripcion, isPrincipal);
         }
         function writeExperiences(descripcionExperiences, image) {
             firebase.database().ref('experiences/').push({
@@ -230,16 +234,9 @@
             });
         }
         function writeAbout(descripcion, image) {
-            $("#modalUpload").modal("show")
-            firebase.database().ref('about/').push({
-                descripcionAbout: descripcion,
-                fileName : image.files[0].name
-            }).then((res) => {
-                setFileAbout(image);
-                //location.reload()
-            });
+          $("#modalUpload").modal("show")
+          setFileAbout(null, null, image, descripcion);
         }
-
 
         function readUserData() {
             var cad = "";
@@ -263,6 +260,7 @@
                     var image;
                     var ref = firebase.storage().ref("walk/");
                     var tangRef = ref.child(item.fileName);
+                    var blank = item.descripcionWalk!=null?item.descripcionWalk:"";
                     image = await tangRef.getDownloadURL();
                     console.log(image)
                     cad+= '<div class=" col-xs-12 col-md-4 container2">'
@@ -272,9 +270,18 @@
                       cad+= '<img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">'
                     }
                     cad+= '<div class="overlay">'+
-                        '<div class="text2 row">'+
-                          '<div class="col-12"><a class="btn btn-danger delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'">Eliminar</a></div>'+
-                          '</div></div></div>';
+                        '<div class="row">'+
+                          '<div class="col-12">'+
+                            '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'"><i class="fas fa-trash-alt"></i></a>'+
+                            '<a class="btn btn-warning btn-sm update-walk-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionWalk+'" data-src="'+image+'"><i class="fas fa-edit"></i></a>'+
+                          '</div>'+
+                        '</div>'+
+                          '<div class="row">'+
+                            '<div class="offset-1 col-10" style="overflow-y:auto;max-height:100px;">'+
+                              '<label class="text-center text-white" style="font-size:14px;">'+blank+'</label>'+
+                            '</div>'+
+                          '</div>'+
+                        '</div></div>';
                 }
                 //cad+= '<div class=" col-xs-12 col-md-4 container2" style="margin-top:25px"><embed autoplay style="height: 270px; width:100%;" src="https://instagram.fpbc1-1.fna.fbcdn.net/v/t50.2886-16/118068929_181478060103506_4411081217395012193_n.mp4?_nc_ht=instagram.fpbc1-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=nRpD4YuBbX4AX9oxDqp&oe=5F45F126&oh=b5cde6b211345f406c29ca4eb694ce0a" type="video/mp4"><div class=""><div class="text2"><a class="btn btn-danger" >Eliminar</a></div></div></div>';
 
@@ -319,6 +326,7 @@
                         '<div class="row">'+
                           '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'+
                             '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a>'+
+                            '<a class="btn btn-warning btn-sm update-news-btn" data-id="'+key+'" data-descripcion="'+item.descripcionNews+'" data-src="'+image+'" data-principal="'+item.isPrincipal+'" data-image="'+item.fileName+'"><i class="fas fa-edit"></i></a>'+
                             '<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'+
                           '</div>'+
                           '<div class="col-md-8 col-sm-12 col-xs-12  text-white">'+item.descripcionNews+'</div>'+
@@ -327,6 +335,7 @@
                     }else{
                       cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news">'+
                               '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'">X</a>'+
+                              '<a class="btn btn-warning btn-sm update-news-btn" data-id="'+key+'" data-descripcion="'+item.descripcionNews+'" data-src="'+image+'" data-principal="'+item.isPrincipal+'" data-image="'+item.fileName+'"><i class="fas fa-edit"></i></a>'+
                               '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >'+
                           '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
                             '<img src="'+image+'" class="card-img-top" alt="narrower">'+
@@ -374,8 +383,14 @@
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
                     cad+='<tr>'+
-                        '<td><img src="'+image+'" style="height: 100px;width: auto; margin: auto;"></td>'+
+                        '<td>'+
+                            '<img src="'+image+'" style="height: 100px;width: auto; margin: auto;">'+
+                          '</td>'+
                         '<td>'+item.descripcionAbout+'</td>'+
+                        '<td>'+
+                          '<a class="btn-danger btn-sm btn-delete-about" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+
+                          '<a class="btn-warning btn-sm btn-edit-about" data-id="'+key+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionAbout+'"><i class="fas fa-edit"></i></a>'+
+                        '</td>'+
                       '</tr>'
                 }
                 $("#aboutRender").html(cad);
@@ -489,6 +504,24 @@
               var imageName = $(this).data("image");
               deleteWalk(key, imageName);
             })
+            $("#walkRender").on("click", ".update-walk-btn", async function(){
+              var key = $(this).data("id")
+              var image = $(this).data("image")
+              var descripcion = $(this).data("descripcion")
+              var src = $(this).data("src")
+              $("#srcE").attr("src", src)
+              $("#key").val(key)
+              $("#fileName").val(image)
+              $("#descripcionWalkE").val(descripcion)
+              $("#modalWalkEdit").modal("show")
+            })
+            $("#acceptImageWalkE").click(function(){
+              var form = getFormData($("#formWalk"))
+              var file = $("#file-input-walkE")[0]
+              setFileWalk(form.key, form.fileName, file, form.descripcion)
+              $("#file-input-walkE").val("")
+            })
+
             
             $("#adoptionRender").on("click", ".delete-btn",function(){
               var key = $(this).data("id");
@@ -586,12 +619,37 @@
               setFileAdoption(form.key, form.imageName, form.nombre, form.descripcion, form.genero, form.edad, form.tamanio, image, form.vacunado, form.desparasitado);
             })
 
-            
             $("#newsRender").on("click", ".delete-btn",function(){
               var key = $(this).data("id");
               var imageName = $(this).data("image");
               deleteNews(key, imageName);
             })
+
+            $("#newsRender").on("click", ".update-news-btn",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              var principal = $(this).data("principal");
+              var descripcion = $(this).data("descripcion");
+              var src = $(this).data("src");
+              $("#file-input-newsE")
+              
+              $("#keyNews").val(key)
+              $("#imageName").val(imageName)
+              $("#descripcionNewsE").val(descripcion)
+              $("#srcEditWalk").attr("src", src)
+              $("#isPrincipalE").prop("checked", principal==1)
+              $("#modalNewsEdit").modal("show")
+              //setFileNews(key, imageName);
+            })
+            
+            $("#acceptNewsE").click(function(){
+              var form = getFormData($("#formNews"))
+              var file = $("#file-input-newsE")[0]
+              var isPrincipal = $("#isPrincipalE").is(':checked') ? 1 : 0;
+              setFileNews(form.key, form.imageName, file, form.descripcion, isPrincipal);
+            })
+
+            
 
             $("#about").click(function(){
               $("#modalAbout").modal("show")
@@ -602,6 +660,31 @@
               var file = $("#file-input-about")[0];
               var descripcion = $("#descripcionAbout").val();
               writeAbout(descripcion, file);
+            })
+
+            $("#aboutRender").on("click", ".btn-delete-about",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              deleteAbout(key, imageName);
+            })
+
+            $("#aboutRender").on("click", ".btn-edit-about",function(){
+              var key = $(this).data("id");
+              var imageName = $(this).data("image");
+              var descripcion = $(this).data("descripcion");
+              $("#keyAbout").val(key)
+              $("#imageNameAbout").val(imageName)
+              $("#descripcionAbout").val(descripcion)
+              $("#acceptAbout").addClass("d-none")
+              $("#acceptAboutE").removeClass("d-none")
+              //deleteAbout(key, imageName);
+            })
+            $("#acceptAboutE").click(function(){
+              var file = $("#file-input-about")[0];
+              var descripcion = $("#descripcionAbout").val();
+              var key = $("#keyAbout").val();
+              var fileName = $("#imageNameAbout").val();
+              setFileAbout(key, fileName, file, descripcion)
             })
 
         })
@@ -674,12 +757,12 @@
       background-color: #008CBA;
       overflow: hidden;
       width: 0;
-      height: 92%;
+      height: 50%;
       transition: .5s ease;
     }
 
     .container2:hover .overlay {
-      width: 50%;
+      width: 100%;
       left: 0;
     }
 
@@ -1278,6 +1361,50 @@
           </div>
       </div>
   </div>
+  <!--Caminatas Edit-->
+  <div class="modal fade" id="modalWalkEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                <form id="formWalk">
+                  <div class="col-12">
+                      <div class="row p-3">
+                        <div class="col-12 text-center">
+                          <img src="" class="img-fluid" style="height: 150px;" id="srcE" alt="">
+                        </div>
+                          <div class="col-12">
+                            <input type="hidden" name="key" id="key">
+                            <input type="hidden" name="fileName" id="fileName">
+                              <label for="basic-url">Imagen</label>
+                              <div class="input-group mb-3">
+                                  <input type="file" id="file-input-walkE" class="form-control" aria-describedby="basic-addon3">
+                              </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group green-border-focus">
+                                <label for="basic-url">Descripción</label>
+                                <textarea id="descripcionWalkE" name="descripcion" class="form-control" rows="3"></textarea>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                  <div class="col-12">
+                      <button id="acceptImageWalkE" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
 <!--AddUser-->
   <div class="modal fade" id="modalAddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -1554,6 +1681,55 @@
       </div>
     </div>
   </div>
+<!--Noticias Edit-->
+<div class="modal fade" id="modalNewsEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <div class="modal-body">
+            <div class="col-12">
+              <form id="formNews">
+                <div class="row p-3">
+                    <div class="col-12 text-center">
+                      <input type="hidden" name="key" id="keyNews">
+                      <input type="hidden" name="imageName" id="imageName">
+                      <img src="" id="srcEditWalk" style="height: 150px;" class="img-fluid" alt="">
+                    </div>
+                    <div class="col-12">
+                        <label for="basic-url">Imagen</label>
+                        <div class="input-group mb-3">
+                            <input type="file" id="file-input-newsE" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group green-border-focus">
+                            <label for="basic-url">Descripción</label>
+                            <textarea id="descripcionNewsE" name="descripcion" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="offset-3 col-6">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" name="principal" class="custom-control-input" id="isPrincipalE">
+                          <label class="custom-control-label" for="isPrincipalE">¿Es noticia principal?</label>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button id="acceptNewsE" type="button" class="btn btn-primary btn-block">Aceptar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 <!--Eperiencias vividas-->
   <div class="modal fade" id="modalExperience" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -1616,54 +1792,10 @@
   }
 
 </style>
-<!--Loading Upload-->
-  <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Subiendo información</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-          <div class="modal-body">
-              <div class="col-12 text-center">
-                  <label>Subiendo información por favor espere</label>
-                  <div class="row">
-                    <div class="offset-1 col-10">
-                      <div class="preloader"></div>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-  </div>
-  <!--Loading-->
-  <div class="modal fade" id="modalLoading" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-          <div class="modal-body">
-              <div class="col-12 text-center">
-                  <label>Cargando por favor espere</label>
-                  <div class="row">
-                    <div class="offset-1 col-10">
-                      <div class="preloader"></div>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-  </div>
+
 <!--About-->
   <div class="modal fade bottom" id="modalAbout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-fluid" role="document">
       <div class="modal-content">
           <div class="modal-header">
               <h5 class="modal-title text-center" id="exampleModalLabel">Acerca de nosotros</h5>
@@ -1678,6 +1810,8 @@
                   <div class="col-12">
                     <label for="basic-url">Imagen</label>
                     <div class="input-group mb-3">
+                        <input type="hidden" id="keyAbout">
+                        <input type="hidden" id="imageNameAbout">
                         <input type="file" id="file-input-about" class="form-control" aria-describedby="basic-addon3">
                     </div>
                 </div>
@@ -1689,6 +1823,7 @@
                 </div>
                 <div class="col-12">
                   <button id="acceptAbout" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                  <button id="acceptAboutE" type="button" class="btn btn-primary btn-block d-none">Guardar</button>
                 </div>
                 </div>
                 <div class="col-8">
@@ -1697,6 +1832,7 @@
                       <tr>
                         <th>Imagen</th>
                         <th>Descripción</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody id="aboutRender">
@@ -1710,5 +1846,49 @@
       </div>
     </div>
   </div>
-
+<!--Loading Upload-->
+<div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Subiendo información</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <div class="modal-body">
+            <div class="col-12 text-center">
+                <label>Subiendo información por favor espere</label>
+                <div class="row">
+                  <div class="offset-1 col-10">
+                    <div class="preloader"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!--Loading-->
+<div class="modal fade" id="modalLoading" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <div class="modal-body">
+            <div class="col-12 text-center">
+                <label>Cargando por favor espere</label>
+                <div class="row">
+                  <div class="offset-1 col-10">
+                    <div class="preloader"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 </html>

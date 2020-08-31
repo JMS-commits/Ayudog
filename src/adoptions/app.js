@@ -14,62 +14,172 @@ function setFile(){
 }
 
 
-function setFileWalk(fileItem, descripcion){//Ok
-    var file = fileItem.files[0];
+function setFileWalk(key, fileName, fileItem, descripcion){//Ok
+    var file = fileItem.files[0];;
     var storageUrl = 'walk/';
-    var ref = firebase.storage().ref(storageUrl + file.name);
+    var ref;
 
-    ref.put(file).then(function(snapshot) {
-        var name = file.name
-        var type = name.split('.').pop()
-        firebase.database().ref(storageUrl).push({
-            fileName : name,
-            type : type.toLowerCase(),
-            descripcionWalk: descripcion
-        }).then((res) => {
-            readWalkData();
+    if (key!=null) {
+        if (file != null) {
+            $("#modalUpload").modal("show");
+            ref = firebase.storage().ref(storageUrl + fileName);
+            ref.put(file).then(function(snapshot) {
+                var name = file.name
+                var type = name.split('.').pop()
+                firebase.database().ref(storageUrl+key).update({
+                    type : type.toLowerCase(),
+                    descripcionWalk: descripcion
+                }).then((res) => {
+                    readWalkData();
+                    $("#modalUpload").modal("hide");
+                    $("#modalWalkEdit").modal("hide");
+                });
+            }).catch(function(e){
+                $("#modalWalkEdit").modal("hide");
+                alert("Ha ocurrido un error inesperado intente más tarde");
+                console.log(e);
+            });
+        }else{
+            var type = name.split('.').pop()
+            firebase.database().ref(storageUrl+key).update({
+                type : type.toLowerCase(),
+                descripcionWalk: descripcion
+            }).then((res) => {
+                readWalkData();
+                $("#modalUpload").modal("hide");
+                $("#modalWalkEdit").modal("hide");
+            });
+        }
+    }else{
+        
+        ref = firebase.storage().ref(storageUrl + file.name);
+        ref.put(file).then(function(snapshot) {
+            var name = file.name
+            var type = name.split('.').pop()
+            firebase.database().ref(storageUrl).push({
+                fileName : name,
+                type : type.toLowerCase(),
+                descripcionWalk: descripcion
+            }).then((res) => {
+                readWalkData();
+                $("#modalUpload").modal("hide");
+                $("#modalWalk").modal("hide");
+            });
+        }).catch(function(e){
             $("#modalUpload").modal("hide");
-            $("#modalWalk").modal("hide");
+            alert("Ha ocurrido un error inesperado intente más tarde");
+            console.log(e);
         });
-    }).catch(function(e){
-        $("#modalUpload").modal("hide");
-        alert("Ha ocurrido un error inesperado intente más tarde");
-        console.log(e);
-    });
+    }
 }
 
-function setFileNews(fileItem, descripcion, isPrincipal){//Ok
+function setFileNews(key, fileName, fileItem, descripcion, isPrincipal){//Ok
     var file = fileItem.files[0];
     var storageUrl = 'news/';
-    var ref = firebase.storage().ref(storageUrl + file.name);
-    ref.put(file).then(function(snapshot) {
-        firebase.database().ref(storageUrl).push({
-            descripcionNews: descripcion,
-            fileName : file.name,
-            isPrincipal: isPrincipal
-        }).then((res) => {
-            readNewsData();
+    var ref;
+    if (key != null) {
+        if (file != null) {
+            $("#modalUpload").modal("show");
+            ref = firebase.storage().ref(storageUrl + fileName);
+            ref.put(file).then(function(snapshot) {
+                firebase.database().ref(storageUrl+key).update({
+                    descripcionNews: descripcion,
+                    isPrincipal: isPrincipal
+                }).then((res) => {
+                    readNewsData();
+                    $("#modalUpload").modal("hide");
+                    $("#modalNewsEdit").modal("hide");
+                });
+            }).catch(function(e){
+                $("#modalUpload").modal("hide");
+                alert("Ha ocurrido un error inesperado intente más tarde");
+                console.log(e);
+            });
+        }else{
+            firebase.database().ref(storageUrl+key).update({
+                descripcionNews: descripcion,
+                isPrincipal: isPrincipal
+            }).then((res) => {
+                readNewsData();
+                $("#modalUpload").modal("hide");
+                $("#modalNewsEdit").modal("hide");
+            });
+        }
+        
+    }else{
+        ref = firebase.storage().ref(storageUrl + file.name);
+        ref.put(file).then(function(snapshot) {
+            firebase.database().ref(storageUrl).push({
+                descripcionNews: descripcion,
+                fileName : file.name,
+                isPrincipal: isPrincipal
+            }).then((res) => {
+                readNewsData();
+                $("#modalUpload").modal("hide");
+                $("#modalNews").modal("hide");
+            });
+        }).catch(function(e){
             $("#modalUpload").modal("hide");
-            $("#modalNews").modal("hide");
+            alert("Ha ocurrido un error inesperado intente más tarde");
+            console.log(e);
         });
-    }).catch(function(e){
-        $("#modalUpload").modal("hide");
-        alert("Ha ocurrido un error inesperado intente más tarde");
-        console.log(e);
-    });
+    }
+    
 }
 
-function setFileAbout(fileItem){
-    var file = fileItem.files[0];// use the Blob or File API.
-    //var blob = new Blob(file, {type: 'image/jpge'});
+function setFileAbout(key, fileName, fileItem, descripcion){
+    var file = fileItem.files[0];
     var storageUrl = 'about/';
-    var ref = firebase.storage().ref(storageUrl + file.name);
+    var ref;
 
-    ref.put(file).then(function(snapshot) {
-        //location.reload()
-        readAboutData();
-        $("#modalUpload").modal("hide")
-    })
+    if (key!=null) {
+        if(file != null){
+            $("#modalUpload").modal("show");
+            ref = firebase.storage().ref(storageUrl + fileName);
+            ref.put(file).then(function(snapshot) {
+                firebase.database().ref(storageUrl+key).update({
+                    descripcionAbout: descripcion
+                }).then((res) => {
+                    readAboutData();
+                    $("#modalUpload").modal("hide")
+                });
+            }).catch(function(e){
+                alert("Ha ocurrido un error inesperado intente más tarde");
+                $("#modalUpload").modal("hide");
+                console.log(e);
+            })
+        }else{
+            firebase.database().ref(storageUrl+key).update({
+                descripcionAbout: descripcion
+            }).then((res) => {
+                readAboutData();
+                $("#modalUpload").modal("hide")
+            });
+        }
+    }else{
+        $("#modalUpload").modal("show");
+        ref = firebase.storage().ref(storageUrl + file.name);
+        ref.put(file).then(function(snapshot) {
+            firebase.database().ref(storageUrl).push({
+                descripcionAbout: descripcion,
+                fileName : image.files[0].name
+            }).then((res) => {
+                readAboutData();
+                $("#modalUpload").modal("hide")
+            });
+        }).catch(function(e){
+            alert("Ha ocurrido un error inesperado intente más tarde");
+            $("#modalUpload").modal("hide");
+            console.log(e);
+        })
+    }
+    $("#file-input-about").val("")
+    $("#keyAbout").val("")
+    $("#imageNameAbout").val("")
+    $("#descripcionAbout").val("")
+    $("#acceptAbout").removeClass("d-none")
+    $("#acceptAboutE").addClass("d-none")
+    
 }
 
 function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tamanio, fileItem, vacunado, desparasitado){
