@@ -382,6 +382,9 @@
                     var ref = firebase.storage().ref("about/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
+                    image = image == null || image.trim() == ""?"":image
+                      
+                    
                     cad+='<tr>'+
                         '<td>'+
                             '<img src="'+image+'" style="height: 100px;width: auto; margin: auto;">'+
@@ -675,6 +678,11 @@
               $("#keyAbout").val(key)
               $("#imageNameAbout").val(imageName)
               $("#descripcionAbout").val(descripcion)
+
+              console.log(descripcion);
+              console.log($("#keyAbout").val());
+              console.log($("#imageNameAbout").val());
+              console.log($("#descripcionAbout").val());
               $("#acceptAbout").addClass("d-none")
               $("#acceptAboutE").removeClass("d-none")
               //deleteAbout(key, imageName);
@@ -725,7 +733,10 @@
         color:#FFF;
         background: #00bb2d;
         font-size:36px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+                box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        -webkit-transition:.3s;
+        -o-transition:.3s;
         transition:.3s;
         cursor: pointer;
     }
@@ -758,6 +769,8 @@
       overflow: hidden;
       width: 0;
       height: 50%;
+      -webkit-transition: .5s ease;
+      -o-transition: .5s ease;
       transition: .5s ease;
     }
 
@@ -1818,7 +1831,7 @@
                 <div class="col-12">
                     <div class="form-group green-border-focus">
                         <label for="basic-url">Descripción</label>
-                        <textarea id="descripcionAbout" class="form-control" id="exampleFormControlTextarea5" rows="3"></textarea>
+                        <textarea id="descripcionAbout" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="col-12">

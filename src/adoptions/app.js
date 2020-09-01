@@ -157,12 +157,14 @@ function setFileAbout(key, fileName, fileItem, descripcion){
             });
         }
     }else{
+        console.log(storageUrl);
+        console.log(file.name);
         $("#modalUpload").modal("show");
         ref = firebase.storage().ref(storageUrl + file.name);
         ref.put(file).then(function(snapshot) {
             firebase.database().ref(storageUrl).push({
                 descripcionAbout: descripcion,
-                fileName : image.files[0].name
+                fileName : file.name
             }).then((res) => {
                 readAboutData();
                 $("#modalUpload").modal("hide")
