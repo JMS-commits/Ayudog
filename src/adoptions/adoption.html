@@ -29,12 +29,12 @@
 <body >
 	<!-- Firebase App is always required and must be first -->
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"> </script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"> </script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
     
     
 	<!-- Inicializa o firebase -->
@@ -195,6 +195,12 @@
           });
         }
 
+        function deleteContact(key){
+          var key = key;
+          firebase.database().ref('/contact/'+key).remove()
+          readContactData()
+        }
+
         function writeUserData(title, subtitle, description, image) {
             firebase.database().ref('adoption/').push({
                 title: title,
@@ -238,6 +244,42 @@
           setFileAbout(null, null, image, descripcion);
         }
 
+        function writeContact(phone, email) {
+            $("#modalLoading").modal("show");
+                var storageUrl = 'contact/';
+                firebase.database().ref(storageUrl).push({
+                    phone: phone,
+                    email: email
+                }).then(() => {
+                    $("#modalLoading").modal("hide");
+                    readContactData()
+                    //readAdoptionData();
+                }).catch(function(e){
+                    alert("Ha ocurrido un error inesperado intente más tarde");
+                    $("#modalLoading").modal("hide");
+                    console.log(e);
+                });
+        
+        }
+
+        function UpdateContact(phone, email, key) {
+                var storageUrl = 'contact/';
+                firebase.database().ref(storageUrl+key).update({
+                    phone: phone,
+                    email: email
+                }).then(() => {
+                  console.log("then");
+                  readContactData() 
+                  $("#modalLoading").modal("hide");
+                  $("#modalLoading").modal("hide");
+                    //readAdoptionData();
+                }).catch(function(e){
+                    alert("Ha ocurrido un error inesperado intente más tarde");
+                    $("#modalLoading").modal("hide");
+                    console.log(e);
+                });
+        
+        }
         function readUserData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -290,6 +332,7 @@
                 $("#walkRender").html(cad);
             });
         }
+        
         function readAdoptionData() {
             var cad = "";
             firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
@@ -408,7 +451,26 @@
                 $("#aboutRender").html(cad);
             });
         }
-    
+        function readContactData() {
+          var cad = '';
+            firebase.database().ref('/contact/').once('value').then(async function(snapshot) {
+              var count = 0;
+                for(var key in snapshot.val()){
+                    var item = snapshot.val()[key];
+                      
+                    cad+='<tr>'+
+                        '<td>'+item.phone+'</td>'+
+                        '<td>'+item.email+'</td>'+
+                        '<td>'+
+                          '<a class="btn-danger btn-sm btn-delete-contact" data-id="'+key+'""><i class="fas fa-trash-alt"></i></a>'+
+                          '<a class="btn-warning btn-sm btn-edit-contact" data-id="'+key+'" data-phone="'+item.phone+'" data-email="'+item.email+'"><i class="fas fa-edit"></i></a>'+
+                        '</td>'+
+                      '</tr>'
+                }
+                $("#infoRender").html(cad);
+            });
+        }
+
     </script>
 
 
@@ -704,6 +766,39 @@
               setFileAbout(key, fileName, file, descripcion)
             })
 
+            $("#addInfoContact").click(function(){
+              readContactData()
+              $("#modalInfoContact").modal("show")
+            })
+            $("#acceptInfo").click(function(){
+              var form = getFormData($("#formContact"))
+              console.log(form.email);
+              console.log(form.phone);
+              writeContact(form.phone, form.email)
+            })
+
+            $("#infoRender").on("click", ".btn-edit-contact",function(){
+              var phone = $(this).data("phone")
+              var email = $(this).data("email")
+              var key = $(this).data("id")
+              $("#phoneContact").val(phone)
+              $("#emailContact").val(email)
+              $("#keyContact").val(key)
+              $("#acceptInfoE").removeClass("d-none")
+              $("#acceptInfo").addClass("d-none")
+            })
+
+            $("#acceptInfoE").click(function(){
+              var form = getFormData($("#formContact"))
+              console.log(form);
+              $("#modalLoading").modal("show");
+              UpdateContact(form.phone, form.email, form.key)
+            })
+
+            $("#infoRender").on("click", ".btn-delete-contact", function(){
+              var key = $(this).data("id")
+              deleteContact(key)
+            })
         })
 
       function getFormData($form){
@@ -774,7 +869,9 @@
       bottom: 0;
       left: 0%;
       right: 100%;
-      background-color: #008CBA;
+      background-color: white;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
       overflow: hidden;
       width: 0;
       height: 50%;
@@ -827,6 +924,15 @@
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Usuario
                             </div>
                         </a>
+                    </li>
+                    <li class="nav-item font3">
+                      <a class="nav-link" id="addInfoContact">
+                          <div class="esp">
+                              <i class="fa fa-plus-circle" aria-hidden="true"></i> Información contacto
+                          </div>
+                      </a>
+                  </li>
+
                 </ul>
                 <a class="navbar-brand px-lg-4 mr-0 d-none d-lg-block">
                     <img src="../../img/favicon.png" height="70" alt="">
@@ -891,48 +997,6 @@
             </div>
             <div class="row" id="walkRender">
 
-                <!--div class=" col-xs-12 col-md-4 container2">
-                    <img src="../../img/perro-ilove.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                    <div class="overlay">
-                      <div class="text2">
-                          <a class="btn btn-danger" >
-                              Eliminar
-                          </a>
-                      </div>
-                    </div>
-                </div>
-                <div class=" col-xs-12 col-md-4 container2">
-                    <img src="../../img/caminata1.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                      <div class="overlay">
-                      <div class="text2">
-                          <a class="btn btn-danger" >
-                              Eliminar
-                          </a>
-                      </div>
-                    </div>
-                  </div>
-                <div class=" col-xs-12 col-md-4 container2">
-                    <img src="../../img/caminata2.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                      <div class="overlay">
-                      <div class="text2">
-                          <a class="btn btn-danger" >
-                              Eliminar
-                          </a>
-                      </div>
-                    </div>
-                  </div>
-                <div class=" col-xs-12 col-md-4 container2">
-                    <img src="../../img/caminata3.jpg" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" alt="narrower">
-                      <div class="overlay">
-                      <div class="text2">
-                          <a class="btn btn-danger" >
-                              Eliminar
-                          </a>
-                      </div>
-                    </div>
-                  </div-->
-
-                
             </div>
           </div>
           
@@ -1845,6 +1909,60 @@
       </div>
     </div>
   </div>
+
+<!--Info Contacto-->
+<div class="modal fade bottom" id="modalInfoContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-center" id="exampleModalLabel">Información de contacto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+      <div class="modal-body">
+        <div class="col-12">
+          <div class="row p-3">
+              <div class="col-4">
+                <form action="" id="formContact">
+                  <input type="hidden" id="keyContact" name="key">
+                  <div class="col-12">
+                      <div class="form-group green-border-focus">
+                          <label for="basic-url">Teléfono</label>
+                          <input id="phoneContact" name="phone" class="form-control"/>
+                      </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group green-border-focus">
+                        <label for="basic-url">Correo</label>
+                        <input id="emailContact" name="email" class="form-control"/>
+                    </div>
+                  </div>
+                </form>
+                <div class="col-12">
+                  <button id="acceptInfo" type="button" class="btn btn-primary btn-block">Aceptar</button>
+                  <button id="acceptInfoE" type="button" class="btn btn-primary btn-block d-none">Guardar</button>
+                </div>
+              </div>
+              <div class="col-8">
+                <table class="table table-bordered table-response">
+                  <thead>
+                    <tr>
+                      <th>Teléfono</th>
+                      <th>Correo</th>
+                    </tr>
+                  </thead>
+                  <tbody id="infoRender">
+                    
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--Loading Upload-->
 <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
