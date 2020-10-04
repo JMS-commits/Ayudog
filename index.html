@@ -21,77 +21,77 @@
     <script src="js/parallax.js" charset="utf-8"></script>
     <script src="js/scrollreveal.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-
-       /*setTimeout(function(){ 
-          $("#caminatacanina").modal("show")
-         }, 3000);*/
-        
-
-        $('.carousel').carousel();
-        $(".ing").hide();
-        $("#aceptesp").removeClass("disabled");
-        $("#acepting").addClass("disabled");
-        $("#aceptesp").click(function(){
-          $(".ing").show();
-          $(".esp").hide();
-          $("#acepting").removeClass("disabled");
-          $("#aceptesp").addClass("disabled");
-        });
-        $("#acepting").click(function(){
-          $(".ing").hide();
-          $(".esp").show();
-          $("#aceptesp").removeClass("disabled");
-          $("#acepting").addClass("disabled");
-
-        });
-        $('#inf2').hide();
-        $("#btn-atras").hide();
-
-        $('.parallax-window').parallax({
-          imageSrc: 'img/huellas2.png'
-        });
-        $('#btn-inf').click(function(){
-          $("#inf1").hide();
-          $("#inf2").show();
-          $("#btn-inf").hide();
-          $("#btn-atras").show();
-          window.sr = ScrollReveal();
-          sr.reveal('#inf2', {
-            duration: 3000,
-            origin: 'left'
-          });
-        });
-        $('#btn-atras').click(function(){
-          $("#inf1").show();
-          $("#inf2").hide();
-          $("#btn-atras").hide();
-          $("#btn-inf").show();
-        });
-        //insert();
-      });
-      
-      // $('.parallax-window').parallax({imageSrc: 'img/perritos2.jpg'});
-      smoothScroll.init({
-      selector: '[data-scroll]', // Selector for links (must be a class, ID, data attribute, or element tag)
-      selectorHeader: null, // Selector for fixed headers (must be a valid CSS selector) [optional]
-      speed: 2000, // Integer. How fast to complete the scroll in milliseconds
-      easing: 'easeInOutCubic', // Easing pattern to use
-      offset: 0, // Integer. How far to offset the scrolling anchor location in pixels
-      callback: function ( anchor, toggle ) {} // Function to run after scrolling
-      });
-
-      // window.sr = ScrollReveal();
-      //
-      // sr.reveal('.navbar', {
-      //   duration: 2000,
-      //   origin: 'bottom'
-      // });
-
-    </script>
+    <script src="src/adoptions/init.js"></script>
+    
   </head>
   <body>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"> </script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+        <script src="js/intern/data.js"></script>
+
+        <script type="text/javascript">
+          $(document).ready(function(){
+    
+          
+            readHomeData()
+    
+            $('.carousel').carousel();
+            $(".ing").hide();
+            $("#aceptesp").removeClass("disabled");
+            $("#acepting").addClass("disabled");
+            $("#aceptesp").click(function(){
+              $(".ing").show();
+              $(".esp").hide();
+              $("#acepting").removeClass("disabled");
+              $("#aceptesp").addClass("disabled");
+            });
+            $("#acepting").click(function(){
+              $(".ing").hide();
+              $(".esp").show();
+              $("#aceptesp").removeClass("disabled");
+              $("#acepting").addClass("disabled");
+    
+            });
+            $('#inf2').hide();
+            $("#btn-atras").hide();
+    
+            $('.parallax-window').parallax({
+              imageSrc: 'img/huellas2.png'
+            });
+            $('#btn-inf').click(function(){
+              $("#inf1").hide();
+              $("#inf2").show();
+              $("#btn-inf").hide();
+              $("#btn-atras").show();
+              window.sr = ScrollReveal();
+              sr.reveal('#inf2', {
+                duration: 3000,
+                origin: 'left'
+              });
+            });
+            $('#btn-atras').click(function(){
+              $("#inf1").show();
+              $("#inf2").hide();
+              $("#btn-atras").hide();
+              $("#btn-inf").show();
+            });
+          });
+          
+          smoothScroll.init({
+          selector: '[data-scroll]', // Selector for links (must be a class, ID, data attribute, or element tag)
+          selectorHeader: null, // Selector for fixed headers (must be a valid CSS selector) [optional]
+          speed: 2000, // Integer. How fast to complete the scroll in milliseconds
+          easing: 'easeInOutCubic', // Easing pattern to use
+          offset: 0, // Integer. How far to offset the scrolling anchor location in pixels
+          callback: function ( anchor, toggle ) {} // Function to run after scrolling
+          });    
+          
+        </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-hue fixed-top">
      <div class="container">
       <a class="navbar-brand px-lg-4 mr-0 d-lg-none" href="">
@@ -144,18 +144,9 @@
         </a>
         <a class="navbar-brand px-lg-4 mr-0 d-none d-lg-block" href="src/caninwalk/">
           <img src="img/caminata_white.png" style="width: 120px;height: auto;" alt="">
-         </a>
+        </a>
         <ul class="navbar-nav">
-          <li class="nav-item font3">
-            <a class="nav-link" data-scroll href="#sec-3">
-              <div class="esp">
-                <i class="fas fa-dollar-sign"></i> Donativos
-              </div>
-              <div class="ing">
-                <i class="fas fa-dollar-sign"></i> Donations
-              </div>
-            </a>
-          </li>
+          
          <li class="nav-item font3">
           <a class="nav-link" data-scroll href="#sec-4">
             <div class="esp">
@@ -179,25 +170,12 @@
     <div class="pading d-lg-none d-print-block">
     </div>
     <div class="row" style="background:#343333;padding-top:60px">
-    <!--div class="row" style="background:rgba(21,21,21,.9);padding-top:30px"-->
       <div class="col-12 col-sm-12 col-md-12 col-lg-6 ">
-        <!--img src="img/collage/collage.jpg" class="img-fluid " alt="Responsive image"-->
-        <!----->
-          <!--Carousel Wrapper-->
+        
             <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
-              <!--Slides-->
-              <div class="carousel-inner" role="listbox">
-                <div class="carousel-item active">
-                  <img class="d-block w-100" style="border-radius: 12px; margin-bottom: 30px;" src="img/esteri2.png" 
-                    alt="First slide">
-                </div>
-                <div class="carousel-item">
-                  <img class="d-block w-100" style="border-radius: 12px; margin-bottom: 30px;" src="img/collage/collage2.jpg"
-                    alt="Second slide">
-                </div>
+              <div class="carousel-inner" id="carruselId" role="listbox">
+                
               </div>
-              <!--/.Slides-->
-              <!--Controls-->
               <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
@@ -206,11 +184,8 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
               </a>
-              <!--/.Controls-->
               
             </div>
-<!--/.Carousel Wrapper-->
-<!---->
       </div>
       <div class="col-12 col-sm-12 col-md-12 col-lg-6 " >
         <div class="esp">
@@ -288,7 +263,7 @@
   <section class="" style="padding-top:10px">
     <div class="container-fluid">
       <div class="d-none d-lg-block">
-        <div class="parallax-window" data-parallax="scroll" data-image-src="img/n14.jpg" style="background:rgba(21,21,21,0.2)">
+        <div class="parallax-window" data-parallax="scroll" data-image-src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fn14.jpg?alt=media&token=aeba79ae-6a9b-4ac0-b558-2748f59e5fdc" style="background:rgba(21,21,21,0.2)">
           <div class="col-md-6 col-sm-12 col-12">
             <img src="img/crecimiento perros.png" class="img-fluid container" width="" alt="Responsive image">
             <!--img src="img/esteri.png" class="img-fluid container" width="" alt="Responsive image"-->
@@ -301,7 +276,7 @@
       </div>
   </section>
 
-  <section class="testimonial color-txt" id="sec-2" style="background:#414141">
+  <section class="testimonial color-txt" id="sec-2" style="background:#414141; margin-bottom: 10px;">
       <div class="">
         <div class="esp">
           <h1 class="font3" >Mitos, Mentiras y Verdades</h1>
@@ -319,7 +294,9 @@
         <div class=" row mdb-lightbox no-margin">
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros22.jpg" alt="Card image cap">
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros22.jpg?alt=media&token=11d1c0c4-5b6d-4617-8ccc-aa6d7ea23199" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card2" >
@@ -370,8 +347,9 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/gatos1.jpeg" alt="Card image cap">
-
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos1.jpeg?alt=media&token=5225540f-ab9b-420e-b16d-38f6f00efaae" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card22">
@@ -446,8 +424,8 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay zoom cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros15.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros15.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros15.jpg?alt=media&token=ff276e1e-64cf-4515-bb6e-30e50732995c" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -499,8 +477,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros16.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros16.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros16.jpg?alt=media&token=2b9f609b-1931-4983-a9e6-910321d7965a" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -550,8 +528,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros17.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros17.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros17.jpg?alt=media&token=c944162c-42d0-4714-99b4-37621b3c9c1f" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -603,8 +581,9 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/n12.jpg" alt="Card image cap">
-
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fn12.jpg?alt=media&token=8d77151f-3163-4157-9fa6-a58d3faa4014" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card22">
@@ -651,8 +630,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros20.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros20.jpg?alt=media&token=6111ae1d-6927-409b-b722-59e1b8b3258b" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -701,8 +680,8 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/gatos3.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos3.jpg?alt=media&token=b1d39b94-a14c-42d8-88ba-1ef174645250" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -766,7 +745,9 @@
         <div class=" row mdb-lightbox no-margin">
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros22.jpg" alt="Card image cap">
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros22.jpg?alt=media&token=11d1c0c4-5b6d-4617-8ccc-aa6d7ea23199" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card2" >
@@ -775,16 +756,16 @@
                 <div class="d-none d-md-block d-print-block">
                   <p class="card-text ">
                     <div class="esp" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">LA ESTERILIZACIÓN, SÓLO DEBE SER EN PERROS Y GATOS CALLEJEROS.</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSO: <span class="font2 color-txt" style="font-size:2.3vh">La fábrica de perros y gatos, están en las casas de dueños que no
+                      <h5 class="font3 color-txt" style="font-size:16px">LA ESTERILIZACIÓN, SÓLO DEBE SER EN PERROS Y GATOS CALLEJEROS.</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSO: <span class="font2 color-txt" style="font-size:16px">La fábrica de perros y gatos, están en las casas de dueños que no
                         esterilizan a sus animales.<br> Muchos dueños permiten que sus animales
                         salgan de casa solos y es ahí cuando frecuentemente se cruzan. <br> Otro problema muy real y cruel, es que muchos compran un cachorro adorable,
                         no se le educa y se convierte en un adulto problemático y en el 90% de los casos son abandonados. <br>Esto es lo más inhumano que existe y en su
                         mayoria, NO están esterilizados.</span></h5>
                     </div>
                     <div class="ing" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">NEUTERING SHOULD ONLY BE DONE ON STREET DOGS AND CATS</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 color-txt" style="font-size:2.3vh">The main dog and cat factories are in the houses of the owners who don't
+                      <h5 class="font3 color-txt" style="font-size:16px">NEUTERING SHOULD ONLY BE DONE ON STREET DOGS AND CATS</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 color-txt" style="font-size:16px">The main dog and cat factories are in the houses of the owners who don't
                         neuter their pets. <br>Many owners allow their dogs to go out on their own, and that is when they frequently mate.<br> Another cruel but common problem is that
                         many buy a lovely puppy, which later becomes a problematic adult and in many cases they are abandoned.<br>This is the most inhumane thing and worst of all,
                         they are most likely not neutered.</span></h5>
@@ -818,8 +799,9 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/gatos1.jpeg" alt="Card image cap">
-
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos1.jpeg?alt=media&token=5225540f-ab9b-420e-b16d-38f6f00efaae" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card22">
@@ -827,14 +809,14 @@
                 <div class="d-none d-md-block d-print-block">
                   <p class="card-text ">
                     <div class="esp" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">MI PERRO O GATO VA A PERDER SU MASCULINIDAD.</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSO: <span class="font2 color-txt" style="font-size:2.3vh">A menudo los hombres tienden a tener una visión antropomórfica de sus perros o gatos
+                      <h5 class="font3 color-txt" style="font-size:16px">MI PERRO O GATO VA A PERDER SU MASCULINIDAD.</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSO: <span class="font2 color-txt" style="font-size:16px">A menudo los hombres tienden a tener una visión antropomórfica de sus perros o gatos
                         con respecto a la esterilizaciónm sin embargo lo que nosotros llamamos masculinidad para ellos es frustración por querer aparearse y no
                         permitírselo. <br>Queremos a nuestros perros y gatos por el cariño y amor que nos dan, su masculinidad a menudo se convierte en un problema, tanto para ellos, como para la familia, que tiene que lidiar con el marcaje territorial y peleas con otros machos.</span></h5>
                     </div>
                     <div class="ing" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">MY DOG OR CAT WILL LOSE HIS MASCULINITY</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 text-white">Some men tend to have an anthropomorphic vision of their male dogs or cats in respect to castration. Nonetheless, what
+                      <h5 class="font3 color-txt" style="font-size:16px">MY DOG OR CAT WILL LOSE HIS MASCULINITY</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 text-white">Some men tend to have an anthropomorphic vision of their male dogs or cats in respect to castration. Nonetheless, what
                         we call masculinity in humans refers to frustration in them. <br>It is frustrating for them to want to mate and not be allowed to.<br> We love our dogs and cats because of the love and affection they give us back, and sometimes this masculinity becomes a problem both for the them, and for the people dealng with territorial markings and competitiveness with other males.</span></h5>
                     </div>
 
@@ -894,8 +876,8 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay zoom cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros15.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros15.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros15.jpg?alt=media&token=ff276e1e-64cf-4515-bb6e-30e50732995c" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -905,16 +887,16 @@
 
                     <p class="card-text ">
                       <div class="esp" id="">
-                        <h5 class="font3 color-txt" style="font-size:2.3vh">LOS PERROS SE VUELVEN MENOS ACTIVOS Y ENGORDAN.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:2.3vh">al ser esterilizados, la actividad sexual
+                        <h5 class="font3 color-txt" style="font-size:16px">LOS PERROS SE VUELVEN MENOS ACTIVOS Y ENGORDAN.</h5>
+                        <h5 class="font7 text-dang" style="font-size:16px">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:16px">al ser esterilizados, la actividad sexual
                           se reduce drasticamente y su organismo debe gastar menos energía.<br>En otras palabras, el perro o gato deja de estar
                           ansioso por encontrar con quien aparearse, deja de competir con otros de su mismo sexo y, en el caso de las hembras,
                           dejan de tener el celo y el sobreesfuerzo que eso significa para el organismo. Pero eso no significa que vayan a engordar,
                           basta con regular le la comida y el ejercicio para que no consuma más calorías de lo que gasta.</span></h5>
                       </div>
                       <div class="ing" id="">
-                        <h5 class="font3 color-txt" style="font-size:2.3vh">DOGS BECOME LESS ATIVE AND CAN GAIN WEIGHT.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">PARTLY TRUE: <span class="font2 text-white">When they are neutered, sexual activity
+                        <h5 class="font3 color-txt" style="font-size:16px">DOGS BECOME LESS ATIVE AND CAN GAIN WEIGHT.</h5>
+                        <h5 class="font7 text-dang" style="font-size:16px">PARTLY TRUE: <span class="font2 text-white">When they are neutered, sexual activity
                           decreases drastically and their organism uses less energy.In other words, the dog is less anxious to find a mating partner
                           and is less competitive against other.<br> In the cases of females they stop going through heat cycles and the accompanying overload on
                           the body decreases. <br> This doesn't necessarily mean that they'll gain weight, as long as they have a good nutrition and exercise regimen,
@@ -947,8 +929,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros16.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros16.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros16.jpg?alt=media&token=2b9f609b-1931-4983-a9e6-910321d7965a" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -957,14 +939,14 @@
                 <div class="d-none d-md-block d-print-block">
                   <p class="card-text ">
                     <div class="esp" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">LA ESTERILIZACIÓN LE CAMBIA EL CARACTER.</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSO: <span class="font2 color-txt" style="font-size:2.3vh">Los únicos aspectos que cambian en el carácter son aquellos que benefician la interacción con ellos, razón por la cual la mayoría
+                      <h5 class="font3 color-txt" style="font-size:16px">LA ESTERILIZACIÓN LE CAMBIA EL CARACTER.</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSO: <span class="font2 color-txt" style="font-size:16px">Los únicos aspectos que cambian en el carácter son aquellos que benefician la interacción con ellos, razón por la cual la mayoría
                         de los perros y gatos que son adiestrados o trabajan en terapia están esterilizados.<br>Con la castración el perro se vuelve más centrado, ya que no esta revolucionado por las hormonas que le incitan al apareamiento.<br>
                         También se evitan conductas como el marcaje territorial, las fugas en busca de apareamiento, la ansiedad, el manchado de sangre por el celo, aparte de las enormes ventajas para la salud de ellos.</span></h5>
                     </div>
                     <div class="ing" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">NEUTERING CHANGES THEIR CHARACTER</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 text-white">The only aspects of a dog's character that change are precisely those that benefit the interaction whit them,
+                      <h5 class="font3 color-txt" style="font-size:16px">NEUTERING CHANGES THEIR CHARACTER</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 text-white">The only aspects of a dog's character that change are precisely those that benefit the interaction whit them,
                         which is why most dogs that are trained for specific reasons, such as therapy dogs, must be neutered.<br>  It makes them become more centered, without the effects of hormones that incite them to mate.<br>
                         Neutering prevents behaviors such as markings, dogs and cats escaping to find a mating partner, anxiety, blood stains during heat cycles, apartamento frontera the crear health benéfica mentioned.</span></h5>
                     </div>
@@ -998,8 +980,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros17.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros17.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros17.jpg?alt=media&token=c944162c-42d0-4714-99b4-37621b3c9c1f" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -1010,15 +992,15 @@
                     <p class="card-text ">
                       <div class="esp" id="">
                         <h5 class="font3 color-txt" >LA CIRUGIA DE LA ESTERILIZACIÓN CONLLEVA MUCHO RIESGO.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">FALSO: <span class="font2 color-txt" style="font-size:2.3vh">La esterilización animal es una de las intervenciones
+                        <h5 class="font7 text-dang" style="font-size:16px">FALSO: <span class="font2 color-txt" style="font-size:16px">La esterilización animal es una de las intervenciones
                           más rutinarias, sencillas y rápidas que se hacen a diario, con una tasa de accidentes mínima en todas
                           las clínicas del mundo.<br> Sin embargo, sí conlleva un enorme riesgo para la salud no esterilizar a un perro,
                           ya que con gran probabilidad sufrirá tumores de mama o hipertrofia prostática benigna, algo fácilmente evitable con esterilización.<br>
                           Además, está comprobado que los perros y gatos esterilizados tienen una esperanza de vida mayor.</span></h5>
                       </div>
                       <div class="ing" id="">
-                        <h5 class="font3 color-txt" style="font-size:2.3vh">NEUTERING SURGERIES ARE VERY RISKY.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 text-white">The sugery to neuter an animal is one of the simplest and faster
+                        <h5 class="font3 color-txt" style="font-size:16px">NEUTERING SURGERIES ARE VERY RISKY.</h5>
+                        <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 text-white">The sugery to neuter an animal is one of the simplest and faster
                           procedures done very day an whit a minimal accident rate in clinics around the world. <br>On the other hand, It is a huge health risk to not neuter a dog, increasing the risk
                           of conditions such as breast cancer or prostatic hypertrophy causing urinary problems.<br> It is also
                           proven by research that neutered dogs have a greater life expectancy.</span></h5>
@@ -1051,8 +1033,9 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/n12.jpg" alt="Card image cap">
-
+              <a>
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fn12.jpg?alt=media&token=8d77151f-3163-4157-9fa6-a58d3faa4014" alt="Card image cap">
+              </a>
             </div>
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 card22">
@@ -1060,14 +1043,14 @@
                 <div class="d-none d-md-block d-print-block">
                   <p class="card-text ">
                     <div class="esp" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">LOS PROCEDIMIENTOS SON MUY CAROS.</h6>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:2.3vh">Existen instituciones gubernamentales que ofrecen un servicio gratuito y el costo privado varía de médico a médico.
-                      <br><br>Es aqui donde </span><a class="font7 text-dang">AYUDOG</a><span class="font2 color-txt" style="font-size:2.3vh"> toma importancia. Tu aportacion ayudará a costear los gastos médicos básicos, ayudándo a alcanzar nuestra meta de esterilizar 1,500 perros en esta primera etapa.</span></h6>
+                      <h5 class="font3 color-txt" style="font-size:16px">LOS PROCEDIMIENTOS SON MUY CAROS.</h6>
+                      <h5 class="font7 text-dang" style="font-size:16px">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:16px">Existen instituciones gubernamentales que ofrecen un servicio gratuito y el costo privado varía de médico a médico.
+                      <br><br>Es aqui donde </span><a class="font7 text-dang">AYUDOG</a><span class="font2 color-txt" style="font-size:16px"> toma importancia. Tu aportacion ayudará a costear los gastos médicos básicos, ayudándo a alcanzar nuestra meta de esterilizar 1,500 perros en esta primera etapa.</span></h6>
                     </div>
                     <br>
                     <div class="ing" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">NEUTERING PROCEDURES ARE VERY EXPENSIVE</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 text-white">There are many institutions and private clinics that as a free service or whit a minimal cost.</span></h5>
+                      <h5 class="font3 color-txt" style="font-size:16px">NEUTERING PROCEDURES ARE VERY EXPENSIVE</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 text-white">There are many institutions and private clinics that as a free service or whit a minimal cost.</span></h5>
                     </div>
                   </p>
                 </div>
@@ -1099,8 +1082,8 @@
           </figure>
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/perros20.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros20.jpg?alt=media&token=6111ae1d-6927-409b-b722-59e1b8b3258b" alt="Card image cap">
               </a>
             </div>
           </figure>
@@ -1109,14 +1092,14 @@
                   <div class="d-none d-md-block d-print-block">
                     <p class="card-text ">
                       <div class="esp" id="">
-                        <h5 class="font3 color-txt" style="font-size:2.3vh">LA ESTERILIZACIÓN MODIFICA SU TAMAÑO Y CARACTERISTÍCAS GENÉTICAS.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:2.3vh">El tamaño que tendrá de adulto un cachorro, viene determinado
+                        <h5 class="font3 color-txt" style="font-size:16px">LA ESTERILIZACIÓN MODIFICA SU TAMAÑO Y CARACTERISTÍCAS GENÉTICAS.</h5>
+                        <h5 class="font7 text-dang" style="font-size:16px">VERDAD A MEDIAS: <span class="font2 color-txt" style="font-size:16px">El tamaño que tendrá de adulto un cachorro, viene determinado
                           genéticamente, principalmente por el padre, lo que si el padre es grande, lo más probable es que sus hijos tambien lo sean.<br>
                           Esterilización de la hembra podría alterar un poco esta regla sin embargo no existe evidencia científica que lo aseguré.</span></h5>
                       </div>
                       <div class="ing" id="">
-                        <h5 class="font3 color-txt" style="font-size:2.3vh">NEUTERING ALTERS THEIR SIZE AND GENETIC CHARACTERISTICS.</h5>
-                        <h5 class="font7 text-dang" style="font-size:2.3vh">PARTLY TRUE: <span class="font2 text-white">The adult size of a puppy or kitten is genetically predetermined, mainly from the father's side.<br>
+                        <h5 class="font3 color-txt" style="font-size:16px">NEUTERING ALTERS THEIR SIZE AND GENETIC CHARACTERISTICS.</h5>
+                        <h5 class="font7 text-dang" style="font-size:16px">PARTLY TRUE: <span class="font2 text-white">The adult size of a puppy or kitten is genetically predetermined, mainly from the father's side.<br>
                           If the dad is big, it is likely that the puppies will be also. <br>Spaying of females could alter this rule a bit,
                           but there is no sufficient evidence that proves this.</span></h5>
                       </div>
@@ -1149,8 +1132,8 @@
 
           <figure class="col-md-6 col-lg-6 col-sm-6 col-6 view overlay cardBox2">
             <div class="card" style="border-radius: 12px;">
-              <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-                <img class="card-img-top" style="border-radius: 12px;" src="img/gatos3.jpg" alt="Card image cap">
+              <a data-lightbox="Galeria-mitos" data-title="Mitos">
+                <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos3.jpg?alt=media&token=b1d39b94-a14c-42d8-88ba-1ef174645250" alt="Card image cap">
                 <!-- <img src="img/perros14.jpg" class="img-fluid" /> -->
               </a>
             </div>
@@ -1160,16 +1143,16 @@
                 <div class="d-none d-md-block d-print-block">
                   <p class="card-text ">
                     <div class="esp" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">LAS PERRAS DEBEN ESTERILIZARSE DESPUÉS DEL PRIMER CELO.</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSO: <span class="font2 color-txt" style="font-size:2.3vh">Las hembras no necesitan pasar por su primer celo. Esta creencia proviene de los años 40's
+                      <h5 class="font3 color-txt" style="font-size:16px">LAS PERRAS DEBEN ESTERILIZARSE DESPUÉS DEL PRIMER CELO.</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSO: <span class="font2 color-txt" style="font-size:16px">Las hembras no necesitan pasar por su primer celo. Esta creencia proviene de los años 40's
                         cuando se comenzó a esterilizar de forma regular a los perros de compañia.<br>
                         Por entonces, las técnicas de veterinaria no permitían asegurar el éxito de la operación a perros y gatos menores de 6 meses.<br>
                         Actualmente contamos con mejores técnicas quirúrgicas y es posible esterilizar cachorros con 6-8 semanas, sin ningún riesgo.<br>
                         Es más, a edades tempranas, la esterilización tiene menos riesgos de hemorragia, la recuperación es más rápida y se disminuye el riesgo de tumor de mama.</span></h5>
                     </div>
                     <div class="ing" id="">
-                      <h5 class="font3 color-txt" style="font-size:2.3vh">FEMALES MUST BE SPAYED AFTER THE FIRST HEAT</h5>
-                      <h5 class="font7 text-dang" style="font-size:2.3vh">FALSE: <span class="font2 text-white">Actually, the effectiveness of spayinf to prevent breast cancer decreases once the dog
+                      <h5 class="font3 color-txt" style="font-size:16px">FEMALES MUST BE SPAYED AFTER THE FIRST HEAT</h5>
+                      <h5 class="font7 text-dang" style="font-size:16px">FALSE: <span class="font2 text-white">Actually, the effectiveness of spayinf to prevent breast cancer decreases once the dog
                         has gone through her first head cycle. <br> This myth originated in the 1940's when companion dogs began to be regulary neutered. <br>
                         Back then the veterinary techniques didn't ensure success in dogs and cats younger than six months. <br> Today, we have better training and technology and it is
                         possible to neuter puppies as young as 6-8 weeks old without greater risks, and actually at such young age, the likelihood of hemorrhage is lower and
@@ -1212,7 +1195,9 @@
       <div class="row">
         <figure class="col-12 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <img class="card-img-top" style="border-radius: 12px;" src="img/perros22.jpg" alt="Card image cap">
+            <a>
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros22.jpg?alt=media&token=11d1c0c4-5b6d-4617-8ccc-aa6d7ea23199" alt="Card image cap">
+            </a>
           </div>
         </figure>
         <div class="col-12" >
@@ -1264,7 +1249,9 @@
         </div>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <img class="card-img-top" style="border-radius: 12px;" src="img/gatos1.jpeg" alt="Card image cap">
+            <a>
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos1.jpeg?alt=media&token=5225540f-ab9b-420e-b16d-38f6f00efaae" alt="Card image cap">
+            </a>
           </div>
         </figure>
         <figure class="col-md-6">
@@ -1337,8 +1324,8 @@
         </figure>
         <figure class="col-md-6 view overlay  ">
           <div class="card" style="border-radius: 12px;">
-            <a href="img/perros15.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros15.jpg" alt="Card image cap">
+            <a data-lightbox="Galeria-mitos" data-title="Mitos">
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros15.jpg?alt=media&token=ff276e1e-64cf-4515-bb6e-30e50732995c" alt="Card image cap">
             </a>
           </div>
         </figure>
@@ -1391,8 +1378,8 @@
         </figure>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <a href="img/perros16.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros16.jpg" alt="Card image cap">
+            <a data-lightbox="Galeria-mitos" data-title="Mitos">
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros16.jpg?alt=media&token=2b9f609b-1931-4983-a9e6-910321d7965a" alt="Card image cap">
             </a>
           </div>
         </figure>
@@ -1443,8 +1430,8 @@
         </figure>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <a href="img/perros17.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros17.jpg" alt="Card image cap">
+            <a data-lightbox="Galeria-mitos" data-title="Mitos">
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros17.jpg?alt=media&token=c944162c-42d0-4714-99b4-37621b3c9c1f" alt="Card image cap">
             </a>
           </div>
         </figure>
@@ -1497,7 +1484,9 @@
         </figure>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <img class="card-img-top" style="border-radius: 12px;" src="img/n12.jpg" alt="Card image cap">
+            <a>
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fn12.jpg?alt=media&token=8d77151f-3163-4157-9fa6-a58d3faa4014" alt="Card image cap">
+            </a>
           </div>
         </figure>
         <figure class="col-md-6">
@@ -1545,8 +1534,8 @@
         </figure>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/perros20.jpg" alt="Card image cap">
+            <a data-lightbox="Galeria-mitos" data-title="Mitos">
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fperros20.jpg?alt=media&token=6111ae1d-6927-409b-b722-59e1b8b3258b" alt="Card image cap">
             </a>
           </div>
         </figure>
@@ -1595,8 +1584,8 @@
         </figure>
         <figure class="col-md-6 view overlay ">
           <div class="card" style="border-radius: 12px;">
-            <a href="img/perros20.jpg" data-lightbox="Galeria-mitos" data-title="Mitos">
-              <img class="card-img-top" style="border-radius: 12px;" src="img/gatos3.jpg" alt="Card image cap">
+            <a data-lightbox="Galeria-mitos" data-title="Mitos">
+              <img class="card-img-top" style="border-radius: 12px;" src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fgatos3.jpg?alt=media&token=b1d39b94-a14c-42d8-88ba-1ef174645250" alt="Card image cap">
             </a>
           </div>
         </figure>
@@ -1657,54 +1646,20 @@
 
   </div>
 
-  <div class="parallax-window" data-parallax="scroll" data-image-src="img/n11.jpg" style="background:rgba(21,21,21,0.2)">
+  <div class="parallax-window" data-parallax="scroll" data-image-src="https://firebasestorage.googleapis.com/v0/b/notificationtest-6d60f.appspot.com/o/ayudog%2Fn11.jpg?alt=media&token=b2a8bdaf-7435-4401-8909-01cee224dd55" style="background:rgba(21,21,21,0.2)">
     <div class="col-md-6 mb-4 white-text wow fadeIn" >
     </div>
   </div>
   <section class="testimonial" id="sec-3" >
     <div class="container-fluid ">
-      <div class="esp">
-        <h1 class="font3 color-txt color-txt" >Datos bancarios para donativos</h1>
-      </div>
-      <div class="ing">
-        <h1 class="font3 text-white" >Bank information for donations</h1>
-      </div>
+      
       <div class="row">
-        <div class="col-md-5 col-sm-12 col-lg-5 ">
-            <img src="img/n1.jpg" class="img-fluid" style="border-radius: 12px;" alt="Responsive image">
-        </div>
-        <div class="col-md-6 col-lg-6 col-sm-12">
-          <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12 col-12 text-left">
-              <div class="text-center">
-                <img src="img/Logo-animamundi.png" width="45%" alt="">
-                <h6 class="font3 color-txt">Gustavo Eduardo Ramirez Zierold</h6>
-              </div>
-            <div class="esp text-center">
-              <h6 class="font3 color-txt">Banco: HSBC </h6>
-              <h6 class="font3 color-txt">CLABE:  0245 7040 5870 8981</h6>
-            </div>
-            <div class="ing text-center">
-              <h6 class="font3 color-txt">Bank: HSBC</h6>
-              <h6 class="font3 color-txt">CLABE: 0245 7040 5870 8981</h6>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-12 text-center ">
-                <div class="offset-2 col-8">
-                  <hr style="border: 1px solid white;margin-top: 0px;margin-bottom: 5px;">
-                </div>
-                <h6 class="font3 color-txt"><img src="img/oxxo.png" width="15%" height="">: HSBC 4213 1661 0990 0922</h6>
-              </div>
-              
-            </div>
-          </div>
-        </div>
+        
       </div>
 
       <div class="row" style="padding-top:2%">
         <div class="offset-md-2 offset-lg-2 col-md-8 col-sm-12 col-12 col-lg-8">
-          <img src="img/favicon.png class="img-responsive" alt="" width="25%">
+          <img src="img/favicon.png" class="img-responsive" alt="" width="25%">
         </div>
       </div>
       <div class="row">
@@ -1918,7 +1873,6 @@
     <div class="modal fade right" id="caminatacanina" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
   
-    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
     <div class="modal-dialog modal-full-height modal-right" role="document">
   
   

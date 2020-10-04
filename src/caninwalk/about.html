@@ -107,7 +107,14 @@
                     var ref = firebase.storage().ref("about/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
-                    cad+= '<div class="col-12" style="margin-top:20px;"><div class="row"><div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;"><img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower"></div><div class="col-md-8 col-sm-12 col-xs-12  text-white">'+item.descripcionAbout+'</div></div></div>'
+                    cad+= '<div class="col-12" style="margin-top:20px;"><div class="row"><div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;"><img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower"></div>'+
+                    '<div class="col-md-8 col-sm-12 col-xs-12 text-white">'+
+                    
+                      '<div class="col-12 text-center" style="margin-top: 5px; color: white; font-size: 45px; font-weight: bold;">'+
+                        'Sobre nosotros'+
+                          '<hr style="background: #FF5757; height: 5px;">'+
+                        '</div>'+
+                      '<p style="text-align: justify;"><strong>'+item.descripcionAbout+'</strong></p>'+'</div></div></div>'
                 }
                
                 $("#render").html(cad);
@@ -292,7 +299,6 @@
         </div>
   
             <div  id="acepting" class="" style="cursor:pointer"><img src="../../img/mex.png" class="card-img-top" style="padding-right:5px" alt=""></div>
-            <!-- <input type="checkbox" checked data-size="small" data-toggle="toggle" data-on='<img src="img/mex.png" width="40px" alt="">' data-off='<img src="img/usa.png" width="40px" alt="">'> -->
             <div  id="aceptesp" class="" style="cursor:pointer"><img src="../../img/usa.png" class="card-img-top" alt=""></div>
   
     </nav>
@@ -300,8 +306,49 @@
     <div class="container">
       <div class="row" style="margin-top: 120px;">
         <div id="render"></div>
+        <div class="row" style="margin: auto;">
+          <div class="col-12">
+            <div class="row" style="margin-top:20px;">
+              <img src="../../img/favicon.png" style="width: 150px;" alt="">
+              <div class="text-white" style="margin: auto;padding-left: 15px; padding-right: 15px;font-weight: bold;">y</div>
+              <img src="../../img/caminata_white.png" style="width: 150px;" alt="">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 	
   </body>
+  <footer class="page-footer font-small blue bg-hue" style="margin-top: 20px;" id="contact">
+
+    <div class="footer-copyright text-center py-5">
+
+        <div class="col-md-12 col-12 "list-inline>
+          <div class="row">
+            <div class="col-12">
+              <div class="esp">
+                <h5 class="font text-white">Proyecto desarrollado por:
+                </h5>
+              </div>
+              <div class="ing">
+                <h5 class="font text-white">Project developed by:
+                </h5>
+              </div>
+              <div class=" d-lg-none d-print-block">
+                <img src="img/logo-direc.png" width="40%" alt="">
+              </div>
+              <div class=" d-none d-lg-block d-print-block">
+                <img src="img/logo-direc.png" width="10%" alt="">
+              </div>
+            </div>
+          </div>
+          <a href="https://www.facebook.com/Ayudogmx-998884180275726" target="_blank" class="list-inline-item"><h4 class="font"><i class="fab fa-facebook-square" id="fac"></i> /ayudogmx</h4></a>
+          <a class="list-inline-item"><h2 class="font3">|</h2></a>
+          <a href="https://www.instagram.com/ayudogmx/" target="_blank" class="list-inline-item"><h4 class="font"><i class="fab fa-instagram" id="inst"></i> ayudogmx</h4></a></p>
+          <a class="font text-white" style="font-size:1.5em">info@ayudog.com</a>
+
+        </div>
+
+      </div>
+  </footer>
 </html>

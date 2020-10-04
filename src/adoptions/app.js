@@ -13,7 +13,6 @@ function setFile(){
     });
 }
 
-
 function setFileWalk(key, fileName, fileItem, descripcion){//Ok
     var file = fileItem.files[0];;
     var storageUrl = 'walk/';
@@ -42,7 +41,7 @@ function setFileWalk(key, fileName, fileItem, descripcion){//Ok
         }else{
             var type = name.split('.').pop()
             firebase.database().ref(storageUrl+key).update({
-                type : type.toLowerCase(),
+                //type : type.toLowerCase(),
                 descripcionWalk: descripcion
             }).then((res) => {
                 readWalkData();
@@ -268,4 +267,51 @@ function setFileExperience(fileItem){
         location.reload()
         console.log(e);
     });
+}
+
+function setFileHome(key, fileName, fileItem){
+    var file = fileItem.files[0];;
+    var storageUrl = 'home/';
+    var ref;
+
+    if (key!=null) {
+        if (file != null) {
+            $("#modalUpload").modal("show");
+            ref = firebase.storage().ref(storageUrl + fileName);
+            ref.put(file).then(function(snapshot) {
+                var name = file.name
+                var type = name.split('.').pop()
+                firebase.database().ref(storageUrl+key).update({
+                    type : type.toLowerCase()
+                }).then((res) => {
+                    readData();
+                    $("#modalUpload").modal("hide");
+                    $("#modalEdit").modal("hide");
+                });
+            }).catch(function(e){
+                $("#modalEdit").modal("hide");
+                alert("Ha ocurrido un error inesperado intente más tarde");
+                console.log(e);
+            });
+        }
+    }else{
+        
+        ref = firebase.storage().ref(storageUrl + file.name);
+        ref.put(file).then(function(snapshot) {
+            var name = file.name
+            var type = name.split('.').pop()
+            firebase.database().ref(storageUrl).push({
+                fileName : name,
+                type : type.toLowerCase()
+            }).then((res) => {
+                readData();
+                $("#modalUpload").modal("hide");
+                $("#modalAdd").modal("hide");
+            });
+        }).catch(function(e){
+            $("#modalUpload").modal("hide");
+            alert("Ha ocurrido un error inesperado intente más tarde");
+            console.log(e);
+        });
+    }
 }

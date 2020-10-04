@@ -111,7 +111,7 @@
         function signIn(email, pass){
             firebase.auth().signInWithEmailAndPassword(email, pass)
             .then(function(res){
-                location.href = "https://jms-commits.github.io/Ayudog/src/adoptions/adoption.html"
+                location.href = "../admin"
                 sessionStorage.access = "Hola desde el sessionStorange"
             })
             .catch(function(error) {
