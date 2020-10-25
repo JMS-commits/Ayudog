@@ -57,6 +57,7 @@
                     var desparasitado = $("#desparasitado").val();
                     
                     writeAdoption(name, descripcion, genero, edad, tamanio, file, vacunado, desparasitado);
+                    
                     //readAdoptionData();
                 });
 
@@ -113,7 +114,7 @@
                     for(var key in snapshot.val()){
                         var item = snapshot.val()[key];
                         var image;
-                        var descripcion = item.descripcion.substring(0, 133)
+                        var descripcion = item.descripcion.substring(0, 100)
                         var ref = firebase.storage().ref("adoption/");
                         var tangRef = ref.child(item.fileName);
                         image = await tangRef.getDownloadURL()
@@ -155,6 +156,8 @@
             function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado,desparasitado) {
                 $("#modalUpload").modal("show")
                 setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado);
+                //$("#modal").modal("hide");
+                
             }
         
             function deleteAdoption(key, image){

@@ -221,8 +221,10 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 vacunado: vacunado,
                 desparasitado: desparasitado
             }).then(async ()  => {
+                $("#modalLoading").modal("hide");
                 $("#modalUpload").modal("hide");
                 $("#modalAdoptionDetail").modal("hide");
+                setTimeout(function(){ $("#modalUpload").modal("hide");}, 2000);
                 readAdoptionData();
             }).catch(function(e){
                 alert("Ha ocurrido un error inesperado intente más tarde");
@@ -246,6 +248,16 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 readAdoptionData();
                 $("#modalUpload").modal("hide");
                 $("#modalAdoption").modal("hide");
+                $("#modal").modal("hide")
+
+                $("#nombre").val("");
+                $("#genero").val("");
+                $("#edad").val("");
+                $("#descripcionAdoption").val("");
+                $("#tamanio").val("");
+                $("#file-input-adoption").val("");
+                $("#vacunado").val("");
+                $("#desparasitado").val("");    
             });
         }).catch(function(e){
             alert("Ha ocurrido un error inesperado intente más tarde");
