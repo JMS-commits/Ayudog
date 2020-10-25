@@ -327,3 +327,14 @@ function setFileHome(key, fileName, fileItem){
         });
     }
 }
+
+function setColor(color, key) {
+    var storageUrl = 'color/';
+    firebase.database().ref(storageUrl).remove()
+        firebase.database().ref(storageUrl).push({
+            color: color
+        }).then(() => {
+            readColorData(); 
+        });
+    
+}

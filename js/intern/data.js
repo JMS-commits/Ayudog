@@ -151,3 +151,16 @@ firebase.initializeApp(getInit());
               }
             });
           }
+          function readColorData() {
+            if(firebase.database().ref('/color/') != null){
+              firebase.database().ref('/color/').once('value').then(async function(snapshot) {
+                var item;  
+                for(var key in snapshot.val()){
+                    item = snapshot.val()[key];
+                    console.log(item);
+                }
+                $("#colorPicker").val(item)
+                $("#mainBody").css("background", item.color)
+              });
+            }
+          }
