@@ -79,6 +79,7 @@
             })
 
         </script>
+        
     </head>
     <body>
       <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
@@ -121,9 +122,25 @@
             
               $("#infoModal").modal("show")
             })
+            $("#showElements").click(function(){
+              $(".maxElements").addClass("minElements")
+              $(".maxElements").removeClass("maxElements")
+              $(this).addClass("d-none")
+              $("#hideElements").removeClass("d-none")
+            })
+            $("#hideElements").click(function(){
+              $(".minElements").addClass("maxElements")
+              $(".minElements").removeClass("minElements")
+              $(this).addClass("d-none")
+              $("#showElements").removeClass("d-none")
+            })
           })
         </script>
-
+        <style>
+          .maxElements {
+            display: none;
+          }
+        </style>
       <nav class="navbar navbar-expand-lg navbar-dark bg-hue fixed-top">
           <div class="container">
             <a class="navbar-brand px-lg-4 mr-0 d-lg-none" href="#home">
@@ -239,6 +256,12 @@
               Adopción
             </div>
             <div class="row" id="adoptionRender"></div>
+            <div class="row ">
+              <div style="margin: auto; margin-top: 20px;">
+                <a id="showElements" class="btn btn-danger">Mostrar más</a>
+                <a id="hideElements" class="btn btn-danger d-none">Mostrar menos</a>
+              </div>
+            </div>
           </div>
 
       </div>

@@ -35,6 +35,7 @@ firebase.initializeApp(getInit());
           function readAdoptionData() {
               var cad = "";
               firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
+                var cont = 0
                   for(var key in snapshot.val()){
                       var item = snapshot.val()[key];
                       var image;
@@ -42,9 +43,9 @@ firebase.initializeApp(getInit());
                       var ref = firebase.storage().ref("adoption/");
                       var tangRef = ref.child(item.fileName);
                       image = await tangRef.getDownloadURL()
-                      
+                      var con = cont>=8 ? "maxElements":""
                       cad+= 
-                      '<div class="col-md-3 col-sm-12 col-xs-12" style="margin-top: 10px;"><div class="cardS"><div class="image">'+
+                      '<div class="col-md-3 col-sm-12 col-xs-12 '+con+'" style="margin-top: 10px;"><div class="cardS"><div class="image">'+
                         '<img style="background-size: cover;width: 100%;height: 100%;" src="'+image+'"/>'+
                         '</div><div class="details">'+
                           '<div class="center"><h1>'+item.nombre+'<br><span>Perro en adopción</span></h1>'+
@@ -52,6 +53,7 @@ firebase.initializeApp(getInit());
                             '<table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
                             '<div class="btn-group" role="group" aria-label="Basic example">'+
                               '</div></div></div></div></div>'
+                      cont++
                   }
                   $("#adoptionRender").html(cad);
               });
@@ -135,4 +137,17 @@ firebase.initializeApp(getInit());
             }
           }
 
-       
+          function readNav() {
+            
+            firebase.database().ref('/nav/').once('value').then(async function(snapshot) {
+              var item;  
+              for(var key in snapshot.val()){
+                  item = snapshot.val()[key];
+                  console.log(item);
+              }
+              if(item == 0){
+                $(".caninNav").removeClass("d-lg-block")
+                $(".caninNav").addClass("d-none")
+              }
+            });
+          }
