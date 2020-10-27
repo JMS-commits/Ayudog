@@ -49,7 +49,7 @@ firebase.initializeApp(getInit());
                         '<img style="background-size: cover;width: 100%;height: 100%;" src="'+image+'"/>'+
                         '</div><div class="details">'+
                           '<div class="center"><h1>'+item.nombre+'<br><span>Perro en adopción</span></h1>'+
-                            '<p class="text-justify" style="font-size: 10px;margin-bottom: 0;">'+descripcion+'<a class="seeDetail" data-id="'+key+'" data-genero="'+item.genero+'" data-nombre="'+item.nombre+'" data-descripcion="'+item.descripcion+'" data-desparasitado="'+item.desparasitado+'" data-edad="'+item.edad+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-image="'+image+'"  style="text-decoration: underline #FF5757; background: none;"> Ver más</a></p>'+
+                            '<p class="text-justify" style="font-size: 10px;margin-bottom: 0;">'+descripcion+'<a class="seeDetail" data-id="'+key+'" data-genero="'+item.genero+'" data-nombre="'+item.nombre+'" data-descripcion="'+item.descripcion+'" data-desparasitado="'+item.desparasitado+'" data-edad="'+item.edad+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-image="'+image+'"  style="text-decoration: underline #FF5757; background: none; color:#FF5757;font-weight: bold;"> Ver más</a></p>'+
                             '<table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
                             '<div class="btn-group" role="group" aria-label="Basic example">'+
                               '</div></div></div></div></div>'

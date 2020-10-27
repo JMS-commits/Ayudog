@@ -112,13 +112,17 @@
                         var tangRef = ref.child(item.fileName);
                         image = await tangRef.getDownloadURL();
                         image = image == null || image.trim() == ""?"":image
-                        
+                        var c = ""
+                        var text = item.descripcionAbout.split("\n")
+                        for(var i = 0 ; i<text.length; i++){
+                            c+= text[i]+"<br>"
+                        }
                         
                         cad+='<tr>'+
                             '<td>'+
                                 '<img src="'+image+'" style="height: 100px;width: auto; margin: auto;">'+
                             '</td>'+
-                            '<td>'+item.descripcionAbout+'</td>'+
+                            '<td><p>'+c+'</p></td>'+
                             '<td>'+
                             '<a class="btn-danger btn-sm btn-delete-about" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+
                             '<a class="btn-warning btn-sm btn-edit-about" data-id="'+key+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionAbout+'"><i class="fas fa-edit"></i></a>'+
@@ -258,6 +262,7 @@
                                 </table>
                             
                                 </div>
+                                
                         </div>
                     </div>
                 </div>

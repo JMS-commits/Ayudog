@@ -48,10 +48,10 @@
                 });
 
                 $("#acceptImageWalkE").click(function(){
-                var form = getFormData($("#formWalk"))
-                var file = $("#file-input-walkE")[0]
-                setFileWalk(form.key, form.fileName, file, form.descripcion)
-                $("#file-input-walkE").val("")
+                    var form = getFormData($("#formWalk"))
+                    var file = $("#file-input-walkE")[0]
+                    setFileWalk(form.key, form.fileName, file, form.descripcion)
+                    $("#file-input-walkE").val("")
                 })
 
                 $("#acceptImageWalk").click(function(){
@@ -176,7 +176,7 @@
 
             <!-- Page Content  -->
             <div id="content" class="p-4 p-md-5">
-                <a href="#" id="addWalk" class="float">
+                <a id="addWalk" class="float text-white">
                     <i class="fa fa-plus my-float"></i>
                 </a>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">

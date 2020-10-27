@@ -63,6 +63,8 @@ function setFileWalk(key, fileName, fileItem, descripcion){//Ok
                 readWalkData();
                 $("#modalUpload").modal("hide");
                 $("#modalWalk").modal("hide");
+                $("#file-input-walk").val("")
+                $("#descripcionWalk").val("")
             });
         }).catch(function(e){
             $("#modalUpload").modal("hide");
@@ -116,6 +118,9 @@ function setFileNews(key, fileName, fileItem, descripcion, isPrincipal){//Ok
                 readNewsData();
                 $("#modalUpload").modal("hide");
                 $("#modalNews").modal("hide");
+                $("#descripcionNews").val("");
+                $("#file-input-news").val("");
+                $("#isPrincipal").is(':checked', false);
             });
         }).catch(function(e){
             $("#modalUpload").modal("hide");
@@ -141,6 +146,7 @@ function setFileAbout(key, fileName, fileItem, descripcion){
                 }).then((res) => {
                     readAboutData();
                     $("#modalUpload").modal("hide")
+                    $("#modalAbout").modal("hide");
                 });
             }).catch(function(e){
                 alert("Ha ocurrido un error inesperado intente más tarde");
@@ -152,6 +158,7 @@ function setFileAbout(key, fileName, fileItem, descripcion){
                 descripcionAbout: descripcion
             }).then((res) => {
                 readAboutData();
+                $("#modalAbout").modal("hide");
                 $("#modalUpload").modal("hide")
             });
         }
@@ -167,6 +174,7 @@ function setFileAbout(key, fileName, fileItem, descripcion){
             }).then((res) => {
                 readAboutData();
                 $("#modalUpload").modal("hide")
+                $("#modalAbout").modal("hide");
             });
         }).catch(function(e){
             alert("Ha ocurrido un error inesperado intente más tarde");

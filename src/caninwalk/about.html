@@ -107,6 +107,11 @@
                     var ref = firebase.storage().ref("about/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
+                    var c = ""
+                    var text = item.descripcionAbout.split("\n")
+                    for(var i = 0 ; i<text.length; i++){
+                        c+= text[i]+"<br>"
+                      }
                     cad+= '<div class="col-12" style="margin-top:20px;"><div class="row"><div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;"><img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower"></div>'+
                     '<div class="col-md-8 col-sm-12 col-xs-12 text-white">'+
                     
@@ -114,7 +119,7 @@
                         'Sobre nosotros'+
                           '<hr style="background: #FF5757; height: 5px;">'+
                         '</div>'+
-                      '<p style="text-align: justify;"><strong>'+item.descripcionAbout+'</strong></p>'+'</div></div></div>'
+                      '<p style="text-align: justify;"><strong>'+c+'</strong></p>'+'</div></div></div>'
                 }
                
                 $("#render").html(cad);
@@ -296,11 +301,7 @@
             </a>
           </li>
           </ul>
-        </div>
-  
-            <div  id="acepting" class="" style="cursor:pointer"><img src="../../img/mex.png" class="card-img-top" style="padding-right:5px" alt=""></div>
-            <div  id="aceptesp" class="" style="cursor:pointer"><img src="../../img/usa.png" class="card-img-top" alt=""></div>
-  
+        </div>  
     </nav>
     
     <div class="container">
