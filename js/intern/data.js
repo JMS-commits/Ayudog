@@ -21,7 +21,7 @@ firebase.initializeApp(getInit());
                         cad+= '<div class="overlay">'+
                         '<div class="row">'+
                           '<div class="offset-1 col-10" style="overflow-y:auto;max-height:100px;">'+
-                            '<label class="text-center text-white" style="font-size:14px;">'+blank+'</label>'+
+                            '<label class="text-center" style="font-size:14px;font-weight: bold;">'+blank+'</label>'+
                           '</div>'+
                         '</div>'+
                       '</div>';
