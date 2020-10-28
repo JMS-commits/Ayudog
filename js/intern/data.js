@@ -1,5 +1,55 @@
 firebase.initializeApp(getInit());
 
+function readWalkData2() {
+  var cad = "";
+  firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
+    var cont = 0
+    var arr = []
+    for(var key in snapshot.val()){
+      arr.push(key)
+    }
+    arr.reverse()
+      for(var key in arr){
+          var item = snapshot.val()[arr[key]];
+          var image;
+          var ref = firebase.storage().ref("walk/");
+          var tangRef = ref.child(item.fileName);
+          var blank = item.descripcionWalk!=null?item.descripcionWalk:"";
+          var padding = 'style="padding: 0rem;"'
+          var hide = "d-none"
+          if (item.descripcionWalk!=null && item.descripcionWalk.trim()!="") {
+            padding = 'style="max-height: 100px; overflow-y: auto; background:#5C5C5C;"'
+            hide = ""
+          }
+          image = await tangRef.getDownloadURL();
+          var con = cont>=9 ? "maxElementsWalk":""
+          cad+= '<div class=" col-xs-12 col-sm-12 col-md-4 '+con+' mt-4">'+
+          '<div class="card card-cascade">'+
+            '<div class="view view-cascade" style="background:#5C5C5C;">'
+              if (item.type == "mp4") {
+                cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="card-img-top" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
+              }else{
+                cad+= '<img src="'+image+'" style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="card-img-top" alt="narrower">'
+              }
+              cad+='<a><div class="mask rgba-white-slight"></div></a>'+
+            '</div>'+
+            '<div class="card-body card-body-cascade text-center" '+padding+'>'+
+              '<a class="text-white showData '+hide+'" id="arrow-down-'+key+'" data-id="'+key+'"><i class="fas fa-chevron-down"></i></a>'+
+              '<a class="text-white hideData d-none" id="arrow-'+key+'" data-id="'+key+'"><i class="fas fa-chevron-up"></i></a>'+
+              '<p class="card-text text-white d-none" id="data-'+key+'">'+blank+'</p>'+
+            '</div></div>'
+          
+          cad+= '</div>';
+          cont++
+      }
+      if (cont <= 9) {
+        $("#groupButtonWalk").addClass("d-none")
+      }
+      $("#walkRender").html(cad);
+
+  });
+}
+
           function readWalkData() {
               var cad = "";
               firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
@@ -17,7 +67,7 @@ firebase.initializeApp(getInit());
                       var blank = item.descripcionWalk!=null?item.descripcionWalk:"";
                       image = await tangRef.getDownloadURL();
                       var con = cont>=9 ? "maxElementsWalk":""
-                      cad+= '<div class=" col-xs-12 col-md-4 container2 '+con+'">'
+                      cad+= '<div class=" col-xs-12 col-sm-12 col-md-4 container2 '+con+'">'
                       if (item.type == "mp4") {
                         cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
                       }else{
