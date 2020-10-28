@@ -3,15 +3,21 @@ firebase.initializeApp(getInit());
           function readWalkData() {
               var cad = "";
               firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
-                  for(var key in snapshot.val()){
-                      var item = snapshot.val()[key];
+                var cont = 0
+                var arr = []
+                for(var key in snapshot.val()){
+                  arr.push(key)
+                }
+                arr.reverse()
+                  for(var key in arr){
+                      var item = snapshot.val()[arr[key]];
                       var image;
                       var ref = firebase.storage().ref("walk/");
                       var tangRef = ref.child(item.fileName);
                       var blank = item.descripcionWalk!=null?item.descripcionWalk:"";
                       image = await tangRef.getDownloadURL();
-                      console.log(image)
-                      cad+= '<div class=" col-xs-12 col-md-4 container2">'
+                      var con = cont>=9 ? "maxElementsWalk":""
+                      cad+= '<div class=" col-xs-12 col-md-4 container2 '+con+'">'
                       if (item.type == "mp4") {
                         cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
                       }else{
@@ -27,6 +33,10 @@ firebase.initializeApp(getInit());
                       '</div>';
                       }
                       cad+= '</div>';
+                      cont++
+                  }
+                  if (cont <= 9) {
+                    $("#groupButtonWalk").addClass("d-none")
                   }
                   $("#walkRender").html(cad);
 
@@ -36,8 +46,13 @@ firebase.initializeApp(getInit());
               var cad = "";
               firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
                 var cont = 0
-                  for(var key in snapshot.val()){
-                      var item = snapshot.val()[key];
+                var arr = []
+                for(var key in snapshot.val()){
+                  arr.push(key)
+                }
+                arr.reverse()
+                  for(var key in arr){
+                      var item = snapshot.val()[arr[key]];
                       var image;
                       var descripcion = item.descripcion.substring(0, 133)
                       var ref = firebase.storage().ref("adoption/");
@@ -55,40 +70,52 @@ firebase.initializeApp(getInit());
                               '</div></div></div></div></div>'
                       cont++
                   }
+                  if (cont <= 8) {
+                    $("#groupButtonAdoption").addClass("d-none")
+                  }
                   $("#adoptionRender").html(cad);
               });
           }
           function readNewsData() {
               var cad = "";
               firebase.database().ref('/news/').once('value').then(async function(snapshot) {
-                  for(var key in snapshot.val()){
-                      var item = snapshot.val()[key];
-                      var image;
-                      var ref = firebase.storage().ref("news/");
-                      var tangRef = ref.child(item.fileName);
-                      image = await tangRef.getDownloadURL();
-                      var text1 = item.descripcionNews.substring(0, 87);
-                      var text2 = item.descripcionNews.substring(87, text1.lenght);
-                      if(item.isPrincipal == 1){
-                        cad+= '<div class="col-12" style="margin-top:20px;">'+
-                          '<div class="row">'+
-                            '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'+
-                              '<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'+
-                            '</div>'+
-                            '<div class="col-md-8 col-sm-12 col-xs-12 text-white text-justify">'+item.descripcionNews+'</div>'+
-                            '</div>'+
-                          '</div>';
-                      }else{
-                        cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news">'+
-                                '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >'+
-                            '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
-                              '<img src="'+image+'" style="max-height:200px;margin: auto; margin-top: 10px;width: 85%;" class="card-img-top" alt="narrower">'+
-                            '</div><div class="p-4 text-justify">'+text1+' <strong><a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;">Ver más...</a></strong>'+
-                            '<div class="seeMore'+key+' d-none" id="'+key+'">'+text2+'<a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white;"> Ver menos</a></div></div></div></div>'
-                      }
-                      
+                var cont = 0
+                var arr = []
+                for(var key in snapshot.val()){
+                  arr.push(key)
+                }
+                arr.reverse()
+                  for(var key in arr) {
+                    var item = snapshot.val()[arr[key]];
+                    var image;
+                    var ref = firebase.storage().ref("news/");
+                    var tangRef = ref.child(item.fileName);
+                    image = await tangRef.getDownloadURL();
+                    var text1 = item.descripcionNews.substring(0, 87);
+                    var text2 = item.descripcionNews.substring(87, text1.lenght);
+                    var hideItems = cont>=12 ? "maxElementsNews":""
+                    if(item.isPrincipal == 1){
+                      cad+= '<div class="col-12 '+hideItems+'" style="margin-top:20px;">'+
+                        '<div class="row">'+
+                          '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'+
+                            '<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'+
+                          '</div>'+
+                          '<div class="col-md-8 col-sm-12 col-xs-12 text-white text-justify">'+item.descripcionNews+'</div>'+
+                          '</div>'+
+                        '</div>';
+                    }else{
+                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'">'+
+                              '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >'+
+                          '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
+                            '<img src="'+image+'" style="max-height:400px;margin: auto; margin-top: 10px;width: 85%;" class="card-img-top" alt="narrower">'+
+                          '</div><div class="p-4 text-justify">'+text1+' <strong><a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;">Ver más...</a></strong>'+
+                          '<div class="seeMore'+key+' d-none" id="'+key+'">'+text2+'<a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white;"> Ver menos</a></div></div></div></div>'
+                    }
+                    cont++
                   }
-                  
+                  if (cont <= 12) {
+                    $("#groupButtonNews").addClass("d-none")
+                  }
                   $("#newsRender").html(cad);
               });
           }
