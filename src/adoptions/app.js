@@ -50,11 +50,10 @@ function setFileWalk(key, fileName, fileItem, descripcion){//Ok
             });
         }
     }else{
-        
-        ref = firebase.storage().ref(storageUrl + file.name);
+        var type = file.name.split('.').pop()
+        var name = Date.now()+"."+type
+        ref = firebase.storage().ref(storageUrl + name);
         ref.put(file).then(function(snapshot) {
-            var name = file.name
-            var type = name.split('.').pop()
             firebase.database().ref(storageUrl).push({
                 fileName : name,
                 type : type.toLowerCase(),
@@ -108,11 +107,13 @@ function setFileNews(key, fileName, fileItem, descripcion, isPrincipal){//Ok
         }
         
     }else{
-        ref = firebase.storage().ref(storageUrl + file.name);
+        var type = file.name.split('.').pop()
+        var name = Date.now()+"."+type
+        ref = firebase.storage().ref(storageUrl + name);
         ref.put(file).then(function(snapshot) {
             firebase.database().ref(storageUrl).push({
                 descripcionNews: descripcion,
-                fileName : file.name,
+                fileName : name,
                 isPrincipal: isPrincipal
             }).then((res) => {
                 readNewsData();
@@ -163,14 +164,15 @@ function setFileAbout(key, fileName, fileItem, descripcion){
             });
         }
     }else{
-        console.log(storageUrl);
-        console.log(file.name);
+        
         $("#modalUpload").modal("show");
-        ref = firebase.storage().ref(storageUrl + file.name);
+        var type = file.name.split('.').pop()
+        var name = Date.now()+"."+type
+        ref = firebase.storage().ref(storageUrl + name);
         ref.put(file).then(function(snapshot) {
             firebase.database().ref(storageUrl).push({
                 descripcionAbout: descripcion,
-                fileName : file.name
+                fileName : name
             }).then((res) => {
                 readAboutData();
                 $("#modalUpload").modal("hide")
@@ -241,7 +243,9 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
             });success = true
         }
     }else{
-        ref = firebase.storage().ref(storageUrl + file.name);
+        var type = file.name.split('.').pop()
+        var name = Date.now()+"."+type
+        ref = firebase.storage().ref(storageUrl + name);
         ref.put(file).then(function(snapshot) {
             firebase.database().ref(storageUrl).push({
                 nombre: nombre,
@@ -249,7 +253,7 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 genero: genero,
                 edad: edad,
                 tamanio: tamanio,
-                fileName : file.name,
+                fileName : name,
                 vacunado : vacunado,
                 desparasitado : desparasitado
             }).then((res) => {
@@ -315,11 +319,10 @@ function setFileHome(key, fileName, fileItem){
             });
         }
     }else{
-        
-        ref = firebase.storage().ref(storageUrl + file.name);
+        var type = file.name.split('.').pop()
+        var name = Date.now()+"."+type
+        ref = firebase.storage().ref(storageUrl + name);
         ref.put(file).then(function(snapshot) {
-            var name = file.name
-            var type = name.split('.').pop()
             firebase.database().ref(storageUrl).push({
                 fileName : name,
                 type : type.toLowerCase()
