@@ -39,7 +39,7 @@ function setFileWalk(key, fileName, fileItem, descripcion){//Ok
                 console.log(e);
             });
         }else{
-            var type = name.split('.').pop()
+            //var type = name.split('.').pop()
             firebase.database().ref(storageUrl+key).update({
                 //type : type.toLowerCase(),
                 descripcionWalk: descripcion
