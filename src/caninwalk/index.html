@@ -93,7 +93,7 @@
         <script>
           
           $(document).ready(function(){
-            readWalkData()
+            readWalkData2()
             readAdoptionData()
             readNewsData()
 
@@ -165,6 +165,23 @@
               $("#showElementsWalk").removeClass("d-none")
             })
             
+            $("#walkRender").on("click",".showData", function(){
+              var id = $(this).data("id")
+              $("#data-"+id).removeClass("d-none")
+              $("#arrow-"+id).removeClass("d-none")
+              $(this).addClass("d-none")
+            })
+
+            $("#walkRender").on("click",".hideData", function(){
+              var id = $(this).data("id")
+              $("#data-"+id).addClass("d-none")
+              $(this).addClass("d-none")
+              $("#arrow-down-"+id).removeClass("d-none")
+            })
+            
+            $('.navbutton').click(function(){
+                $('.navbar-collapse').collapse('hide');
+            });
           })
         </script>
         <style>
@@ -207,7 +224,7 @@
                 </li>
                   <li class="nav-item font3">
                     <div class="d-none d-lg-block">
-                      <a class="nav-link" class="btn"  href="#walk">
+                      <a class="nav-link" class="btn" href="#walk">
                       <div class="esp animate__animated animate__bounce">
                         Caminatas Caninas
                       </div>
@@ -217,7 +234,7 @@
                     </a>
                     </div>
                     <div class="d-block d-md-block d-lg-none">
-                      <a class="nav-link" class="btn" data-toggle="modal" href="#walk">
+                      <a class="nav-link navbutton" href="#walk">
                       <div class="esp animate__animated animate__bounce">
                         Caminatas Caninas
                       </div>
@@ -228,7 +245,7 @@
                     </div>
                   </li>
                   <li class="nav-item font3">
-                    <a class="nav-link" data-scroll href="#adoption">
+                    <a class="nav-link navbutton" data-scroll href="#adoption">
                       <div class="esp animate__animated animate__bounce">
                         Adopciones
                       </div>
@@ -238,7 +255,7 @@
                     </a>
                   </li>
                   <li class="nav-item font3">
-                    <a class="nav-link" data-scroll href="#news">
+                    <a class="nav-link navbutton" data-scroll href="#news">
                       <div class="esp animate__animated animate__bounce">
                         Noticias
                       </div>
@@ -248,7 +265,7 @@
                     </a>
                   </li>
                   <li class="nav-item font3">
-                    <a class="nav-link" data-scroll href="#ubication">
+                    <a class="nav-link navbutton" data-scroll href="#ubication">
                       <div class="esp animate__animated animate__bounce">
                         Ubicación
                       </div>
@@ -258,7 +275,7 @@
                     </a>
                   </li>
                 <li class="nav-item font3">
-                  <a class="nav-link" data-scroll href="#contact">
+                  <a class="nav-link navbutton" data-scroll href="#contact">
                     <div class="esp animate__animated animate__bounce">
                       Contactanos
                     </div>

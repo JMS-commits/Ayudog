@@ -111,8 +111,13 @@
             function readAdoptionData() {
                 var cad = "";
                 firebase.database().ref('/adoption/').once('value').then(async function(snapshot) {
+                    var arr = []
                     for(var key in snapshot.val()){
-                        var item = snapshot.val()[key];
+                        arr.push(key)
+                    }
+                    arr.reverse()
+                    for(var key in arr){
+                        var item = snapshot.val()[arr[key]];
                         var image;
                         var descripcion = item.descripcion.substring(0, 100)
                         var ref = firebase.storage().ref("adoption/");
@@ -144,8 +149,8 @@
                                 item.desparasitado+
                             '</td>'+
                             '<td>'+
-                                '<button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></button>'+
-                                '<button type="button" class="btn btn-warning btn-sm update-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-desparasitado="'+item.desparasitado+'" data-video="'+item.video+'"><i class="fas fa-edit"></i></button>'+
+                                '<button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></button>'+
+                                '<button type="button" class="btn btn-warning btn-sm update-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-desparasitado="'+item.desparasitado+'" data-video="'+item.video+'"><i class="fas fa-edit"></i></button>'+
                             '</td>'+
                             '</tr>';
                     }
@@ -156,7 +161,6 @@
             function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado,desparasitado) {
                 $("#modalUpload").modal("show")
                 setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado);
-                //$("#modal").modal("hide");
                 
             }
         

@@ -105,8 +105,13 @@
                 var cad = '';
                 firebase.database().ref('/about/').once('value').then(async function(snapshot) {
                 var count = 0;
-                    for(var key in snapshot.val()){
-                        var item = snapshot.val()[key];
+                var arr = []
+                for(var key in snapshot.val()){
+                    arr.push(key)
+                }
+                arr.reverse()
+                    for(var key in arr){
+                        var item = snapshot.val()[arr[key]];
                         var image;
                         var ref = firebase.storage().ref("about/");
                         var tangRef = ref.child(item.fileName);
@@ -124,8 +129,8 @@
                             '</td>'+
                             '<td><p>'+c+'</p></td>'+
                             '<td>'+
-                            '<a class="btn-danger btn-sm btn-delete-about" data-id="'+key+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+
-                            '<a class="btn-warning btn-sm btn-edit-about" data-id="'+key+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionAbout+'"><i class="fas fa-edit"></i></a>'+
+                            '<a class="btn-danger btn-sm btn-delete-about" data-id="'+arr[key]+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></a>'+
+                            '<a class="btn-warning btn-sm btn-edit-about" data-id="'+arr[key]+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionAbout+'"><i class="fas fa-edit"></i></a>'+
                             '</td>'+
                         '</tr>'
                     }

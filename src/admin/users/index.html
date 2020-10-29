@@ -86,8 +86,13 @@
             function readUserData() {
                 var cad = "";
                 firebase.database().ref('/users/').once('value').then(async function(snapshot) {
+                    var arr = []
                     for(var key in snapshot.val()){
-                        var item = snapshot.val()[key];
+                        arr.push(key)
+                    }
+                    arr.reverse()
+                    for(var key in arr){
+                        var item = snapshot.val()[arr[key]];
                         cad+= '<tr>'+
                             '<td>'+
                                 item.email+
@@ -96,7 +101,7 @@
                                 item.rol+
                             '</td>'+
                             '<td>'+
-                                '<a class="btn btn-danger btn-sm delete-btn" data-ui="'+item.id+'" data-id="'+key+'"><i class="fas fa-trash-alt"></i></a>'+
+                                '<a class="btn btn-danger btn-sm delete-btn" data-ui="'+item.id+'" data-id="'+arr[key]+'"><i class="fas fa-trash-alt"></i></a>'+
                             '</td>'+
                             '</tr>'
                     }

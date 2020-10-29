@@ -106,8 +106,13 @@
             function readWalkData() {
                 var cad = "";
                 firebase.database().ref('/walk/').once('value').then(async function(snapshot) {
+                    var arr = []
                     for(var key in snapshot.val()){
-                        var item = snapshot.val()[key];
+                        arr.push(key)
+                    }
+                    arr.reverse()
+                    for(var key in arr){
+                        var item = snapshot.val()[arr[key]];
                         var ref = firebase.storage().ref("walk/");
                         var tangRef = ref.child(item.fileName);
                         var image = await tangRef.getDownloadURL();
@@ -121,8 +126,8 @@
                         }
                         cad+='<td>'+desc+'</td>'+
                             '<td>'+
-                                '<a class="btn btn-warning btn-sm update-walk-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionWalk+'" data-src="'+image+'"><i class="fas fa-edit"></i></a>'+
-                                '<a class="btn btn-danger btn-sm delete-btn" data-id="'+key+'" data-image="'+item.fileName+'" data-src="'+image+'"><i class="fas fa-trash-alt"></i></a>'+
+                                '<a class="btn btn-warning btn-sm update-walk-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'" data-descripcion="'+item.descripcionWalk+'" data-src="'+image+'"><i class="fas fa-edit"></i></a>'+
+                                '<a class="btn btn-danger btn-sm delete-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'" data-src="'+image+'"><i class="fas fa-trash-alt"></i></a>'+
                             '</td>'+
                             '</tr>';
                     }
