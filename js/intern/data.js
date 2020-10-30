@@ -21,7 +21,7 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                       padding = 'style="max-height: 100px; overflow-y: auto; background:#5C5C5C;"'
                       hide = ""
                     }
-                    var number = 9
+                    var number = 6
                     
                     if (/android/i.test(userAgent) || (/iPhone|iPod/.test(userAgent) && !window.MSStream) || /windows phone/i.test(userAgent)) {
                       number = 3   
@@ -161,8 +161,12 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                     var ref = firebase.storage().ref("news/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
-                    var text1 = item.descripcionNews.substring(0, 87);
-                    var text2 = item.descripcionNews.substring(87, text1.lenght);
+                    console.log(item.descripcionNews.length);
+                    var text = item.descripcionNews.replaceAll("\n","<br>");
+                    var maxLenght = text.substring(0, 87).includes("<br>")?76:87
+                    var hideButton = item.descripcionNews.length<=81?"d-none":""
+                    var text1 = text.substring(0, maxLenght);
+                    var text2 = text.substring(0, text1.lenght);
                     var hideItems = cont>=number ? "maxElementsNews":""
                     if(item.isPrincipal == 1){
                       cad+= '<div class="col-12 '+hideItems+'" style="margin-top:20px;">'+
@@ -175,11 +179,15 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                         '</div>';
                     }else{
                       cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'">'+
-                              '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px;" >'+
+                              '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px; min-height: 446.188px;" >'+
                           '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
                             '<img src="'+image+'" style="max-height:400px;margin: auto; margin-top: 10px;width: 85%;" class="card-img-top" alt="narrower">'+
-                          '</div><div class="p-4 text-justify">'+text1+' <strong><a class="text-white btn-see" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white;">Ver más...</a></strong>'+
-                          '<div class="seeMore'+key+' d-none" id="'+key+'">'+text2+'<a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white;"> Ver menos</a></div></div></div></div>'
+                          '</div>'+
+                          '<div class="p-4 text-justify seeLess'+key+'">'
+                            +text1+' <strong><a class="text-white btn-see '+hideButton+'" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver más...</a></strong>'+
+                          '</div>'+
+                          '<div class="p-4 text-justify seeMore'+key+' d-none" id="'+key+'">'+text2+' <a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver menos</a></div>'+
+                          '</div></div>'
                     }
                     cont++
                   }

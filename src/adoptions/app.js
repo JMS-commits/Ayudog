@@ -232,9 +232,8 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 desparasitado: desparasitado
             }).then(async ()  => {
                 $("#modalLoading").modal("hide");
-                $("#modalUpload").modal("hide");
                 $("#modalAdoptionDetail").modal("hide");
-                setTimeout(function(){ $("#modalUpload").modal("hide");}, 2000);
+                setTimeout(function(){ $("#modalUpload").modal("hide");$("#modalUpdate").modal("hide");}, 2000);
                 readAdoptionData();
             }).catch(function(e){
                 alert("Ha ocurrido un error inesperado intente más tarde");
@@ -274,7 +273,6 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
         }).catch(function(e){
             alert("Ha ocurrido un error inesperado intente más tarde");
             $("#modalUpload").modal("hide");
-            console.log(e);
         });
     }
 }
@@ -315,7 +313,6 @@ function setFileHome(key, fileName, fileItem){
             }).catch(function(e){
                 $("#modalEdit").modal("hide");
                 alert("Ha ocurrido un error inesperado intente más tarde");
-                console.log(e);
             });
         }
     }else{
