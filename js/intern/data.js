@@ -129,7 +129,7 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                         '<img style="background-size: cover;width: 100%;height: 100%;" src="'+image+'"/>'+
                         '</div><div class="details">'+
                           '<div class="center"><h1>'+item.nombre+'<br><span>Perro en adopción</span></h1>'+
-                            '<p class="text-justify" style="font-size: 10px;margin-bottom: 0;">'+descripcion+'<a class="seeDetail" data-id="'+key+'" data-genero="'+item.genero+'" data-nombre="'+item.nombre+'" data-descripcion="'+item.descripcion+'" data-desparasitado="'+item.desparasitado+'" data-edad="'+item.edad+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-image="'+image+'"  style="text-decoration: underline #FF5757; background: none; color:#FF5757;font-weight: bold;"> Ver más</a></p>'+
+                            '<p class="text-justify" style="font-size: 10px;margin-bottom: 0;">'+descripcion+'<a class="seeDetail" data-id="'+key+'" data-genero="'+item.genero+'" data-nombre="'+item.nombre+'" data-descripcion="'+item.descripcion+'" data-desparasitado="'+item.desparasitado+'" data-edad="'+item.edad+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-esterilizado="'+item.esterilizado+'" data-image="'+image+'"  style="text-decoration: underline #FF5757; background: none; color:#FF5757;font-weight: bold;"> Ver más</a></p>'+
                             '<table class="table table-sm" style="margin-top: 0; margin-bottom: 0;"><thead><tr><td>Género</td><td>Edad</td><td>Tamaño</td></tr></thead><tbody><tr><td>'+item.genero+'</td><td>'+item.edad+'</td><td>'+item.tamanio+'</td></tr></tbody></table>'+
                             '<div class="btn-group" role="group" aria-label="Basic example">'+
                               '</div></div></div></div></div>'
@@ -161,7 +161,6 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                     var ref = firebase.storage().ref("news/");
                     var tangRef = ref.child(item.fileName);
                     image = await tangRef.getDownloadURL();
-                    console.log(item.descripcionNews.length);
                     var text = item.descripcionNews.replaceAll("\n","<br>");
                     var maxLenght = text.substring(0, 87).includes("<br>")?76:87
                     var hideButton = item.descripcionNews.length<=81?"d-none":""
@@ -178,16 +177,7 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                           '</div>'+
                         '</div>';
                     }else{
-                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'">'+
-                              '<div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px; min-height: 446.188px;" >'+
-                          '<div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'+
-                            '<img src="'+image+'" style="max-height:400px;margin: auto; margin-top: 10px;width: 85%;" class="card-img-top" alt="narrower">'+
-                          '</div>'+
-                          '<div class="p-4 text-justify seeLess'+key+'">'
-                            +text1+' <strong><a class="text-white btn-see '+hideButton+'" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver más...</a></strong>'+
-                          '</div>'+
-                          '<div class="p-4 text-justify seeMore'+key+' d-none" id="'+key+'">'+text2+' <a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver menos</a></div>'+
-                          '</div></div>'
+                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'"><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px; min-height: 446.188px;"> <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" style="max-height:400px; margin: auto; margin-top: 10px; width: 85%;" class="card-img-top" alt="narrower"></div><div class="p-4 text-justify seeLess'+key+'">'+text1+' <strong><a class="text-white btn-see '+hideButton+'" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver más...</a></strong></div><div class="p-4 text-justify seeMore'+key+' d-none" id="'+key+'">'+text2+' <a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver menos</a></div></div></div>'
                     }
                     cont++
                   }

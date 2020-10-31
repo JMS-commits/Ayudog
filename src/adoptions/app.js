@@ -193,7 +193,7 @@ function setFileAbout(key, fileName, fileItem, descripcion){
     
 }
 
-function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tamanio, fileItem, vacunado, desparasitado){
+function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tamanio, fileItem, vacunado, desparasitado, esterilizado){
     var file = fileItem.files[0];
     var storageUrl = 'adoption/';
     var ref;
@@ -209,7 +209,8 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                     edad: edad,
                     tamanio: tamanio,
                     vacunado: vacunado,
-                    desparasitado: desparasitado
+                    desparasitado: desparasitado,
+                    esterilizado: esterilizado
                 }).then(() => {
                     $("#modalLoading").modal("hide");
                     $("#modalUpload").modal("hide");
@@ -229,7 +230,8 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 edad: edad,
                 tamanio: tamanio,
                 vacunado: vacunado,
-                desparasitado: desparasitado
+                desparasitado: desparasitado,
+                esterilizado: esterilizado
             }).then(async ()  => {
                 $("#modalLoading").modal("hide");
                 $("#modalAdoptionDetail").modal("hide");
@@ -254,7 +256,8 @@ function setFileAdoption(key, imageName, nombre, descripcion, genero, edad, tama
                 tamanio: tamanio,
                 fileName : name,
                 vacunado : vacunado,
-                desparasitado : desparasitado
+                desparasitado : desparasitado,
+                esterilizado: esterilizado
             }).then((res) => {
                 readAdoptionData();
                 $("#modalUpload").modal("hide");

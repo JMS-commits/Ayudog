@@ -160,13 +160,17 @@
         <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
         <script src="../../js/intern/data.js"></script>
+
         <script>
           
           $(document).ready(function(){
+            $('.main').hide()
             readWalkData2()
             readAdoptionData()
             readNewsData()
-            setTimeout(function(){$("#main").removeClass("d-none");$("#preload").addClass("d-none")},4000)
+            setTimeout(function(){$(".main").show("");$("#load").hide();},4000)
+            setTimeout(function(){$('.parallax-window').parallax({imageSrc: '../../img/perro_walk_2.jpg'});},4500)
+            
             
             $("#newsRender").on("click", ".btn-see", function(){
               var id = $(this).data("id")
@@ -188,6 +192,8 @@
               $("#edad").html($(this).data("edad"))
               $("#tamanio").html($(this).data("tamanio"))
               $("#vacunado").html("Vacunado: "+$(this).data("vacunado"))
+              $("#esterilizado").html("Esterilizado: "+$(this).data("esterilizado"))
+              
               $("#imagen").attr("src", $(this).data("image"))
             
               $("#infoModal").modal("show")
@@ -267,178 +273,210 @@
           iframe {
             max-width: 100%;
           }
+          .tam {
+            width: 25%;
+          }
+          @media only screen and (max-width: 600px) {
+            .tam {
+              width: 60%;
+            }
+          }
+
+          @media only screen and (min-width: 600px) {
+            .tam {
+              width: 75%;
+            }
+          }
+
+          @media only screen and (min-width: 768px) {
+            .tam {
+              width: 40%;
+            }
+          }
+          
         </style>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-hue fixed-top">
-          <div class="container">
-            <a class="navbar-brand px-lg-4 mr-0 d-lg-none" href="#home">
-              <img src="../../img/caminata_white.png" class="animate__animated animate__bounce" style="height: 100px;" alt="">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center font-weight-bold" id="basicExampleNav">
-              <a class="navbar-brand px-lg-4 mr-0 d-none d-lg-block" data-scroll href="#home">
-              <img src="../../img/caminata_white.png" class="animate__animated animate__bounce" style="height: 100px;" alt="">
+        <div class="container" id="load">
+          <div class="row" >
+              <div class="col-12">
+                <div class="text-center">
+                  <img src="../../img/favicon.png"  class="animate__animated animate__pulse animate__infinite	infinite tam" style="height: auto;" alt="">
+                  <p><strong class="text-white">Cargando... </strong></p>
+                </div>
+              </div>
+          </div>
+      </div>
+          <nav class="navbar navbar-expand-lg navbar-dark bg-hue fixed-top main">
+            <div class="container">
+              <a class="navbar-brand px-lg-4 mr-0 d-lg-none" href="#home">
+                <img src="../../img/caminata_white.png" class="animate__animated animate__bounce" style="height: 100px;" alt="">
               </a>
-              <ul class="navbar-nav">
-                <li class="nav-item font3">
-                  <a class="nav-link" data-scroll href="about.html">
-                    <div class="esp animate__animated animate__bounce">
-                      Acerca de nosotros
-                    </div>
-                    <div class="ing">
-                      <i class="fa fa-envelope" aria-hidden="true"></i> About
-                    </div>
-                  </a>
-                </li>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse justify-content-center font-weight-bold" id="basicExampleNav">
+                <a class="navbar-brand px-lg-4 mr-0 d-none d-lg-block" data-scroll href="#home">
+                <img src="../../img/caminata_white.png" class="animate__animated animate__bounce" style="height: 100px;" alt="">
+                </a>
+                <ul class="navbar-nav">
                   <li class="nav-item font3">
-                    <div class="d-none d-lg-block">
-                      <a class="nav-link" class="btn" href="#walk">
+                    <a class="nav-link" data-scroll href="about.html">
                       <div class="esp animate__animated animate__bounce">
-                        Caminatas Caninas
-                      </div>
-                      <div class="ing animate__animated animate__bounce">
-                        Dog Walks
-                      </div>
-                    </a>
-                    </div>
-                    <div class="d-block d-md-block d-lg-none">
-                      <a class="nav-link navbutton" href="#walk">
-                      <div class="esp animate__animated animate__bounce">
-                        Caminatas Caninas
-                      </div>
-                      <div class="ing animate__animated animate__bounce">
-                        Dog Walks
-                      </div>
-                      </a>
-                    </div>
-                  </li>
-                  <li class="nav-item font3">
-                    <a class="nav-link navbutton" data-scroll href="#adoption">
-                      <div class="esp animate__animated animate__bounce">
-                        Adopciones
-                      </div>
-                      <div class="ing animate__animated animate__bounce">
-                        Adoptions
-                      </div>
-                    </a>
-                  </li>
-                  <li class="nav-item font3">
-                    <a class="nav-link navbutton" data-scroll href="#news">
-                      <div class="esp animate__animated animate__bounce">
-                        Noticias
-                      </div>
-                      <div class="ing animate__animated animate__bounce">
-                        News
-                      </div>
-                    </a>
-                  </li>
-                  <li class="nav-item font3">
-                    <a class="nav-link navbutton" data-scroll href="#ubication">
-                      <div class="esp animate__animated animate__bounce">
-                        Ubicación
+                        Acerca de nosotros
                       </div>
                       <div class="ing">
-                        <i class="fa fa-envelope" aria-hidden="true"></i> Ubication
+                        <i class="fa fa-envelope" aria-hidden="true"></i> About
                       </div>
                     </a>
                   </li>
-                <li class="nav-item font3">
-                  <a class="nav-link navbutton" data-scroll href="#contact">
-                    <div class="esp animate__animated animate__bounce">
-                      Contactanos
-                    </div>
-                    <div class="ing">
-                      <i class="fa fa-envelope" aria-hidden="true"></i> Contact
-                    </div>
-                  </a>
-                </li>
-            </ul>
-          </div>
-      
-              
-      </nav>
-
-      <div id="home" class="parallax-window full-height" data-position-y="center" data-parallax="scroll" data-image-src="../../img/perro_walk_2.jpg" style="background:rgba(21,21,21,0.2)"></div>
-
-      <div class="container">
-          <div class="contenedor">
-            <a class="botonF1 mailtoInfo">
-              <i class="fas fa-envelope" style="color: white;"></i>
-            </a>
-          </div>
-          <div class="container" id="walk">
-            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
-                <div class="row text-center">
-                    <div class="col-12">
-                        Caminatas Caninas
+                    <li class="nav-item font3">
+                      <div class="d-none d-lg-block">
+                        <a class="nav-link" class="btn" href="#walk">
+                        <div class="esp animate__animated animate__bounce">
+                          Caminatas Caninas
+                        </div>
+                        <div class="ing animate__animated animate__bounce">
+                          Dog Walks
+                        </div>
+                      </a>
+                      </div>
+                      <div class="d-block d-md-block d-lg-none">
+                        <a class="nav-link navbutton" href="#walk">
+                        <div class="esp animate__animated animate__bounce">
+                          Caminatas Caninas
+                        </div>
+                        <div class="ing animate__animated animate__bounce">
+                          Dog Walks
+                        </div>
+                        </a>
+                      </div>
+                    </li>
+                    <li class="nav-item font3">
+                      <a class="nav-link navbutton" data-scroll href="#adoption">
+                        <div class="esp animate__animated animate__bounce">
+                          Adopciones
+                        </div>
+                        <div class="ing animate__animated animate__bounce">
+                          Adoptions
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item font3">
+                      <a class="nav-link navbutton" data-scroll href="#news">
+                        <div class="esp animate__animated animate__bounce">
+                          Noticias
+                        </div>
+                        <div class="ing animate__animated animate__bounce">
+                          News
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item font3">
+                      <a class="nav-link navbutton" data-scroll href="#ubication">
+                        <div class="esp animate__animated animate__bounce">
+                          Ubicación
+                        </div>
+                        <div class="ing">
+                          <i class="fa fa-envelope" aria-hidden="true"></i> Ubication
+                        </div>
+                      </a>
+                    </li>
+                  <li class="nav-item font3">
+                    <a class="nav-link navbutton" data-scroll href="#contact">
+                      <div class="esp animate__animated animate__bounce">
+                        Contactanos
+                      </div>
+                      <div class="ing">
+                        <i class="fa fa-envelope" aria-hidden="true"></i> Contact
+                      </div>
+                    </a>
+                  </li>
+              </ul>
+            </div>
+        
+                
+          </nav>
+    
+          
+            <div id="home" class="parallax-window full-height main" style="background:rgba(21,21,21,0.2)"></div>
+          
+    
+          <div class="container main">
+              <div class="contenedor">
+                <a class="botonF1 mailtoInfo">
+                  <i class="fas fa-envelope" style="color: white;"></i>
+                </a>
+              </div>
+              <div class="container" id="walk">
+                <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            Caminatas Caninas
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="walkRender"></div>
-            <div class="row" id="groupButtonWalk">
-              <div style="margin: auto; margin-top: 20px;">
-                <a id="showElementsWalk" class="btn btn-danger">Mostrar más</a>
-                <a id="hideElementsWalk" class="btn btn-danger d-none">Mostrar menos</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="container" id="adoption" >
-            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
-              Adopción
-            </div>
-            <div class="row" id="adoptionRender"></div>
-            <div class="row" id="groupButtonAdoption">
-              <div style="margin: auto; margin-top: 20px;">
-                <a id="showElements" class="btn btn-danger">Mostrar más</a>
-                <a id="hideElements" class="btn btn-danger d-none">Mostrar menos</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="container" id="news">
-            <div class="">
-              <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
-                    Noticias y Avisos
-              </div>
-              <div class="row" id="newsRender"></div>
-              <div class="row" id="groupButtonNews">
-                <div style="margin: auto; margin-top: 20px;">
-                  <a id="showElementsNews" class="btn btn-danger">Mostrar más</a>
-                  <a id="hideElementsNews" class="btn btn-danger d-none">Mostrar menos</a>
+                <div class="row" id="walkRender"></div>
+                <div class="row" id="groupButtonWalk">
+                  <div style="margin: auto; margin-top: 20px;">
+                    <a id="showElementsWalk" class="btn btn-danger">Mostrar más</a>
+                    <a id="hideElementsWalk" class="btn btn-danger d-none">Mostrar menos</a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div class="container" id="ubication">
-            <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
-                Ubicación
-            </div>
-            <div class="row" style="margin-top: 20px;">
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <p class="text-white" style="font-size: 20px;font-weight: bold;">
-                  El Centro Canino se encuentra a 4 km, de la gasera y gasolinera de Los Saúcos, rumbo a Temazcaltepec, tomando en la "Y" el camino de la izquierda. 
-                  <br><br>
-                  Encontrarás una recta muy larga y casi al final de esta, se ubica el Centro Canino  a mano izquierda verás el letrero de Centro Canino y Felino de Valle de Bravo. 
-                  <br><br>
-                  Ten cuidado es una carretera donde transitan a altas velocidades.
-                  <br><br>
-                  Las adopciones y caminatas son los martes y viernes de 10:30 a 2 pm.</p>
+    
+              <div class="container" id="adoption" >
+                <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
+                  Adopción
+                </div>
+                <div class="row" id="adoptionRender"></div>
+                <div class="row" id="groupButtonAdoption">
+                  <div style="margin: auto; margin-top: 20px;">
+                    <a id="showElements" class="btn btn-danger">Mostrar más</a>
+                    <a id="hideElements" class="btn btn-danger d-none">Mostrar menos</a>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.7287806477125!2d-100.06066798509815!3d19.1195506870629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA3JzEwLjQiTiAxMDDCsDAzJzMwLjUiVw!5e0!3m2!1ses!2smx!4v1603858200143!5m2!1ses!2smx" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    
+              <div class="container" id="news">
+                <div class="">
+                  <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
+                        Noticias y Avisos
+                  </div>
+                  <div class="row" id="newsRender"></div>
+                  <div class="row" id="groupButtonNews">
+                    <div style="margin: auto; margin-top: 20px;">
+                      <a id="showElementsNews" class="btn btn-danger">Mostrar más</a>
+                      <a id="hideElementsNews" class="btn btn-danger d-none">Mostrar menos</a>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+    
+              <div class="container" id="ubication">
+                <div class="color-txt display-4 font-weight-light mt-5 p-4 text-center" style="border-bottom: solid 3px #ff5757;">
+                    Ubicación
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <p class="text-white" style="font-size: 20px;font-weight: bold;">
+                      El Centro Canino se encuentra a 4 km, de la gasera y gasolinera de Los Saúcos, rumbo a Temazcaltepec, tomando en la "Y" el camino de la izquierda. 
+                      <br><br>
+                      Encontrarás una recta muy larga y casi al final de esta, se ubica el Centro Canino  a mano izquierda verás el letrero de Centro Canino y Felino de Valle de Bravo. 
+                      <br><br>
+                      Ten cuidado es una carretera donde transitan a altas velocidades.
+                      <br><br>
+                      Las adopciones y caminatas son los martes y viernes de 10:30 a 2 pm.</p>
+                  </div>
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.7287806477125!2d-100.06066798509815!3d19.1195506870629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA3JzEwLjQiTiAxMDDCsDAzJzMwLjUiVw!5e0!3m2!1ses!2smx!4v1603858200143!5m2!1ses!2smx" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                  </div>
+    
+                </div>
+              </div>
+    
           </div>
-
-      </div>
-
-      
     </body>
-    <footer class="page-footer font-small blue bg-hue" style="margin-top: 20px;" id="contact">
+    <footer class="page-footer font-small blue bg-hue main" style="margin-top: 20px;" id="contact">
 
         <div class="footer-copyright text-center py-5">
     
@@ -454,10 +492,10 @@
                     </h5>
                   </div>
                   <div class=" d-lg-none d-print-block">
-                    <img src="img/logo-direc.png" width="40%" alt="">
+                    <img src="../../img/logo-direc.png" width="40%" alt="">
                   </div>
                   <div class=" d-none d-lg-block d-print-block">
-                    <img src="img/logo-direc.png" width="10%" alt="">
+                    <img src="../../img/logo-direc.png" width="10%" alt="">
                   </div>
                 </div>
               </div>
@@ -496,6 +534,8 @@
                     <span class="badge badge-pill badge-warning"><p style="margin-bottom: 0px;" id="edad"></p> </span>
                     <span class="badge badge-pill badge-success"><p style="margin-bottom: 0px;" id="desparasitado"></p> </span>
                     <span class="badge badge-pill badge-info"><p style="margin-bottom: 0px;" id="vacunado"></p> </span>
+                    <span class="badge badge-pill badge-danger"><p style="margin-bottom: 0px;" id="esterilizado"></p> </span>
+                    
                     <hr style="background: #ff5757;">
                     <div class="row text-justify" style="margin: 16px;"><p id="descripcion"></p></div>
 

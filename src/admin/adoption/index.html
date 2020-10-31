@@ -55,8 +55,8 @@
                     var file = $("#file-input-adoption")[0];
                     var vacunado = $("#vacunado").val();
                     var desparasitado = $("#desparasitado").val();
-                    
-                    writeAdoption(name, descripcion, genero, edad, tamanio, file, vacunado, desparasitado);
+                    var esterilizado = $("#esterilizado").val();
+                    writeAdoption(name, descripcion, genero, edad, tamanio, file, vacunado, desparasitado, esterilizado);
                     
                     //readAdoptionData();
                 });
@@ -78,6 +78,7 @@
                     var nombre = $(this).data("name");
                     var vacunado = $(this).data("vacunado");
                     var desparasitado = $(this).data("desparasitado");
+                    var esterilizado = $(this).data("esterilizado");
                     
                     $("#key").val(key)
                     $("#nombreE").val(nombre)
@@ -88,6 +89,7 @@
                     $("#descripcionOptionEdit").val(descripcion)
                     $("#vacunadoE").val(vacunado)
                     $("#desparasitadoE").val(desparasitado)
+                    $("#esterilizadoE").val(esterilizado)
 
                 //$("#dataImage").attr("src", image);
                 $("#modalUpdate").modal("show");
@@ -103,7 +105,7 @@
                     //console.log(video);
                     $("#modalUpload").modal("show")
 
-                    setFileAdoption(form.key, form.imageName, form.nombre, form.descripcion, form.genero, form.edad, form.tamanio, image, form.vacunado, form.desparasitado);
+                    setFileAdoption(form.key, form.imageName, form.nombre, form.descripcion, form.genero, form.edad, form.tamanio, image, form.vacunado, form.desparasitado, form.esterilizado);
                 })
 
             })
@@ -131,7 +133,7 @@
                                 item.nombre+
                             '</td>'+
                             '<td>'+
-                                item.descripcion+
+                                item.descripcion.substring(0,100)+
                             '</td>'+
                             '<td>'+
                                 item.edad+
@@ -149,6 +151,9 @@
                                 item.desparasitado+
                             '</td>'+
                             '<td>'+
+                                item.esterilizado+
+                            '</td>'+
+                            '<td>'+
                                 '<button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'"><i class="fas fa-trash-alt"></i></button>'+
                                 '<button type="button" class="btn btn-warning btn-sm update-btn" data-id="'+arr[key]+'" data-image="'+item.fileName+'" data-name="'+item.nombre+'" data-description="'+item.descripcion+'" data-edad="'+item.edad+'" data-genero="'+item.genero+'" data-tamanio="'+item.tamanio+'" data-vacunado="'+item.vacunado+'" data-desparasitado="'+item.desparasitado+'" data-video="'+item.video+'"><i class="fas fa-edit"></i></button>'+
                             '</td>'+
@@ -158,9 +163,9 @@
                 });
             }
         
-            function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado,desparasitado) {
+            function writeAdoption(nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado, esterilizado) {
                 $("#modalUpload").modal("show")
-                setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado);
+                setFileAdoption(null, null, nombre, descripcion, genero, edad, tamanio, image, vacunado, desparasitado, esterilizado);
                 
             }
         
@@ -294,7 +299,7 @@
                         <div id="render-content">
                             <h2 class="mb-4">Adopciones</h2>
                             <div class="container-fluid inner">
-                                <table class="table table-bordered ">
+                                <table class="table table-bordered table-responsive">
                                     <thead class="table100-head" style="background: #36304A;">
                                         <tr class="tableizer-firstrow">
                                             <th>Archivo</th>
@@ -305,6 +310,7 @@
                                             <th>Tamaño</th>
                                             <th>Vacunado</th>
                                             <th>Desparasitado</th>
+                                            <th>Esterilizado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -355,7 +361,7 @@
                                 <input type="text" class="form-control" id="edad" aria-describedby="basic-addon3">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                         <label for="basic-url">Vacunado</label>
                         <div class="input-group mb-3">
                             <select class="form-control" name="vacunado" id="vacunado">
@@ -364,10 +370,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <label for="basic-url">Desparasitado</label>
                         <div class="input-group mb-3" >
                             <select class="form-control" name="desparasitado" id="desparasitado">
+                                <option value="Si">Si</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label for="basic-url">Esterilizado</label>
+                        <div class="input-group mb-3" >
+                            <select class="form-control" name="esterilizado" id="esterilizado">
                                 <option value="Si">Si</option>
                                 <option value="No">No</option>
                             </select>
@@ -436,7 +451,7 @@
                                     <input type="text" name="edad" class="form-control" id="edadE" aria-describedby="basic-addon3">
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label for="basic-url">Vacunado</label>
                                 <div class="input-group mb-3">
                                     <select class="form-control" name="vacunado" id="vacunadoE">
@@ -445,10 +460,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label for="basic-url">Desparasitado</label>
                                 <div class="input-group mb-3" >
                                     <select class="form-control" name="desparasitado" id="desparasitadoE">
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="basic-url">Esterilizado</label>
+                                <div class="input-group mb-3" >
+                                    <select class="form-control" name="esterilizado" id="esterilizadoE">
                                         <option value="Si">Si</option>
                                         <option value="No">No</option>
                                     </select>
