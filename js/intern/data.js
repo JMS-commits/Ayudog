@@ -51,7 +51,6 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                   $("#groupButtonWalk").addClass("d-none")
                 }
                 $("#walkRender").html(cad);
-
             });
           }
 
@@ -170,14 +169,24 @@ var userAgent = navigator.userAgent || navigator.vendor || window.opera;
                     if(item.isPrincipal == 1){
                       cad+= '<div class="col-12 '+hideItems+'" style="margin-top:20px;">'+
                         '<div class="row">'+
-                          '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'+
-                            '<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'+
-                          '</div>'+
+                          '<div class="col-xs-12 col-sm-12 col-md-4" style="margin: auto;">'
+                            if(item.type == "mp4"){
+                              cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
+                            }else {
+                              cad+='<img src="'+image+'" style="border-radius: 7%;" class="card-img-top col-12" alt="narrower">'
+                            }
+                          cad+='</div>'
                           '<div class="col-md-8 col-sm-12 col-xs-12 text-white text-justify">'+item.descripcionNews+'</div>'+
                           '</div>'+
                         '</div>';
                     }else{
-                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'"><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px; min-height: 446.188px;"> <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;"><img src="'+image+'" style="max-height:400px; margin: auto; margin-top: 10px; width: 85%;" class="card-img-top" alt="narrower"></div><div class="p-4 text-justify seeLess'+key+'">'+text1+' <strong><a class="text-white btn-see '+hideButton+'" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver más...</a></strong></div><div class="p-4 text-justify seeMore'+key+' d-none" id="'+key+'">'+text2+' <a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver menos</a></div></div></div>'
+                      cad+='<div class="col-xs-12 col-sm-12 col-md-4 text-news '+hideItems+'"><div class="mt-4 text-white" style="overflow: hidden; background: #5c5c5c; border-radius: 5px; min-height: 446.188px;"> <div class="row" style="margin: auto; margin-right: -1rem; margin-left: -1rem;">'
+                      if(item.type == "mp4"){
+                        cad+= '<iframe style="height: 270px; object-fit: cover; width: 100%; border-radius:5px;" class="mt-4" src="'+image+'" frameborder="0" allowfullscreen></iframe></iframe>'
+                      }else {
+                        cad+=  '<img src="'+image+'" style="max-height:400px; margin: auto; margin-top: 10px; width: 85%;" class="card-img-top" alt="narrower">'
+                      }
+                        cad+= '</div><div class="p-4 text-justify seeLess'+key+'">'+text1+' <strong><a class="text-white btn-see '+hideButton+'" id="'+key+'" data-id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver más...</a></strong></div><div class="p-4 text-justify seeMore'+key+' d-none" id="'+key+'">'+text2+' <a class="text-white btn-see-less" data-id="'+key+'" id="'+key+'" style="text-decoration: underline white; font-weight: bold;">Ver menos</a></div></div></div>'
                     }
                     cont++
                   }

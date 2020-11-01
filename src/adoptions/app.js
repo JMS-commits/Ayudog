@@ -114,7 +114,8 @@ function setFileNews(key, fileName, fileItem, descripcion, isPrincipal){//Ok
             firebase.database().ref(storageUrl).push({
                 descripcionNews: descripcion,
                 fileName : name,
-                isPrincipal: isPrincipal
+                isPrincipal: isPrincipal,
+                type: type
             }).then((res) => {
                 readNewsData();
                 $("#modalUpload").modal("hide");
